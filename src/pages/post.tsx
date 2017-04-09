@@ -11,7 +11,7 @@ const page: Helix.Page<Models> = {
       return (
         <div className='ph-4 pb-4 pt-5'>
           <div className='ta-c mb-4'>
-            <div className='fs-large mb-3'>{post.title}</div>
+            <div className='fw-500 mb-3 fs-large'>{post.title}</div>
             <div className='fc-grey-600 fs-small'>By {post.by}</div>
           </div>
           <div className='lh-5'>
