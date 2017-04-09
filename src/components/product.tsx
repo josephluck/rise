@@ -56,11 +56,11 @@ export default component<Props, State, Reducers, Effects>({
               ]}
             />
             <Button
-              size='small'
               label='Add to Cart'
               className='flex-1 ml-2'
               onClick={() => {
                 if (state.quantity) {
+                  actions.updateQuantity('')
                   props.onAddToCart(state.quantity)
                 }
               }}

@@ -12,8 +12,9 @@ const page: Helix.Page<Models> = {
             <div className='fs-heading mb-4 fw-500'>Honest Baking</div>
             <div className='lh-5 mb-4'>Lorem ipsum dolor sit amet</div>
             <Button
-              label='Shop Now'
+              label='Shop'
               href='/shop'
+              size='large'
             />
           </div>
           <div className='ta-c ph-4 mb-9'>
@@ -24,6 +25,7 @@ const page: Helix.Page<Models> = {
             <Button
               label='Our Story'
               href='/about'
+              size='large'
             />
           </div>
         </div>

@@ -13,6 +13,8 @@ export interface Props {
 
 function getSizeClass (size) {
   if (size === 'small') {
+    return 'ph-2 pv-1 fw-300 bw-small fs-tiny bc-grey-600'
+  } else if (size === 'medium') {
     return 'ph-3 pv-2 fw-300 bw-small fs-small bc-grey-600'
   } else {
     return 'ph-4 pv-3 fw-500 bw-medium bc-black'

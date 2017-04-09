@@ -8,6 +8,7 @@ export interface CartEntry {
 
 export interface State {
   subTotal: number
+  quantity: number
   items: CartEntry[]
 }
 
@@ -29,6 +30,7 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
     state: {
       items: [],
       subTotal: 0,
+      quantity: 0,
     },
     reducers: {
       add (state, item) {
@@ -36,6 +38,7 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
         return {
           items,
           subTotal: total(items),
+          quantity: quantity(items),
         }
       },
     },
@@ -46,5 +49,11 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
 function total (items: CartEntry[]): number {
   return items.reduce((prev, curr) => {
     return prev + (curr.price * curr.quantity)
+  }, 0)
+}
+
+function quantity (items: CartEntry[]): number {
+  return items.reduce((prev, curr) => {
+    return prev + curr.quantity
   }, 0)
 }

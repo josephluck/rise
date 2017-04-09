@@ -428,8 +428,14 @@ template {
 
 body,
 html {
-  margin: 0px;
+  margin: 0 auto; 
   padding: 0px;
+}
+
+body,
+html,
+.max-width {
+  max-width: 500px;
 }
 
 ul, li {
@@ -481,4 +487,16 @@ a {
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
+}
+
+.transition {
+  transition: all 0.3s ease;
+}
+.transition-slide-out {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.transition-slide-in {
+  transform: translateY(0);
+  opacity: 1;
 }

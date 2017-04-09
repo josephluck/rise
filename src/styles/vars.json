@@ -40,7 +40,7 @@
     "link": "'PT Sans', sans-serif"
   },
   "fontSizes": {
-    "tiny": "0.5rem",
+    "tiny": "0.7rem",
     "small": "0.8rem",
     "medium": "1rem",
     "large": "1.5rem",
@@ -91,6 +91,8 @@
     "pill": "999px"
   },
   "spacing": {
+    "auto": "auto",
+    "0": "0px",
     "1": "0.25rem",
     "2": "0.5rem",
     "3": "1rem",

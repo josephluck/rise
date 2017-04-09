@@ -1,6 +1,8 @@
 import h from 'helix-react/lib/html'
 import {Models} from '../../model'
 import Tabs from '../../components/tabs'
+import CartIcon from '../../components/cart-icon'
+import CartAlert from '../../components/cart-alert'
 
 function getActiveTab (pathname) {
   if (pathname.indexOf('shop') > -1) {
@@ -14,14 +16,6 @@ function getActiveTab (pathname) {
   }
 }
 
-function CartIcon (active: boolean) {
-  return (
-    <div>
-      <span className='ss-cart' />
-    </div>
-  )
-}
-
 function layout (page: Helix.Page<Models>): Helix.Page<Models> {
   return {
     onEnter: page.onEnter,
@@ -30,7 +24,7 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
     view (state, prev, actions) {
       const activeTab = getActiveTab(state.location.pathname)
       return (
-        <div>
+        <div className='pb-5'>
           <div className='d-flex align-items-center w-100 pa-3'>
             <span className='ss-menu fc-grey-500'></span>
             <a
@@ -45,7 +39,7 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
                 }}
               />
             </a>
-            <div className='fc-grey-500 d-flex align-items-center'>
+            <div className='d-flex align-items-center'>
               <CartIcon active={!!state.cart.items.length} />
             </div>
           </div>
@@ -63,6 +57,9 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
           <div>
             {page.view(state, prev, actions)}
           </div>
+          <CartAlert
+            items={state.cart.quantity}
+          />
         </div>
       )
     },
