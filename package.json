@@ -4,7 +4,7 @@
   "description": "Lunch Club",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "npm run css && budo ./src/index.tsx --live --pushstate --host=localhost --port=8888 --base=/ --serve=index.js -- -t sheetify/transform -t [ babelify ]  -p [ tsify ]",
+    "dev": "npm run css && budo ./src/index.ts --live --pushstate --host=localhost --port=8888 --base=/ --serve=index.js -- -t sheetify/transform -t [ babelify ]  -p [ tsify ]",
     "css": "crux -v ./src/styles/vars.json -o ./src/styles/styles.css",
     "dist": "tsc && npm run browserify && npm run minify && npm run assets",
     "assets": "cp -R assets lib && cp index.html lib/index.html",
@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "crux-css": "2.0.3",
+    "crux-css": "2.0.4",
     "sheetify": "^6.0.1",
     "sheetify-postcss": "^1.1.0"
   }

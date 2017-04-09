@@ -12,7 +12,7 @@ mount.className = `${clx1} ${clx2}`
 document.body.appendChild(mount)
 
 helix({
-  model,
+  model: model(),
   routes,
   mount,
   plugins: [log],

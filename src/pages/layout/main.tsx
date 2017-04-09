@@ -36,7 +36,7 @@ const layout = (page) => {
               />
             </a>
           </div>
-          <div className='bb bc-grey-100 bt ta-c'>
+          <div className='ta-c'>
             <Tabs
               tabs={[
                 {label: 'Shop', name: 'shop', href: '/shop'},

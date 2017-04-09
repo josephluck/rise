@@ -1,7 +1,7 @@
-import Login from './login'
+import * as Products from './products'
 
 export type Models = Helix.Models<
-  Login.Namespace &
+  Products.Namespace &
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
 >
 
@@ -13,7 +13,7 @@ export default function () {
     reducers: {},
     effects: {},
     models: {
-      [Login.namespace]: Login.model(),
+      [Products.namespace]: Products.model(),
     },
   }
 }
