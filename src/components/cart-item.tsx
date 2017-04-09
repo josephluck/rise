@@ -1,4 +1,4 @@
-import h from 'helix-react/lib/html'
+/*import h from 'helix-react/lib/html'
 import {CartEntry} from '../model/cart'
 import Select from './select'
 
@@ -60,10 +60,10 @@ const CartItem = ({
   )
 }
 
-export default CartItem
+export default CartItem*/
 
 
-/*import h from 'helix-react/lib/html'
+import h from 'helix-react/lib/html'
 import {CartEntry} from '../model/cart'
 import Stepper from './stepper'
 
@@ -82,11 +82,11 @@ const CartItem = ({
 }: CartItemProps) => {
   return (
     <div className='pv-4 bb bc-grey-100 d-flex align-items-center'>
-      <div className='bra-2 bg-grey-100 w-6 h-6 mr-4'></div>
-      <div className='flex-1 d-flex flex-direction-column of-hidden mr-4'>
+      {/*<div className='bra-2 bg-grey-100 w-6 h-6 mr-3'></div>*/}
+      <div className='flex-1 d-flex flex-direction-column of-hidden mr-3'>
         <div className='mb-2'>{name}</div>
         <div
-          className='fs-small of-hidden w-100'
+          className='fs-small of-hidden w-100 fc-grey-600'
           style={{
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
@@ -112,4 +112,4 @@ const CartItem = ({
   )
 }
 
-export default CartItem*/
+export default CartItem
