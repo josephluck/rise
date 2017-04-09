@@ -5,13 +5,13 @@ import CartIcon from '../../components/cart-icon'
 import CartAlert from '../../components/cart-alert'
 
 function getActiveTab (pathname) {
-  if (pathname.indexOf('shop') > -1) {
+  if (pathname.includes('shop') || pathname.includes('cart')) {
     return 'shop'
-  } else if (pathname.indexOf('about') > -1) {
+  } else if (pathname.includes('about')) {
     return 'about'
-  } else if (pathname.indexOf('blog') > -1) {
+  } else if (pathname.includes('blog')) {
     return 'blog'
-  } else if (pathname.indexOf('contact') > -1) {
+  } else if (pathname.includes('contact')) {
     return 'contact'
   }
 }
