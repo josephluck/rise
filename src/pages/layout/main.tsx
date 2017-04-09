@@ -23,6 +23,7 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
     onLeave: page.onLeave,
     view (state, prev, actions) {
       const activeTab = getActiveTab(state.location.pathname)
+      const inCart = state.location.pathname.indexOf('cart') > -1
       return (
         <div className='pb-5'>
           <div className='d-flex align-items-center w-100 pa-3'>
@@ -58,7 +59,7 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
             {page.view(state, prev, actions)}
           </div>
           <CartAlert
-            items={state.cart.quantity}
+            items={inCart ? 0 : state.cart.quantity}
           />
         </div>
       )

@@ -24,6 +24,7 @@ export default function ({
         <Button
           label='Checkout'
           size='small'
+          href='/cart'
         />
       </div>
     </div>

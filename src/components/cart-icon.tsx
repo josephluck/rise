@@ -14,8 +14,9 @@ export default function ({active}: {active: boolean}) {
           ></div>
         ) : null
       }
-      <span
+      <a
         className='ss-cart fc-grey-500'
+        href={active ? '/cart' : '/shop'}
       />
     </div>
   )

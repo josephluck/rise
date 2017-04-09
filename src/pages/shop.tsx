@@ -16,8 +16,7 @@ const page: Helix.Page<Models> = {
                 {...product}
                 onAddToCart={(quantity) => {
                   actions.cart.add({
-                    id: product.id,
-                    price: product.price,
+                    ...product,
                     quantity,
                   })
                 }}

@@ -39,7 +39,7 @@ export default component<Props, State, Reducers, Effects>({
           <div className='d-flex'>
             <Select
               className='flex-1 mr-2'
-              placeholder='Quantity'
+              placeholder='QUANTITY'
               value={state.quantity ? state.quantity.toString() : ''}
               onChange={actions.updateQuantity}
               options={[
