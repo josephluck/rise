@@ -5,4 +5,5 @@ import home from './home'
 
 export default {
   '/': lMain(home),
+  '/shop': lMain(home),
 }

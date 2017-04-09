@@ -7,48 +7,38 @@ export interface Props {
   label?: string
   className?: string
   type?: string
-  style?: Style
-  size?: Size
   onClick?: () => any
-}
-
-function getStyle (style: Style): string {
-  if (style === 'primary') {
-    return 'bw-none bg-primary fc-white'
-  } else {
-    return 'bs-solid bw-medium bc-grey-300 fc-grey-400 bg-white'
-  }
-}
-
-function getSize (size: Size): string {
-  if (size === 'small') {
-    return 'lh-5 ph-2 pv-1 fs-small'
-  } else {
-    return 'lh-5 ph-3 pv-2'
-  }
+  href?: string
 }
 
 export default function ({
   label,
   className = '',
   type = 'button',
-  style = 'primary',
-  size = 'medium',
   onClick = () => null,
+  href,
 }: Props) {
-  const styleClass = getStyle(style)
-  const sizeClass = getSize(size)
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        tt-uppercase fw-700 bra-2
-        ${styleClass}
-        ${sizeClass}
-        ${className}
-      `}
-    >
-      {label}
-    </button>
-  )
+  const buttonClass = `
+    d-ib tt-uppercase fw-500 bw-medium ph-4 pv-3 bra-2 bg-white bc-black ba c-pointer
+    ${className}
+  `
+  if (href) {
+    return (
+      <a
+        className={buttonClass}
+        href={href}
+      >
+        {label}
+      </a>
+    )
+  } else {
+    return (
+      <button
+        onClick={onClick}
+        className={buttonClass}
+      >
+        {label}
+      </button>
+    )
+  }
 }
