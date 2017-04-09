@@ -38,9 +38,9 @@ const page: Helix.Page<Models> = {
           )
         })}
         <div className='pt-4'>
-          <LineItem label='Sub Total' amount={100} />
-          <LineItem label='Shipping' amount={5} />
-          <LineItem label='Total' amount={105} />
+          <LineItem label='Sub Total' amount={state.cart.subTotal} />
+          <LineItem label='Shipping' amount={state.cart.shipping} />
+          <LineItem label='Total' amount={state.cart.subTotal + state.cart.shipping} />
         </div>
         <Button
           label='Checkout'

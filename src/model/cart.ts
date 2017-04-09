@@ -8,6 +8,7 @@ export interface CartEntry extends Product {
 export interface State {
   subTotal: number
   quantity: number
+  shipping: number
   items: CartEntry[]
 }
 
@@ -34,7 +35,7 @@ function cartItem (): CartEntry {
     id: Math.random(),
     name: 'White chocolate and raspberry brownie',
     price: 16,
-    description: 'One of our favourites, this bad boy is made with heaps of raspberries and dark and white chocolate, Fudgy on the inside, crisp on the outside, just as a brownie should be.',
+    description: 'One of our favourites, made with heaps of raspberries and dark and white chocolate, Fudgy on the inside, crisp on the outside, just as a brownie should be.',
     quantity: 2,
   }
 }
@@ -50,6 +51,7 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
       ],
       subTotal: 16 * 8,
       quantity: 8,
+      shipping: 5,
     },
     reducers: {
       add (state, item) {
