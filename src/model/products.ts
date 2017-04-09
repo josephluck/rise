@@ -23,9 +23,9 @@ export type ModelApi = Helix.ModelApi<State, Actions>
 
 function product (): Product {
   return {
-    name: 'Brownie',
+    name: 'White chocolate and raspberry brownie',
     price: 16,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula enim in dui imperdiet tempor. Etiam iaculis faucibus lacus id scelerisque. Phasellus elementum mi ante, id bibendum neque elementum nec.',
+    description: 'One of our favourites, this bad boy is made with heaps of raspberries and dark and white chocolate, Fudgy on the inside, crisp on the outside, just as a brownie should be.',
   }
 }
 
