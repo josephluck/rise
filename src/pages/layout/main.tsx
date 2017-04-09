@@ -1,4 +1,5 @@
 import h from 'helix-react/lib/html'
+import {Models} from '../../model'
 import Tabs from '../../components/tabs'
 
 function getActiveTab (pathname) {
@@ -13,7 +14,15 @@ function getActiveTab (pathname) {
   }
 }
 
-const layout = (page) => {
+function CartIcon (active: boolean) {
+  return (
+    <div>
+      <span className='ss-cart' />
+    </div>
+  )
+}
+
+function layout (page: Helix.Page<Models>): Helix.Page<Models> {
   return {
     onEnter: page.onEnter,
     onUpdate: page.onUpdate,
@@ -23,6 +32,7 @@ const layout = (page) => {
       return (
         <div>
           <div className='d-flex align-items-center w-100 pa-3'>
+            <span className='ss-menu fc-grey-500'></span>
             <a
               className='d-b flex-1 fw-700 ta-c'
               href='/'
@@ -35,6 +45,9 @@ const layout = (page) => {
                 }}
               />
             </a>
+            <div className='fc-grey-500 d-flex align-items-center'>
+              <CartIcon active={!!state.cart.items.length} />
+            </div>
           </div>
           <div className='ta-c'>
             <Tabs

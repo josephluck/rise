@@ -1,6 +1,7 @@
 import {Models} from './'
 
 export interface Product {
+  id: number,
   name: string
   price: number
   description: string
@@ -23,6 +24,7 @@ export type ModelApi = Helix.ModelApi<State, Actions>
 
 function product (): Product {
   return {
+    id: Math.random(),
     name: 'White chocolate and raspberry brownie',
     price: 16,
     description: 'One of our favourites, this bad boy is made with heaps of raspberries and dark and white chocolate, Fudgy on the inside, crisp on the outside, just as a brownie should be.',

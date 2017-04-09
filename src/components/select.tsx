@@ -9,12 +9,16 @@ export interface Props {
   className?: string
   placeholder?: string
   options: Option[]
+  value: string
+  onChange: (value: string) => any
 }
 
 export default function ({
   className = '',
   placeholder = '',
   options,
+  value,
+  onChange,
 }: Props) {
   return (
     <select
@@ -26,6 +30,8 @@ export default function ({
       style={{
         textAlignLast: 'center',
       }}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
     >
       {placeholder ?
         <option value={placeholder}>{placeholder}</option>
