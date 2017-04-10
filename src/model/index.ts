@@ -9,7 +9,7 @@ export type Models = Helix.Models<
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
 >
 
-export default function () {
+export default function (apis) {
   return {
     state: {
       foo: 'foo',
@@ -19,7 +19,7 @@ export default function () {
     models: {
       [Blog.namespace]: Blog.model(),
       [Cart.namespace]: Cart.model(),
-      [Products.namespace]: Products.model(),
+      [Products.namespace]: Products.model(apis),
     },
   }
 }

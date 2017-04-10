@@ -22,6 +22,7 @@
     "browserify": "^14.1.0",
     "budo": "^9.4.7",
     "helix-react": "git://github.com/josephluck/helix-react",
+    "moltin": "^1.0.5",
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",
     "tslint-config-standard": "^4.0.0",

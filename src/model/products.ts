@@ -1,3 +1,4 @@
+import {Apis} from '../bootstrap'
 import {Models} from './'
 
 export interface Product {
@@ -11,9 +12,13 @@ export interface State {
   items: Product[]
 }
 
-export interface Reducers {}
+export interface Reducers {
+  set: Helix.Reducer<Models, State, any[]>
+}
 
-export interface Effects {}
+export interface Effects {
+  fetch: Helix.Effect0<Models>
+}
 
 export type Actions = Helix.Actions<Reducers, Effects>
 
@@ -31,7 +36,9 @@ function product (): Product {
   }
 }
 
-export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
+export function model ({
+  shop,
+}: Apis): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: {
       items: [
@@ -41,7 +48,18 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
         product(),
       ],
     },
-    reducers: {},
-    effects: {},
+    reducers: {
+      set (state, items) {
+        return {items}
+      },
+    },
+    effects: {
+      fetch (state, actions) {
+        return new Promise(resolve => {
+          shop.product.Find('limit=20', resolve)
+        })
+        .then(actions[namespace].set)
+      },
+    },
   }
 }

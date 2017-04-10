@@ -3,6 +3,9 @@ import {Models} from '../model'
 import Product from '../components/product'
 
 const page: Helix.Page<Models> = {
+  onEnter (_state, _prev, actions) {
+    actions.products.fetch()
+  },
   view (state, prev, actions) {
     return (
       <div className='d-flex flex-wrap-wrap pa-3'>
