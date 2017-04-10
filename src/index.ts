@@ -1,3 +1,6 @@
+require('whatwg-fetch')
+require('es6-promise')
+
 import * as sheetify from 'sheetify'
 const clx1 = sheetify('./styles/styles.css')
 const clx2 = sheetify('./styles/index.css')

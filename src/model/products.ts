@@ -56,7 +56,7 @@ export function model ({
     effects: {
       fetch (state, actions) {
         return new Promise(resolve => {
-          shop.product.Find('limit=20', resolve)
+          shop.Product.Find('limit=20', resolve)
         })
         .then(actions[namespace].set)
       },

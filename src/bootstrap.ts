@@ -1,13 +1,15 @@
-import * as Moltin from 'moltin'
+const moltin = (window as any).Moltin
 
 export interface Apis {
   shop: any
 }
 
 function setupMoltin () {
-  const shop = new Moltin({publicId: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde'})
+  const shop = new moltin({
+    publicId: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
+  })
   return new Promise((resolve) => {
-    shop.Authenticate(() => {
+    shop.Authenticate(abc => {
       resolve(shop)
     })
   })
