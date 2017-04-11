@@ -23,6 +23,7 @@
     "budo": "^9.4.7",
     "es6-promise": "^4.1.0",
     "fetchival": "^0.3.2",
+    "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",

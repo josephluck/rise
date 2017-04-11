@@ -1,12 +1,36 @@
 import h from 'helix-react/lib/html'
 import {Models} from '../model'
 import Button from '../components/button'
+import Carousel from '../components/carousel'
 
 const page: Helix.Page<Models> = {
+  onEnter (_state, _prev, actions) {
+    actions.products.fetch()
+  },
   view (state, prev, actions) {
     return (
       <div>
-        <div className='w-100 h-9 bg-grey-100'></div>
+        <Carousel
+          items={state.products.items}
+          item={product => {
+            return (
+              <div
+                className='h-10 d-flex flex-direction-column pa-3'
+                style={{
+                  backgroundImage: `url(${product.images[0].url.http})`,
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <div className='flex-1' />
+                <div className='ph-3 pv-2 ba bc-black bg-black fc-white ta-c'>
+                  {product.title}
+                </div>
+              </div>
+            )
+          }}
+        />
         <div className='pv-5'>
           <div className='ta-c ph-4 mb-9'>
             <div className='fs-heading mb-4 fw-500'>Honest Baking</div>
