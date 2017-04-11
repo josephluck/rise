@@ -30,25 +30,10 @@ export interface Namespace { 'cart': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-function cartItem (): CartEntry {
-  return {
-    id: Math.random(),
-    name: 'White chocolate and raspberry brownie',
-    price: 16,
-    description: 'One of our favourites, made with heaps of raspberries and dark and white chocolate, Fudgy on the inside, crisp on the outside, just as a brownie should be.',
-    quantity: 2,
-  }
-}
-
 export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: {
-      items: [
-        cartItem(),
-        cartItem(),
-        cartItem(),
-        cartItem(),
-      ],
+      items: [],
       subTotal: 16 * 8,
       quantity: 8,
       shipping: 5,
@@ -87,7 +72,7 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
 
 function total (items: CartEntry[]): number {
   return items.reduce((prev, curr) => {
-    return prev + (curr.price * curr.quantity)
+    return prev + (curr.price.raw.with_tax * curr.quantity)
   }, 0)
 }
 

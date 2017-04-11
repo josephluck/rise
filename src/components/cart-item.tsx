@@ -62,7 +62,6 @@ const CartItem = ({
 
 export default CartItem*/
 
-
 import h from 'helix-react/lib/html'
 import {CartEntry} from '../model/cart'
 import Stepper from './stepper'
@@ -73,7 +72,7 @@ export interface CartItemProps extends CartEntry {
 }
 const CartItem = ({
   id,
-  name,
+  title,
   price,
   quantity,
   description,
@@ -84,7 +83,7 @@ const CartItem = ({
     <div className='pv-4 bb bc-grey-100 d-flex align-items-center'>
       {/*<div className='bra-2 bg-grey-100 w-6 h-6 mr-3'></div>*/}
       <div className='flex-1 d-flex flex-direction-column of-hidden mr-3'>
-        <div className='mb-2'>{name}</div>
+        <div className='mb-2'>{title}</div>
         <div
           className='fs-small of-hidden w-100 fc-grey-600'
           style={{
@@ -106,7 +105,7 @@ const CartItem = ({
             return updateQuantity(parseInt(quantity, 10))
           }}
         />
-        <div className='fs-large'>{'£'}{price * quantity}{'.00'}</div>
+        <div className='fs-large'>{'£'}{price.raw.with_tax * quantity}{'.00'}</div>
       </div>
     </div>
   )
