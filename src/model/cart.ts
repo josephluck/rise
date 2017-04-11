@@ -34,8 +34,8 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: {
       items: [],
-      subTotal: 16 * 8,
-      quantity: 8,
+      subTotal: 0,
+      quantity: 0,
       shipping: 5,
     },
     reducers: {
@@ -72,7 +72,7 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
 
 function total (items: CartEntry[]): number {
   return items.reduce((prev, curr) => {
-    return prev + (curr.price.raw.with_tax * curr.quantity)
+    return prev + (curr.price.data.raw.with_tax * curr.quantity)
   }, 0)
 }
 

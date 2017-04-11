@@ -2,6 +2,7 @@ import h from 'helix-react/lib/html'
 import component, {StatefulComponent} from './stateful-component'
 import Button from './button'
 import Select from './select'
+import Currency from './currency'
 import {Product} from '../model/products'
 
 export interface Props extends Product {
@@ -38,7 +39,7 @@ export default component<Props, State, Reducers, Effects>({
         <div className='bl bb br bc-grey-100 pa-3 bblr-2 bbrr-2 ta-c'>
           <div className='mb-4'>
             <div className='fw-500 mb-3 fs-large'>{props.title}</div>
-            <div className='fc-grey-700 mb-3'>{props.price.value}</div>
+            <div className='fc-grey-700 mb-3'>{'£'}<Currency price={props.price.data.raw.with_tax} /></div>
             <div className='lh-5'>{props.description}</div>
           </div>
           <div className='d-flex'>

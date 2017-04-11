@@ -12,8 +12,10 @@ export interface Product {
   title: string
   price: {
     value: string,
-    raw: {
-      with_tax: number,
+    data: {
+      raw: {
+        with_tax: number,
+      },
     },
   }
   images: Image[]

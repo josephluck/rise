@@ -2,6 +2,7 @@ import h from 'helix-react/lib/html'
 import {Models} from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
+import Currency from '../components/currency'
 
 interface LineItemProps {
   label: string
@@ -12,7 +13,7 @@ function LineItem ({label, amount}: LineItemProps) {
   return (
     <div className='ta-c pb-4'>
       <div className='pb-2 fs-small tt-uppercase'>{label}</div>
-      <div className='fs-large'>{'£'}{amount}{'.00'}</div>
+      <div className='fs-large'>{'£'}<Currency price={amount} /></div>
     </div>
   )
 }
