@@ -24,7 +24,7 @@ export default function ({
     <select
       defaultValue={placeholder}
       className={`
-        ph-3 pv-2 fw-300 bw-small fs-small bc-grey-600 bg-white bra-2 ta-c
+        ph-3 pv-2 fw-300 bw-small fs-small bc-grey-600 bg-white bra-0 ta-c
         ${className}
       `}
       style={{

@@ -13,7 +13,7 @@ function Btn ({
     <span
       className={`
         d-inline-flex align-items-center
-        ba bc-grey-200 pa-1 bra-2 fc-grey-400 fs-tiny
+        ba bc-grey-200 pa-1 fc-grey-400 fs-tiny
       `}
       onClick={onClick}
     > 
@@ -53,7 +53,7 @@ export default function ({
         onClick={decrement}
       />
       <select
-        className='ph-1 pv-1 fw-300 fs-small ta-c bc-white bg-white'
+        className='ph-1 pv-1 fw-300 fs-small ta-c bc-white bg-white bra-0'
         style={{ textAlignLast: 'center' }}
         value={value}
         onChange={(e) => onChange(e.target.value)}

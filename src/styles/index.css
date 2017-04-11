@@ -508,3 +508,7 @@ select {
   background: rgba(255, 170, 0, 1);
   transition: all 0.3s ease;
 }
+
+.flickity-page-dots {
+  bottom: -35px;
+}

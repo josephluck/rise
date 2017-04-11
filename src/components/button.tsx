@@ -29,7 +29,7 @@ export default function ({
   onClick = () => null,
   href,
 }: Props) {
-  const baseClass = 'd-ib tt-uppercase bra-2 bg-white ba c-pointer'
+  const baseClass = 'd-ib tt-uppercase bg-white ba c-pointer'
   const sizeClass = getSizeClass(size)
   const buttonClass = `${baseClass} ${sizeClass} ${className}`
   if (href) {

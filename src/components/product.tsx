@@ -30,13 +30,13 @@ export default component<Props, State, Reducers, Effects>({
   render (state, props, actions) {
     return (
       <div className={`${props.className}`}>
-        <div className='btlr-2 btrr-2 of-hidden'>
+        <div>
           <img
             src={props.images[0].url.http}
             className='w-100 h-auto'
           />
         </div>
-        <div className='bl bb br bc-grey-100 pa-3 bblr-2 bbrr-2 ta-c'>
+        <div className='bl bb br bc-grey-100 pa-3 ta-c'>
           <div className='mb-4'>
             <div className='fw-500 mb-3 fs-large'>{props.title}</div>
             <div className='fc-grey-700 mb-3'>{'£'}<Currency price={props.price.data.raw.with_tax} /></div>

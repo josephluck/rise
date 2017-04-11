@@ -106,7 +106,7 @@ const CartItem = ({
             return updateQuantity(parseInt(quantity, 10))
           }}
         />
-        <div className='fs-large'>{'£'}<Currency price={price.data.raw.with_tax * quantity} /></div>
+        <div className='fs-medium'>{'£'}<Currency price={price.data.raw.with_tax * quantity} /></div>
       </div>
     </div>
   )
