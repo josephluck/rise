@@ -1,9 +1,10 @@
 import h from 'helix-react/lib/html'
 import component, {StatefulComponent} from './stateful-component'
+import Stepper from './stepper'
 import Button from './button'
-import Select from './select'
 import Currency from './currency'
 import {Product} from '../model/products'
+import Collapser from './collapser'
 
 export interface Props extends Product {
   className?: string
@@ -20,7 +21,7 @@ interface Effects {}
 
 export default component<Props, State, Reducers, Effects>({
   state: {
-    quantity: null,
+    quantity: 1,
   },
   reducers: {
     updateQuantity (state, props, quantity) {
@@ -29,49 +30,51 @@ export default component<Props, State, Reducers, Effects>({
   },
   render (state, props, actions) {
     return (
-      <div className={`${props.className}`}>
-        <div>
-          <img
-            src={props.images[0].url.http}
-            className='w-100 h-auto'
-          />
+      <div className={`${props.className || ''}`}>
+        <img
+          src={props.images[0].url.http}
+          className='w-100 h-auto bra-2 of-hidden d-ib mb-3'
+        />
+        <div className='d-flex align-items-center mb-3'>
+          <div className='flex-1 mr-2 fw-500'>{props.title}</div>
+          <div className='fs-large'>
+            {'£'}<Currency price={props.price.data.raw.with_tax} />
+          </div>
         </div>
-        <div className='bl bb br bc-grey-100 pa-3 ta-c'>
-          <div className='mb-4'>
-            <div className='fw-500 mb-3 fs-large'>{props.title}</div>
-            <div className='fc-grey-700 mb-3'>{'£'}<Currency price={props.price.data.raw.with_tax} /></div>
-            <div className='lh-5'>{props.description}</div>
-          </div>
-          <div className='d-flex'>
-            <Select
-              className='flex-1 mr-2'
-              placeholder='QUANTITY'
-              value={state.quantity ? state.quantity.toString() : ''}
-              onChange={actions.updateQuantity}
-              options={[
-                {label: '1', value: '1'},
-                {label: '2', value: '2'},
-                {label: '3', value: '3'},
-                {label: '4', value: '4'},
-                {label: '5', value: '5'},
-                {label: '6', value: '6'},
-                {label: '7', value: '7'},
-                {label: '8', value: '8'},
-                {label: '9', value: '9'},
-                {label: '10', value: '10'},
-              ]}
-            />
-            <Button
-              label='Add to Cart'
-              className='flex-1 ml-2'
-              onClick={() => {
-                if (state.quantity) {
-                  actions.updateQuantity('')
-                  props.onAddToCart(state.quantity)
-                }
-              }}
-            />
-          </div>
+        <div className='mb-3'>
+          <Collapser
+            label='Description'
+            defaultOpen={true}
+          >
+            {props.description}
+          </Collapser>
+        </div>
+        <div className='mb-3'>
+          <Collapser
+            label='Ingredients'
+          >
+            <div>
+              {'Dark Chocolate (Cocoa Mass, Cocoa Butter, Emulsifiers (Soya Lecithin), Polyglycerol Polyricinoleate, Salt, Flavouring (Vanilla Essence), Butter (Unsalted Butter [Cows Milk]. Minimum 80% Milk Fat), Sugar, Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Eggs, Vanilla Extract (Water, Ethanol; Vanilla Extract [3%]).'}
+            </div>
+          </Collapser>
+        </div>
+        <div className='d-flex align-items-center'>
+          <div className='flex-1' />
+          <Stepper
+            value={state.quantity.toString()}
+            onChange={actions.updateQuantity}
+          />
+          <Button
+            label='Add to Cart'
+            className='ml-2'
+            size='small'
+            onClick={() => {
+              if (state.quantity) {
+                actions.updateQuantity('')
+                props.onAddToCart(state.quantity)
+              }
+            }}
+          />
         </div>
       </div>
     )

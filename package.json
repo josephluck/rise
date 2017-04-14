@@ -4,7 +4,7 @@
   "description": "Rise Bakery",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "npm run dev:crux && budo src/index.ts:index.js --dir src --live --pushstate --host=localhost --port=8888 -- -p [ tsify ]",
+    "dev": "npm run dev:crux && budo src/index.ts:index.js --dir src --live --pushstate --host=localhost --port=8888 -- -p tsify",
     "dev:crux": "crux -v ./src/crux.json -o ./src/assets/crux.css",
     "dist": "npm run dist:folders && tsc && npm run dist:browserify && npm run dist:minify && npm run dev:crux && npm run dist:assets && rm -rf lib",
     "dist:folders": "rm -rf lib && mkdir lib && rm -rf dist && mkdir dist",
@@ -16,7 +16,8 @@
   "dependencies": {
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
-    "react": "^15.5.4"
+    "react": "^15.5.4",
+    "react-animate-height": "^0.9.1"
   },
   "author": "",
   "license": "ISC",

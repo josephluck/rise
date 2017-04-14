@@ -8,6 +8,7 @@ const page: Helix.Page<Models> = {
     actions.products.fetch()
   },
   view (state, prev, actions) {
+    const test = false
     return (
       <div>
         <Carousel
@@ -17,14 +18,14 @@ const page: Helix.Page<Models> = {
               <div
                 className='h-10 d-flex flex-direction-column pa-3'
                 style={{
-                  backgroundImage: `url(${product.images[0].url.http})`,
+                  backgroundImage: test ? `url(${product.images[0].url.http})` : 'url(https://assets-0.bloomandwild.com/letterbox-main/hand-tied-adele/website_main/010e224d9216e5f5dae10df7360a969f.jpg)',
                   backgroundPosition: 'center center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                 }}
               >
                 <div className='flex-1' />
-                <div className='ph-3 pv-2 ba bc-black bg-black fc-white ta-c'>
+                <div className='d-ib ml-auto mr-auto bra-2 ph-3 pv-2 ba bc-grey-700 fs-small'>
                   {product.title}
                 </div>
               </div>

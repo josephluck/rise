@@ -12,12 +12,11 @@ function Btn ({
   return (
     <span
       className={`
-        d-inline-flex align-items-center
-        ba bc-grey-200 pa-1 fc-grey-400 fs-tiny
+        d-ib ba bc-grey-600 pa-1 fs-tiny lh-4 bra-2
       `}
       onClick={onClick}
     > 
-      <span className={`ml-auto mr-auto ${className}`} />
+      <span className={`ml-auto mr-auto fc-grey-800 ${className}`} />
     </span>
   )
 }
@@ -47,13 +46,13 @@ export default function ({
     return onChange((num + 1).toString())
   }
   return (
-    <div className={`d-inline-flex align-items-center ${className}`}>
+    <div className={`d-inline-flex align-items-center of-hidden ${className}`}>
       <Btn
-        className={`${num === 1 ? 'ss-trash' : 'ss-hyphen'} mr-1`}
+        className={`ss-hyphen mr-1`}
         onClick={decrement}
       />
       <select
-        className='ph-1 pv-1 fw-300 fs-small ta-c bc-white bg-white bra-0'
+        className='fw-300 fs-small ta-c bc-transparent bg-transparent bra-0'
         style={{ textAlignLast: 'center' }}
         value={value}
         onChange={(e) => onChange(e.target.value)}

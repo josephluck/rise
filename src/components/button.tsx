@@ -9,6 +9,7 @@ export interface Props {
   size?: string
   onClick?: () => any
   href?: string
+  style?: any
 }
 
 function getSizeClass (size) {
@@ -28,8 +29,9 @@ export default function ({
   size = 'medium',
   onClick = () => null,
   href,
+  style = {},
 }: Props) {
-  const baseClass = 'd-ib tt-uppercase bg-white ba c-pointer'
+  const baseClass = 'd-ib tt-uppercase bg-white ba c-pointer bra-2'
   const sizeClass = getSizeClass(size)
   const buttonClass = `${baseClass} ${sizeClass} ${className}`
   if (href) {
@@ -37,6 +39,7 @@ export default function ({
       <a
         className={buttonClass}
         href={href}
+        style={style}
       >
         {label}
       </a>
@@ -46,6 +49,7 @@ export default function ({
       <button
         onClick={onClick}
         className={buttonClass}
+        style={style}
       >
         {label}
       </button>

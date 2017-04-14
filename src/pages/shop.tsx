@@ -8,11 +8,11 @@ const page: Helix.Page<Models> = {
   },
   view (state, prev, actions) {
     return (
-      <div className='d-flex flex-wrap-wrap pa-3'>
+      <div className='ph-3 pv-5'>
         {state.products.items.map((product, index) => {
           return (
             <div
-              className='w-100 pv-3'
+              className='w-100 mb-8 pb-3 bb bc-grey-100'
               key={index}
             >
               <Product
