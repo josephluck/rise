@@ -31,7 +31,7 @@ const page: Helix.Page<Models> = {
   },
   view (state, prev, actions) {
     return (
-      <div className='ph-4 pb-4 pt-3'>
+      <div className='ph-3 pb-4'>
         {state.cart.items.map((item, index) => {
           return (
             <CartItem

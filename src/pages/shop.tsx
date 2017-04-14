@@ -8,7 +8,7 @@ const page: Helix.Page<Models> = {
   },
   view (state, prev, actions) {
     return (
-      <div className='ph-3 pv-5'>
+      <div className='ph-3 pv-4'>
         {state.products.items.map((product, index) => {
           return (
             <div

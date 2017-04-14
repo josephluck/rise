@@ -5,7 +5,7 @@ import PostItem from '../components/post-item'
 const page: Helix.Page<Models> = {
   view (state, prev, actions) {
     return (
-      <div className='ph-4 pb-4 pt-5'>
+      <div className='ph-3 pv-4'>
         {state.blog.items.map((item, index) => {
           return (
             <PostItem
