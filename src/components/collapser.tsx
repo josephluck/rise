@@ -1,6 +1,6 @@
 import h from 'helix-react/lib/html'
 import component, {StatefulComponent} from './stateful-component'
-import * as Collapse from 'react-animate-height'
+import * as Collapse from 'react-collapse'
 
 interface Props {
   label: string
@@ -72,8 +72,7 @@ export default component<Props, State, Reducers, Effects>({
           </div>
         </div>
         <Collapse
-          duration={300}
-          height={state.showing ? 'auto' : 0}
+          isOpened={state.showing}
         >
           <div className='pt-2 fs-small lh-5 fc-grey-900'>
             {props.children}
