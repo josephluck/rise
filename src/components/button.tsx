@@ -24,14 +24,14 @@ function getSizeClass (size) {
 
 export default function ({
   label,
-  className = '',
+  className = 'bg-white',
   type = 'button',
   size = 'medium',
   onClick = () => null,
   href,
   style = {},
 }: Props) {
-  const baseClass = 'd-ib tt-uppercase bg-white ba c-pointer bra-2'
+  const baseClass = 'd-ib tt-uppercase ba c-pointer bra-2'
   const sizeClass = getSizeClass(size)
   const buttonClass = `${baseClass} ${sizeClass} ${className}`
   if (href) {

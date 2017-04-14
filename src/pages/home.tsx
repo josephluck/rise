@@ -2,6 +2,7 @@ import h from 'helix-react/lib/html'
 import {Models} from '../model'
 import Button from '../components/button'
 import Carousel from '../components/carousel'
+import ProductControls from '../components/add-product-controls'
 
 const page: Helix.Page<Models> = {
   onEnter (_state, _prev, actions) {
@@ -25,8 +26,18 @@ const page: Helix.Page<Models> = {
                 }}
               >
                 <div className='flex-1' />
-                <div className='d-ib ml-auto mr-auto bra-2 ph-3 pv-2 ba bc-grey-700 fs-small'>
-                  {product.title}
+                <div className='d-ib ta-c ml-auto mr-auto'>
+                  <div className='fw-500 ta-c mb-2'>{product.title}</div>
+                  <div className='d-ib'>
+                    <ProductControls
+                      onAddToCart={(quantity) => {
+                        actions.cart.add({
+                          ...product,
+                          quantity,
+                        })
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             )
