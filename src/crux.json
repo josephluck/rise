@@ -8,6 +8,7 @@
   "colors": {
     "transparent": "transparent",
     "primary": "rgba(255, 170, 0, 1)",
+    "grey-50": "rgba(246, 247, 248, 1)",
     "grey-100": "rgba(236, 239, 241, 1)",
     "grey-200": "rgba(207, 216, 220, 1)",
     "grey-300": "rgba(176, 190, 197, 1)",

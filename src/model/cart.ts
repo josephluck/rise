@@ -39,8 +39,21 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
       shipping: 5,
     },
     reducers: {
-      add (state, item) {
-        const items = state.items.concat(item)
+      add (state, newItem) {
+        const newItemIndex = state.items.findIndex(i => i.id === newItem.id)
+        const getItems = () => {
+          if (newItemIndex !== -1) {
+            return state.items.map((oldItem, index) => {
+              return newItemIndex === index ? {
+                ...oldItem,
+                quantity: oldItem.quantity + newItem.quantity,
+              } : oldItem
+            })
+          } else {
+            return state.items.concat(newItem)
+          }
+        }
+        const items = getItems()
         return {
           items,
           subTotal: total(items),

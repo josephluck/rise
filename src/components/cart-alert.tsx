@@ -11,7 +11,7 @@ export default function ({
   return (
     <div
       className={`
-        pos-fixed posb-0 posl-0 w-100 bt bc-grey-100 bg-white
+        pos-fixed posb-0 posl-0 w-100 bt bc-grey-100 bg-grey-50
         transition
         ${items ? 'transition-slide-in' : 'transition-slide-out'}
       `}
@@ -23,6 +23,7 @@ export default function ({
         </span>
         <Button
           label='Checkout'
+          className='bg-transparent'
           size='small'
           href='/cart'
         />

@@ -37,8 +37,8 @@ export default component<Props, State, Reducers, Effects>({
           size='small'
           onClick={() => {
             if (state.quantity) {
-              actions.updateQuantity('')
               props.onAddToCart(state.quantity)
+              actions.updateQuantity('1')
             }
           }}
         />
