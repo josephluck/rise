@@ -17,10 +17,11 @@
     "budo": "^9.4.7",
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
+    "react": "^15.5.4",
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",
     "tslint-config-standard": "^4.0.0",
-    "typescript": "^2.2.1",
+    "typescript": "^2.2.2",
     "uglifyify": "^3.0.4",
     "uglifyjs": "^2.4.10"
   },

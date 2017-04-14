@@ -33,7 +33,7 @@ const page: Helix.Page<Models> = {
         />
         <div className='pv-5'>
           <div className='ta-c ph-4 mb-9'>
-            <div className='fs-heading mb-4 fw-500'>Honest Baking</div>
+            <div className='fs-heading mb-4 fw-500'>Baking Lives Better</div>
             <div className='lh-5 mb-4'>Lorem ipsum dolor sit amet</div>
             <Button
               label='Shop'
