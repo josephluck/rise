@@ -17,6 +17,7 @@
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "react-animate-height": "^0.9.1"
   },
   "author": "",
