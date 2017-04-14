@@ -16,8 +16,6 @@
   "dependencies": {
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
-    "react": "^15.5.4",
-    "react-animate-height": "^0.9.1",
     "react-collapse": "^2.3.3",
     "react-height": "^2.2.0",
     "react-motion": "^0.4.7"
