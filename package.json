@@ -1,28 +1,18 @@
 {
-  "name": "lunchclub",
+  "name": "rise",
   "version": "0.0.0",
-  "description": "Lunch Club",
+  "description": "Rise Bakery",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "npm run css && budo ./src/index.ts --live --pushstate --host=localhost --port=8888 --base=/ --serve=index.js -- -t sheetify/transform -t [ babelify ]  -p [ tsify ]",
-    "css": "crux -v ./src/styles/vars.json -o ./src/styles/styles.css",
-    "dist": "tsc && npm run browserify && npm run minify && npm run assets",
-    "assets": "cp -R assets lib && cp index.html lib/index.html",
-    "browserify": "browserify src/index.ts -p [ tsify ] -g babelify -g uglifyify -o lib/index.js",
-    "minify": "uglifyjs ./lib/index.js --compress --mangle -o ./lib/index.js"
+    "dev": "budo src/index.ts:index.js --dir src --live --pushstate --host=localhost --port=8888 -- -p [ tsify ]",
+    "css": "crux -v ./src/crux.json -o ./src/assets/crux.css",
+    "dist": "rm -rf lib && tsc && npm run browserify && npm run minify && npm run css && npm run assets",
+    "browserify": "browserify lib/index.js > dist/index.js",
+    "assets": "rm -rf dist && cp -R assets dist && cp index.html dist/index.html && cp index.html dist/200.html",
+    "minify": "uglifyjs ./dist/index.js --compress --mangle -o ./dist/index.js"
   },
   "dependencies": {
-    "@types/node": "^7.0.5",
-    "babel": "^6.23.0",
-    "babel-cli": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.23.0",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
     "budo": "^9.4.7",
-    "es6-promise": "^4.1.0",
-    "fetchival": "^0.3.2",
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "tsify": "^3.0.1",
@@ -30,14 +20,11 @@
     "tslint-config-standard": "^4.0.0",
     "typescript": "^2.2.1",
     "uglifyify": "^3.0.4",
-    "uglifyjs": "^2.4.10",
-    "whatwg-fetch": "^2.0.3"
+    "uglifyjs": "^2.4.10"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "crux-css": "2.0.4",
-    "sheetify": "^6.0.1",
-    "sheetify-postcss": "^1.1.0"
+    "crux-css": "2.0.4"
   }
 }
