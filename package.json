@@ -4,12 +4,14 @@
   "description": "Rise Bakery",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "budo src/index.ts:index.js --dir src --live --pushstate --host=localhost --port=8888 -- -p [ tsify ]",
-    "css": "crux -v ./src/crux.json -o ./src/assets/crux.css",
-    "dist": "rm -rf lib && tsc && npm run browserify && npm run minify && npm run css && npm run assets",
-    "browserify": "browserify lib/index.js > dist/index.js",
-    "assets": "rm -rf dist && cp -R assets dist && cp index.html dist/index.html && cp index.html dist/200.html",
-    "minify": "uglifyjs ./dist/index.js --compress --mangle -o ./dist/index.js"
+    "dev": "npm run dev:crux && budo src/index.ts:index.js --dir src --live --pushstate --host=localhost --port=8888 -- -p [ tsify ]",
+    "dev:crux": "crux -v ./src/crux.json -o ./src/assets/crux.css",
+    "dist": "npm run dist:folders && tsc && npm run dist:browserify && npm run dist:minify && npm run dev:crux && npm run dist:assets && rm -rf lib",
+    "dist:folders": "rm -rf lib && mkdir lib && rm -rf dist && mkdir dist",
+    "dist:browserify": "browserify lib/index.js > dist/index.js",
+    "dist:assets": "cp -R src/assets dist/assets && cp src/index.html dist/index.html && cp src/index.html dist/200.html",
+    "dist:minify": "uglifyjs ./dist/index.js --compress --mangle -o ./dist/index.js",
+    "test": "echo \"Error: no test specified.\""
   },
   "dependencies": {
     "budo": "^9.4.7",
@@ -25,6 +27,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "crux-css": "2.0.4"
+    "browserify": "^14.3.0",
+    "crux-css": "2.0.4",
+    "surge": "^0.19.0"
   }
 }
