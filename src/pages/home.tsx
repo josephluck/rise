@@ -3,6 +3,7 @@ import {Models} from '../model'
 import Button from '../components/button'
 import Carousel from '../components/carousel'
 import ProductControls from '../components/add-product-controls'
+import Currency from '../components/currency'
 
 const page: Helix.Page<Models> = {
   onEnter (_state, _prev, actions) {
@@ -17,7 +18,7 @@ const page: Helix.Page<Models> = {
           item={product => {
             return (
               <div
-                className='h-10 d-flex flex-direction-column pa-3'
+                className='h-11 d-flex flex-direction-column pa-3'
                 style={{
                   backgroundImage: test ? `url(${product.images[0].url.http})` : 'url(https://assets-0.bloomandwild.com/letterbox-main/hand-tied-adele/website_main/010e224d9216e5f5dae10df7360a969f.jpg)',
                   backgroundPosition: 'center center',
@@ -28,6 +29,9 @@ const page: Helix.Page<Models> = {
                 <div className='flex-1' />
                 <div className='d-ib ta-c ml-auto mr-auto'>
                   <div className='fw-500 ta-c mb-2'>{product.title}</div>
+                  <div className='fc-grey-900 mb-2'>
+                    {'£'}<Currency price={product.price.data.raw.with_tax} />
+                  </div>
                   <div className='d-ib'>
                     <ProductControls
                       onAddToCart={(quantity) => {
