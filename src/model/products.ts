@@ -8,7 +8,7 @@ interface Image {
 }
 
 export interface Product {
-  id: number,
+  id: string,
   title: string
   price: {
     value: string,

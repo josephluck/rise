@@ -71,9 +71,7 @@ export default component<Props, State, Reducers, Effects>({
             />
           </div>
         </div>
-        <Collapse
-          isOpened={state.showing}
-        >
+        <Collapse isOpened={state.showing}>
           <div className='pt-2 fs-small lh-5 fc-grey-900'>
             {props.children}
           </div>

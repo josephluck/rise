@@ -1,8 +1,10 @@
 import h from 'helix-react/lib/html'
+import * as Collapse from 'react-collapse'
 import {Models} from '../../model'
 import Tabs from '../../components/tabs'
 import CartIcon from '../../components/cart-icon'
 import CartAlert from '../../components/cart-alert'
+import Show from '../../components/show'
 
 function getActiveTab (pathname) {
   if (pathname.includes('shop') || pathname.includes('cart')) {
@@ -16,18 +18,36 @@ function getActiveTab (pathname) {
   }
 }
 
-function layout (page: Helix.Page<Models>): Helix.Page<Models> {
+interface Opts {
+  backLocation?: string
+  showTabs?: boolean
+  showCartIcon?: boolean
+  showAlert?: boolean
+}
+
+const defaultOpts: Opts = {
+  backLocation: '',
+  showTabs: true,
+  showCartIcon: true,
+  showAlert: true,
+}
+
+function layout (page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<Models> {
   return {
     onEnter: page.onEnter,
     onUpdate: page.onUpdate,
     onLeave: page.onLeave,
     view (state, prev, actions) {
       const activeTab = getActiveTab(state.location.pathname)
-      const inCart = state.location.pathname.indexOf('cart') > -1
       return (
         <div className='pb-5'>
           <div className='d-flex align-items-center w-100 pa-3'>
-            <div className='flex-1' />
+            <div className='flex-1'>
+              <Show showing={!!opts.backLocation}>
+                <a href={opts.backLocation} className='ss-navigateleft fc-grey-500'>
+                </a>
+              </Show>
+            </div>
             <a
               className='d-b fw-700'
               href='/'
@@ -42,10 +62,12 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
             </a>
             <div className='d-flex flex-1 align-items-center'>
               <div className='flex-1' />
-              <CartIcon active={!!state.cart.items.length} />
+              <Show showing={opts.showCartIcon}>
+                <CartIcon active={!!state.cart.items.length} />
+              </Show>
             </div>
           </div>
-          <div className='ta-c'>
+          <Collapse isOpened={opts.showTabs} className='ta-c'>
             <Tabs
               tabs={[
                 {label: 'Shop', name: 'shop', href: '/shop'},
@@ -55,12 +77,12 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
               ]}
               activeTab={activeTab}
             />
-          </div>
+          </Collapse>
           <div>
             {page.view(state, prev, actions)}
           </div>
           <CartAlert
-            items={inCart ? 0 : state.cart.quantity}
+            items={!opts.showAlert ? 0 : state.cart.quantity}
           />
         </div>
       )

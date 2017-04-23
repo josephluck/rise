@@ -23,7 +23,9 @@ function LineItem ({
   )
 }
 
-const page: Helix.Page<Models> = {
+type Mode = 'cart' | 'checkout'
+
+const page = (mode: Mode): Helix.Page<Models> => ({
   onEnter (state, _prev, actions) {
     if (!state.cart.items.length) {
       actions.location.set('/shop')
@@ -36,6 +38,7 @@ const page: Helix.Page<Models> = {
           return (
             <CartItem
               key={index}
+              showControls={mode === 'cart'}
               updateQuantity={(quantity) => actions.cart.update({
                 index,
                 item: {
@@ -65,13 +68,27 @@ const page: Helix.Page<Models> = {
             className='flex-1'
           />
         </div>
-        <Button
-          label='Checkout'
-          className='w-100 bg-transparent'
-        />
+        {mode === 'cart'
+          ? (
+            <Button
+              label='Checkout'
+              className='w-100 bg-transparent ta-c'
+              href='/checkout'
+            />
+          ) : null
+        }
+        {mode === 'checkout'
+          ? (
+            <Button
+              label='Pay Now'
+              className='w-100 bg-transparent ta-c'
+              href='/cart'
+            />
+          ) : null
+        }
       </div>
     )
   },
-}
+})
 
 export default page

@@ -12,7 +12,7 @@ function Btn ({
   return (
     <span
       className={`
-        d-ib ba bc-grey-600 pa-1 fs-tiny lh-4 bra-2
+        d-ib bc-grey-600 pa-1 fs-tiny lh-4 bra-2
       `}
       onClick={onClick}
     > 

@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {Models} from './'
 import {Product} from './products'
 
@@ -33,10 +35,32 @@ export type ModelApi = Helix.ModelApi<State, Actions>
 export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: {
-      items: [],
-      subTotal: 0,
-      quantity: 0,
-      shipping: 5,
+      "items": [
+        {
+          "id": "1490832697893847364",
+          "title": "Beetroot brownie",
+          "description": "This one uses a little less chocolate, but only because the fresh beetroot absorbs the flavour so well. Already popular here in Shoreditch, we’re sure that this combo is going to be massive. Topped with sunflower seeds to give it some extra crunch.",
+          "price": {
+            "value": "£14.40",
+            "data": {
+              "raw": {
+                "with_tax": 14.4,
+              }
+            }
+          },
+          "images": [
+            {
+              "url": {
+                "http": "http://commercecdn.com/1489725171840320207/29fec8d2-c144-45f9-9dc8-4e8cd6d7e54d.jpeg",
+              },
+            }
+          ],
+          "quantity": 1
+        }
+      ],
+      "subTotal": 14.4,
+      "quantity": 1,
+      "shipping": 5
     },
     reducers: {
       add (state, newItem) {
