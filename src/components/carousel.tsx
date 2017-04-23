@@ -2,7 +2,13 @@ import h from 'helix-react/lib/html'
 import * as Flickity from 'flickity'
 import {Component} from 'react'
 
-export default class Carousel extends Component<any, any> {
+interface Props {
+  items: any[]
+  item: (item) => any
+  autoPlay?: boolean | number
+}
+
+export default class Carousel extends Component<Props, any> {
   constructor (props) {
     super(props)
   }
@@ -21,7 +27,9 @@ export default class Carousel extends Component<any, any> {
 
   setupCarousel () {
     if (this.props.items.length) {
-      new Flickity(this.refs.carousel)
+      new Flickity(this.refs.carousel, {
+        autoPlay: this.props.autoPlay || false,
+      })
     }
   }
 

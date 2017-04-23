@@ -14,6 +14,7 @@ const page: Helix.Page<Models> = {
     return (
       <div>
         <Carousel
+          autoPlay
           items={state.products.items}
           item={product => {
             return (
@@ -29,7 +30,7 @@ const page: Helix.Page<Models> = {
                 <div className='flex-1' />
                 <div className='d-ib ta-c ml-auto mr-auto'>
                   <div className='fw-500 ta-c mb-2'>{product.title}</div>
-                  <div className='fc-grey-900 mb-2'>
+                  <div className='fc-grey-900 mb-2 fs-large'>
                     {'£'}<Currency price={product.price.data.raw.with_tax} />
                   </div>
                   <div className='d-ib'>
@@ -74,6 +75,7 @@ const page: Helix.Page<Models> = {
               Our parent charity - Providence Row - was founded over 150 years ago. We've been based in the East End for all of that time and food has always played a HUGE role in what we do. We now run multi-award winning catering training programmes and are absolutely brilliant at doing so.
             </div>
             <Carousel
+              autoPlay
               items={[
                 {title: 'London Homelessness Awards - 2nd Place - 2015', img: 'https://static1.squarespace.com/static/56afc080a3360cedc16daaf5/56eabca15559861e784d8dec/56eabd4007eaa03f5db84756/1458224884115/LHAwards_new_logo.jpg?format=300w'},
                 {title: 'GovKnow Social Justice Award - Winners - 2014', img: 'https://static1.squarespace.com/static/56afc080a3360cedc16daaf5/56eabca15559861e784d8dec/56eabdb34c2f85a15d46fd43/1458225082472/SOCIAL+JUSTICE+2014+WINNER.jpg?format=300w'},
