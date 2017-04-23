@@ -74,6 +74,7 @@ export interface CartItemProps extends CartEntry {
 const CartItem = ({
   id,
   title,
+  images,
   price,
   quantity,
   description,
@@ -82,7 +83,10 @@ const CartItem = ({
 }: CartItemProps) => {
   return (
     <div className='pv-4 bb bc-grey-100 d-flex align-items-center'>
-      {/*<div className='bra-2 bg-grey-100 w-6 h-6 mr-3'></div>*/}
+      <img
+        className='bra-2 w-5 h-5 mr-2'
+        src={images[0].url.http}
+      />
       <div className='flex-1 d-flex flex-direction-column of-hidden mr-3'>
         <div className='mb-2'>{title}</div>
         <div

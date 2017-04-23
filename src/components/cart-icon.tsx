@@ -2,7 +2,12 @@ import h from 'helix-react/lib/html'
 
 export default function ({active}: {active: boolean}) {
   return (
-    <div className='pos-relative'>
+    <div
+      className={`
+        pos-relative
+        ${active ? 'mr-2' : ''}
+      `}
+    >
       {active
         ? (
           <div

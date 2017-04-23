@@ -27,9 +27,9 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
       return (
         <div className='pb-5'>
           <div className='d-flex align-items-center w-100 pa-3'>
-            <span className='ss-menu fc-grey-500'></span>
+            <div className='flex-1' />
             <a
-              className='d-b flex-1 fw-700 ta-c'
+              className='d-b fw-700'
               href='/'
             >
               <img
@@ -40,7 +40,8 @@ function layout (page: Helix.Page<Models>): Helix.Page<Models> {
                 }}
               />
             </a>
-            <div className='d-flex align-items-center'>
+            <div className='d-flex flex-1 align-items-center'>
+              <div className='flex-1' />
               <CartIcon active={!!state.cart.items.length} />
             </div>
           </div>
