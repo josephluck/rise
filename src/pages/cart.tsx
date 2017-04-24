@@ -1,8 +1,10 @@
 import h from 'helix-react/lib/html'
+import * as Collapse from 'react-collapse'
 import {Models} from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
 import Currency from '../components/currency'
+import CheckoutForm from '../components/checkout-form'
 
 interface LineItemProps {
   label: string
@@ -68,6 +70,9 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             className='flex-1'
           />
         </div>
+        <Collapse isOpened={mode === 'checkout'}>
+          <CheckoutForm />
+        </Collapse>
         {mode === 'cart'
           ? (
             <Button
