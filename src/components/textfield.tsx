@@ -5,6 +5,9 @@ export interface Props {
   className?: string
   type?: string
   autoFocus?: boolean
+  value: string
+  errors: string[]
+  onChange: (value: string) => any
 }
 
 export default function ({
@@ -12,6 +15,9 @@ export default function ({
   className = '',
   type = 'text',
   autoFocus = false,
+  value,
+  errors,
+  onChange,
 }: Props) {
   return (
     <div className={className}>
@@ -25,8 +31,23 @@ export default function ({
       <input
         type={type}
         autoFocus={autoFocus}
-        className='d-ib w-100 ba bc-grey-200 bg-white pa-2 bra-2 bc-primary-f'
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`
+          d-ib w-100 ba bg-white pa-2 bra-2
+          ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-200 bc-primary-f'}
+        `}
       />
+      {errors.map((error, index) => {
+        return (
+          <div
+            key={index}
+            className='mt-2 fs-small fc-red'
+          >
+            {error}
+          </div>
+        )
+      })}
     </div>
   )
 }

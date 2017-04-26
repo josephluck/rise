@@ -1,17 +1,23 @@
 /* tslint:disable */
 
 import {Models} from './'
+import * as Form from './form'
 import {Product} from './products'
 
 export interface CartEntry extends Product {
   quantity: number
 }
 
-export interface State {
+export interface LocalState {
   subTotal: number
   quantity: number
   shipping: number
   items: CartEntry[]
+}
+
+export interface CustomerFields {
+  name: string
+  email: string
 }
 
 export interface Reducers {
@@ -25,14 +31,22 @@ export interface Reducers {
 
 export interface Effects {}
 
-export type Actions = Helix.Actions<Reducers, Effects>
+export type LocalActions = Helix.Actions<Reducers, Effects>
+
+export interface State extends LocalState {
+  customer: Form.State<CustomerFields>
+}
+
+export interface Actions extends LocalActions {
+  customer: Form.Actions<CustomerFields>
+}
 
 export const namespace: keyof Namespace = 'cart'
 export interface Namespace { 'cart': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
+export function model (): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
     state: {
       "items": [
@@ -104,6 +118,22 @@ export function model (): Helix.ModelImpl<Models, State, Reducers, Effects> {
       },
     },
     effects: {},
+    models: {
+      customer: Form.model<CustomerFields>({
+        constraints () {
+          return {
+            name: {presence: true},
+            email: {presence: true, email: true},
+          }
+        },
+        defaultForm () {
+          return {
+            name: '',
+            email: '',
+          }
+        },
+      })
+    }
   }
 }
 

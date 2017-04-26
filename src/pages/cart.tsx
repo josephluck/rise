@@ -4,7 +4,7 @@ import {Models} from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
 import Currency from '../components/currency'
-import CheckoutForm from '../components/checkout-form'
+import Textfield from '../components/textfield'
 
 interface LineItemProps {
   label: string
@@ -53,7 +53,67 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             />
           )
         })}
-        <div className='pv-4 d-flex'>
+        <Collapse isOpened={mode === 'checkout'}>
+          <div className='of-hidden pt-4'>
+            <Textfield
+              label='Name'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+              autoFocus
+            />
+            <Textfield
+              label='Email'
+              className='pb-3'
+              value={state.cart.customer.fields.email}
+              errors={state.cart.customer.errors.email}
+              onChange={val => actions.cart.customer.setFields({email: val})}
+            />
+            <Textfield
+              label='Address Line 1'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+            <Textfield
+              label='Address Line 2'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+            <Textfield
+              label='Address Line 3'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+            <Textfield
+              label='Town'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+            <Textfield
+              label='County'
+              className='pb-3'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+            <Textfield
+              label='Post Code'
+              value={state.cart.customer.fields.name}
+              errors={state.cart.customer.errors.name}
+              onChange={val => actions.cart.customer.setFields({name: val})}
+            />
+          </div>
+        </Collapse>
+        <div className='mv-4 d-flex'>
           <LineItem
             label='Sub Total'
             amount={state.cart.subTotal}
@@ -70,9 +130,6 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             className='flex-1'
           />
         </div>
-        <Collapse isOpened={mode === 'checkout'}>
-          <CheckoutForm />
-        </Collapse>
         {mode === 'cart'
           ? (
             <Button
