@@ -46,7 +46,7 @@ export default component<Props, State, Reducers, Effects>({
               marginTop: '-1px',
             }}
           />
-          <span className='pos-relative bg-white pr-2'>{props.label}</span>
+          <span className='pos-relative fs-medium bg-white pr-2'>{props.label}</span>
           <span className='flex-1' />
           <div
             className='bra-pill ba bc-grey-100 bg-white pos-absolute'
@@ -71,7 +71,7 @@ export default component<Props, State, Reducers, Effects>({
             />
           </div>
         </div>
-        <Collapse isOpened={state.showing}>
+        <Collapse hasNestedCollapse isOpened={state.showing}>
           <div className='pt-2 fs-small lh-5 fc-grey-900'>
             {props.children}
           </div>

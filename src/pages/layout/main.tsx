@@ -67,7 +67,7 @@ function layout (page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page
               </Show>
             </div>
           </div>
-          <Collapse isOpened={opts.showTabs} className='ta-c'>
+          <Collapse hasNestedCollapse isOpened={opts.showTabs} className='ta-c'>
             <Tabs
               tabs={[
                 {label: 'Shop', name: 'shop', href: '/shop'},

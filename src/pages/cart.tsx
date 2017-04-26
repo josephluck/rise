@@ -49,11 +49,12 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                 },
               })}
               removeItem={() => actions.cart.remove(index)}
+              className={index !== 0 ? 'bt' : ''}
               {...item}
             />
           )
         })}
-        <Collapse isOpened={mode === 'checkout'}>
+        <Collapse hasNestedCollapse isOpened={mode === 'checkout'}>
           <CustomerForm
             fields={state.cart.customer.fields}
             errors={state.cart.customer.errors}

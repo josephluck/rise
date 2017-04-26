@@ -1,7 +1,7 @@
 import h from 'helix-react/lib/html'
 import Currency from './currency'
 import {Product} from '../model/products'
-import Collapser from './collapser'
+import CollapsableSection from './collapsable-section'
 import Controls from './add-product-controls'
 
 export interface Props extends Product {
@@ -30,21 +30,21 @@ export default function ({
         </div>
       </div>
       <div className='mb-3'>
-        <Collapser
+        <CollapsableSection
           label='Description'
           defaultOpen={true}
         >
           {description}
-        </Collapser>
+        </CollapsableSection>
       </div>
       <div className='mb-3'>
-        <Collapser
+        <CollapsableSection
           label='Ingredients'
         >
           <div>
             {'Dark Chocolate (Cocoa Mass, Cocoa Butter, Emulsifiers (Soya Lecithin), Polyglycerol Polyricinoleate, Salt, Flavouring (Vanilla Essence), Butter (Unsalted Butter [Cows Milk]. Minimum 80% Milk Fat), Sugar, Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Eggs, Vanilla Extract (Water, Ethanol; Vanilla Extract [3%]).'}
           </div>
-        </Collapser>
+        </CollapsableSection>
       </div>
       <div className='d-flex'>
         <div className='flex-1' />

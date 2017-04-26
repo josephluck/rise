@@ -23,7 +23,7 @@ export default function ({
     <div className={className}>
       {label
         ? (
-          <label className='d-ib w-100 mb-2 fc-grey-500 fs-small'>
+          <label className='d-ib w-100 mb-1 fc-grey-500 fs-small'>
             {label}
           </label>
         ) : null
@@ -42,7 +42,7 @@ export default function ({
         return (
           <div
             key={index}
-            className='mt-2 fs-small fc-red'
+            className='pt-1 fs-small fc-red'
           >
             {error}
           </div>
