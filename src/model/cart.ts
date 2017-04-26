@@ -15,11 +15,6 @@ export interface LocalState {
   items: CartEntry[]
 }
 
-export interface CustomerFields {
-  name: string
-  email: string
-}
-
 export interface Reducers {
   add: Helix.Reducer<Models, State, CartEntry>
   remove: Helix.Reducer<Models, State, number>
@@ -32,6 +27,24 @@ export interface Reducers {
 export interface Effects {}
 
 export type LocalActions = Helix.Actions<Reducers, Effects>
+
+export interface CustomerFields {
+  name: string
+  email: string
+}
+
+export interface BillingAddress {
+  first_name: string
+  last_name: string
+  line_1: string
+  line_2: string
+  postcode: string
+  county: string
+}
+
+export interface ShippingAddress extends BillingAddress {
+  instructions: string
+}
 
 export interface State extends LocalState {
   customer: Form.State<CustomerFields>

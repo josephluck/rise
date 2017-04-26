@@ -29,7 +29,7 @@ interface Opts<F> {
   defaultForm: () => F
 }
 
-export function model<F extends any>({
+export function model<F extends any> ({
   constraints,
   defaultForm,
 }: Opts<F>): Helix.ScopedModel<State<F>, Reducers<F>, Effects<F>> {
@@ -86,7 +86,7 @@ export function model<F extends any>({
   }
 }
 
-export function makeDefaultErrors<F>(constraints: Record<keyof F, any>): Errors<F> {
+export function makeDefaultErrors<F> (constraints: Record<keyof F, any>): Errors<F> {
   const errors = Object.keys(constraints).reduce((prev, curr) => {
     return {
       ...prev,
@@ -96,7 +96,7 @@ export function makeDefaultErrors<F>(constraints: Record<keyof F, any>): Errors<
   return errors as Errors<F>
 }
 
-function getErrorsForFields<F>(fields: F, constraints: Record<keyof F, any>): Record<keyof F, any> {
+function getErrorsForFields<F> (fields: F, constraints: Record<keyof F, any>): Record<keyof F, any> {
   const keys = Object.keys(fields)
   const initialErrors = keys.reduce((prev, key) => ({...prev, [key]: []}), {})
 
