@@ -29,7 +29,6 @@ export default function ({
       />
       <Textfield
         label='Email'
-        className='pb-3'
         value={fields.email}
         errors={errors.email}
         onChange={val => setFields({email: val})}

@@ -8,10 +8,14 @@ export interface CartEntry extends Product {
   quantity: number
 }
 
-export interface LocalState {
+interface Totals {
   subTotal: number
   quantity: number
   shipping: number
+}
+
+export interface LocalState {
+  totals: Totals
   items: CartEntry[]
 }
 
@@ -33,7 +37,7 @@ export interface CustomerFields {
   email: string
 }
 
-export interface BillingAddress {
+export interface BillingAddressFields {
   first_name: string
   last_name: string
   line_1: string
@@ -42,22 +46,61 @@ export interface BillingAddress {
   county: string
 }
 
-export interface ShippingAddress extends BillingAddress {
+export interface ShippingAddressFields extends BillingAddressFields {
   instructions: string
+}
+
+export interface PaymentFields {
+  gateway: string
+  method: string
+  first_name: string
+  last_name: string
+  number: string
+  month: string
+  year: string
+  verification: string
 }
 
 export interface State extends LocalState {
   customer: Form.State<CustomerFields>
+  billing: Form.State<BillingAddressFields>
+  shipping: Form.State<ShippingAddressFields>
+  payment: Form.State<PaymentFields>
 }
 
 export interface Actions extends LocalActions {
   customer: Form.Actions<CustomerFields>
+  billing: Form.Actions<BillingAddressFields>
+  shipping: Form.Actions<ShippingAddressFields>
+  payment: Form.Actions<PaymentFields>
 }
 
 export const namespace: keyof Namespace = 'cart'
 export interface Namespace { 'cart': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
+
+function baseAddressConstraints (): Record<keyof BillingAddressFields, any> {
+  return {
+    first_name: {presence: true},
+    last_name: {presence: true},
+    line_1: {presence: true},
+    line_2: {presence: true},
+    postcode: {presence: true},
+    county: {presence: true},
+  }
+}
+
+function baseAddressDefaultForm (): BillingAddressFields {
+  return {
+    first_name: '',
+    last_name: '',
+    line_1: '',
+    line_2: '',
+    postcode: '',
+    county: '',
+  }
+}
 
 export function model (): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
@@ -85,9 +128,11 @@ export function model (): Helix.ModelImpl<Models, LocalState, Reducers, Effects>
           "quantity": 1
         }
       ],
-      "subTotal": 14.4,
-      "quantity": 1,
-      "shipping": 5
+      totals: {
+        "subTotal": 14.4,
+        "quantity": 1,
+        "shipping": 5,
+      },
     },
     reducers: {
       add (state, newItem) {
@@ -107,8 +152,11 @@ export function model (): Helix.ModelImpl<Models, LocalState, Reducers, Effects>
         const items = getItems()
         return {
           items,
-          subTotal: total(items),
-          quantity: quantity(items),
+          totals: {
+            subTotal: total(items),
+            shipping: state.totals.shipping,
+            quantity: quantity(items),
+          },
         }
       },
       remove (state, index) {
@@ -133,18 +181,50 @@ export function model (): Helix.ModelImpl<Models, LocalState, Reducers, Effects>
     effects: {},
     models: {
       customer: Form.model<CustomerFields>({
-        constraints () {
-          return {
-            name: {presence: true},
-            email: {presence: true, email: true},
-          }
-        },
-        defaultForm () {
-          return {
-            name: '',
-            email: '',
-          }
-        },
+        constraints: () => ({
+          name: {presence: true},
+          email: {presence: true, email: true},
+        }),
+        defaultForm: () => ({
+          name: '',
+          email: '',
+        }),
+      }),
+      billing: Form.model<BillingAddressFields>({
+        constraints: baseAddressConstraints,
+        defaultForm: baseAddressDefaultForm,
+      }),
+      shipping: Form.model<ShippingAddressFields>({
+        constraints: () => ({
+          ...baseAddressConstraints(),
+          instructions: undefined,
+        }),
+        defaultForm: () => ({
+          ...baseAddressDefaultForm(),
+          instructions: '',
+        }),
+      }),
+      payment: Form.model<PaymentFields>({
+        constraints: () => ({
+          gateway: {presence: true},
+          method: {presence: true},
+          first_name: {presence: true},
+          last_name: {presence: true},
+          number: {presence: true},
+          month: {presence: true},
+          year: {presence: true},
+          verification: {presence: true},
+        }),
+        defaultForm: () => ({
+          gateway: 'stripe',
+          method: 'purchace',
+          first_name: '',
+          last_name: '',
+          number: '',
+          month: '',
+          year: '',
+          verification: '',
+        })
       })
     }
   }

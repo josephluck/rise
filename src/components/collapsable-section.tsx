@@ -38,7 +38,7 @@ export default component<Props, State, Reducers, Effects>({
           onClick={actions.toggleShowing}
         >
           <span
-            className='pos-absolute posl-0 bb bc-grey-100'
+            className='pos-absolute posl-0 bb bc-grey-200'
             style={{
               left: 0,
               right: 20,
@@ -49,23 +49,23 @@ export default component<Props, State, Reducers, Effects>({
           <span className='pos-relative fs-medium bg-white pr-2'>{props.label}</span>
           <span className='flex-1' />
           <div
-            className='bra-pill ba bc-grey-100 bg-white pos-absolute'
+            className='bra-pill ba bc-grey-200 bg-white pos-absolute'
             style={{
               top: '50%',
               right: 0,
-              width: 20,
-              height: 20,
-              transform: 'translateY(-10px)',
+              width: 24,
+              height: 24,
+              transform: 'translateY(-12px)',
             }}
           >
             <span
               className='ss-navigateright fc-grey-300 transition pos-absolute d-ib'
               style={{
-                top: state.showing ? 5 : 5,
-                left: state.showing ? 3 : 5,
-                height: 10,
-                width: 10,
-                fontSize: 10,
+                top: state.showing ? 5 : 6,
+                left: state.showing ? 4 : 6,
+                height: 12,
+                width: 12,
+                fontSize: 12,
                 transform: state.showing ? 'rotate(90deg)' : 'rotate(0deg)',
               }}
             />
