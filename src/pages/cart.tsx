@@ -55,11 +55,20 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           )
         })}
         <Collapse hasNestedCollapse isOpened={mode === 'checkout'}>
-          <CustomerForm
-            fields={state.cart.customer.fields}
-            errors={state.cart.customer.errors}
-            setFields={actions.cart.customer.setFields}
-          />
+          <div className='mb-3'>
+            <CustomerForm
+              fields={state.cart.customer.fields}
+              errors={state.cart.customer.errors}
+              setFields={actions.cart.customer.setFields}
+            />
+          </div>
+          <div>
+            <CustomerForm
+              fields={state.cart.customer.fields}
+              errors={state.cart.customer.errors}
+              setFields={actions.cart.customer.setFields}
+            />
+          </div>
         </Collapse>
         <div className='mv-4 d-flex'>
           <LineItem

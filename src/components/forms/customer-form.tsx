@@ -1,7 +1,6 @@
 import h from 'helix-react/lib/html'
 import {CustomerFields} from '../../model/cart'
 import Textfield from '../textfield'
-import CollapsableSection from '../collapsable-section'
 
 export interface Props {
   fields: CustomerFields
@@ -15,10 +14,7 @@ export default function ({
   setFields,
 }: Props) {
   return (
-    <CollapsableSection 
-      label='Your Details'
-      defaultOpen={true}
-    >
+    <div>
       <Textfield
         label='Name'
         className='pb-3'
@@ -33,6 +29,6 @@ export default function ({
         errors={errors.email}
         onChange={val => setFields({email: val})}
       />
-    </CollapsableSection>
+    </div>
   )
 }
