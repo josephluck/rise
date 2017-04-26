@@ -64,17 +64,17 @@ const page = (mode: Mode): Helix.Page<Models> => ({
         <div className='mv-4 d-flex'>
           <LineItem
             label='Sub Total'
-            amount={state.cart.subTotal}
+            amount={state.cart.totals.subTotal}
             className='flex-1 fc-grey-700'
           />
           <LineItem
             label='Shipping'
-            amount={state.cart.shipping}
+            amount={state.cart.totals.shipping}
             className='flex-1 fc-grey-700'
           />
           <LineItem
             label='Total'
-            amount={state.cart.subTotal + state.cart.shipping}
+            amount={state.cart.totals.subTotal + state.cart.totals.shipping}
             className='flex-1'
           />
         </div>
