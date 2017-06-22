@@ -23,5 +23,10 @@ export default {
     showAlert: false,
   }),
   '/shop': lMain(shop),
-  '/shop/:productId': lMain(product),
+  '/shop/:productId': lMain(product, {
+    backLocation: '/shop',
+    showTabs: false,
+    showCartIcon: true,
+    showAlert: true,
+  }),
 }

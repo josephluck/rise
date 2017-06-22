@@ -8,7 +8,7 @@ const page: Helix.Page<Models> = {
   },
   view(state, prev, actions) {
     return (
-      <div className='of-hidden d-flex flex-wrap-wrap pa-3'>
+      <div className='of-hidden d-flex flex-wrap-wrap pb-3'>
         {state.products.products.map((product, index) => {
           return (
             <a

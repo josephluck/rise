@@ -28,7 +28,7 @@ export default function ({
           >
             <a
               className={`
-                pv-3 fw-500 d-ib tt-uppercase fs-small ff-link transition
+                fw-500 d-ib tt-uppercase fs-small ff-link transition
                 ${index !== 0 ? 'ml-4' : ''}
                 ${tab.name === activeTab ? 'fc-grey-900' : 'fc-grey-400'}
               `}

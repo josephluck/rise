@@ -1,11 +1,11 @@
 import h from 'helix-react/lib/html'
-import {Models} from '../model'
+import { Models } from '../model'
 import PostItem from '../components/post-item'
 
 const page: Helix.Page<Models> = {
-  view (state, prev, actions) {
+  view(state, prev, actions) {
     return (
-      <div className='ph-3 pv-4'>
+      <div className='pv-4'>
         {state.blog.items.map((item, index) => {
           return (
             <PostItem

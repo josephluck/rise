@@ -1,12 +1,12 @@
 import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
-import {Models} from '../../model'
+import { Models } from '../../model'
 import Tabs from '../../components/tabs'
 import CartIcon from '../../components/cart-icon'
 import CartAlert from '../../components/cart-alert'
 import Show from '../../components/show'
 
-function getActiveTab (pathname) {
+function getActiveTab(pathname) {
   if (pathname.includes('shop') || pathname.includes('cart')) {
     return 'shop'
   } else if (pathname.includes('about')) {
@@ -32,54 +32,62 @@ const defaultOpts: Opts = {
   showAlert: true,
 }
 
-function layout (page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<Models> {
+function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<Models> {
   return {
     onEnter: page.onEnter,
     onUpdate: page.onUpdate,
     onLeave: page.onLeave,
-    view (state, prev, actions) {
+    view(state, prev, actions) {
       const activeTab = getActiveTab(state.location.pathname)
       return (
         <div className='pb-5'>
-          <div className='d-flex align-items-center w-100 pa-3'>
-            <div className='flex-1'>
-              <Show showing={!!opts.backLocation}>
-                <a href={opts.backLocation} className='ss-navigateleft fc-grey-500'>
-                </a>
-              </Show>
+          <div className='pa-3'>
+            <div className='d-flex align-items-center w-100'>
+              <div className='flex-1'>
+                <Show showing={!!opts.backLocation}>
+                  <a href={opts.backLocation} className='ss-navigateleft fc-grey-500'>
+                  </a>
+                </Show>
+              </div>
+              <a
+                className='d-b fw-700'
+                href='/'
+              >
+                <img
+                  src='/assets/rise.png'
+                  style={{
+                    height: 'auto',
+                    width: '50px',
+                  }}
+                />
+              </a>
+              <div className='d-flex flex-1 align-items-center'>
+                <div className='flex-1' />
+                <Show showing={opts.showCartIcon}>
+                  <CartIcon active={!!state.cart.items.length} />
+                </Show>
+              </div>
             </div>
-            <a
-              className='d-b fw-700'
-              href='/'
+            <Collapse
+              hasNestedCollapse
+              isOpened={opts.showTabs}
+              className='ta-c'
             >
-              <img
-                src='/assets/rise.png'
-                style={{
-                  height: 'auto',
-                  width: '50px',
-                }}
-              />
-            </a>
-            <div className='d-flex flex-1 align-items-center'>
-              <div className='flex-1' />
-              <Show showing={opts.showCartIcon}>
-                <CartIcon active={!!state.cart.items.length} />
-              </Show>
+              <div className='pv-3'>
+                <Tabs
+                  tabs={[
+                    { label: 'Shop', name: 'shop', href: '/shop' },
+                    { label: 'About', name: 'about', href: '/about' },
+                    { label: 'Blog', name: 'blog', href: '/blog' },
+                    { label: 'Contact', name: 'contact', href: '/contact' },
+                  ]}
+                  activeTab={activeTab}
+                />
+              </div>
+            </Collapse>
+            <div className={!opts.showTabs ? 'mt-3' : ''}>
+              {page.view(state, prev, actions)}
             </div>
-          </div>
-          <Collapse hasNestedCollapse isOpened={opts.showTabs} className='ta-c'>
-            <Tabs
-              tabs={[
-                {label: 'Shop', name: 'shop', href: '/shop'},
-                {label: 'About', name: 'about', href: '/about'},
-                {label: 'Blog', name: 'blog', href: '/blog'},
-                {label: 'Contact', name: 'contact', href: '/contact'},
-              ]}
-              activeTab={activeTab}
-            />
-          </Collapse>
-          <div>
-            {page.view(state, prev, actions)}
           </div>
           <CartAlert
             items={!opts.showAlert ? 0 : state.cart.totals.quantity}

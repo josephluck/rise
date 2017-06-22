@@ -14,7 +14,7 @@ interface LineItemProps {
   className?: string
 }
 
-function LineItem ({
+function LineItem({
   label,
   amount,
   className,
@@ -30,14 +30,14 @@ function LineItem ({
 type Mode = 'cart' | 'checkout'
 
 const page = (mode: Mode): Helix.Page<Models> => ({
-  onEnter (state, _prev, actions) {
+  onEnter(state, _prev, actions) {
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
   },
-  view (state, prev, actions) {
+  view(state, prev, actions) {
     return (
-      <div className='ph-3 pb-4'>
+      <div className='pb-4'>
         {state.cart.items.map((item, index) => {
           return (
             <CartItem
