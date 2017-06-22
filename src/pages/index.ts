@@ -5,6 +5,7 @@ import blog from './blog'
 import post from './post'
 import cart from './cart'
 import shop from './shop'
+import product from './product'
 
 export default {
   '/': lMain(home),
@@ -22,4 +23,5 @@ export default {
     showAlert: false,
   }),
   '/shop': lMain(shop),
+  '/shop/:productId': lMain(product),
 }

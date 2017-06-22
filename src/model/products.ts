@@ -1,5 +1,5 @@
-import {Apis} from '../bootstrap'
-import {Models} from './'
+import { Apis } from '../bootstrap'
+import { Models } from './'
 
 interface Image {
   url: {
@@ -23,15 +23,18 @@ export interface Product {
 }
 
 export interface State {
-  items: Product[]
+  products: Product[]
+  product: Product | null
 }
 
 export interface Reducers {
-  set: Helix.Reducer<Models, State, any[]>
+  setProducts: Helix.Reducer<Models, State, Product[]>
+  setProduct: Helix.Reducer<Models, State, Product>
 }
 
 export interface Effects {
-  fetch: Helix.Effect0<Models>
+  fetchAll: Helix.Effect0<Models>
+  fetch: Helix.Effect<Models, string>
 }
 
 export type Actions = Helix.Actions<Reducers, Effects>
@@ -41,24 +44,38 @@ export interface Namespace { 'products': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
+function emptyState () {
+  return {
+    products: [],
+    product: null,
+  }
+}
+
 export function model ({
   shop,
 }: Apis): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
-    state: {
-      items: [],
-    },
+    state: emptyState(),
     reducers: {
-      set (state, items) {
-        return {items}
+      setProducts (state, products) {
+        return { products }
+      },
+      setProduct (state, product) {
+        return { product }
       },
     },
     effects: {
-      fetch (state, actions) {
+      fetchAll (state, actions) {
         return new Promise(resolve => {
           shop.Product.Find('limit=20', resolve)
         })
-        .then(actions[namespace].set)
+          .then(actions[namespace].setProducts)
+      },
+      fetch (state, actions, productId) {
+        return new Promise(resolve => {
+          shop.Product.Get(productId, resolve)
+        })
+          .then(actions[namespace].setProduct)
       },
     },
   }
