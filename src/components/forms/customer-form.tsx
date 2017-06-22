@@ -1,5 +1,5 @@
 import h from 'helix-react/lib/html'
-import {CustomerFields} from '../../model/cart'
+import { CustomerFields } from '../../model/cart'
 import Textfield from '../textfield'
 
 export interface Props {
@@ -20,14 +20,14 @@ export default function ({
         className='pb-3'
         value={fields.name}
         errors={errors.name}
-        onChange={val => setFields({name: val})}
+        onChange={val => setFields({ name: val })}
         autoFocus
       />
       <Textfield
         label='Email'
         value={fields.email}
         errors={errors.email}
-        onChange={val => setFields({email: val})}
+        onChange={val => setFields({ email: val })}
       />
     </div>
   )

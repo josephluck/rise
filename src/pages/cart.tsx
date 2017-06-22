@@ -1,10 +1,12 @@
 import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
-import {Models} from '../model'
+import { Models } from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
 import Currency from '../components/currency'
 import CustomerForm from '../components/forms/customer-form'
+import AddressForm from '../components/forms/address-form'
+import Textfield from '../components/textfield'
 
 interface LineItemProps {
   label: string
@@ -55,19 +57,47 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           )
         })}
         <Collapse hasNestedCollapse isOpened={mode === 'checkout'}>
-          <div className='mb-3'>
-            <CustomerForm
-              fields={state.cart.customer.fields}
-              errors={state.cart.customer.errors}
-              setFields={actions.cart.customer.setFields}
-            />
-          </div>
           <div>
-            <CustomerForm
-              fields={state.cart.customer.fields}
-              errors={state.cart.customer.errors}
-              setFields={actions.cart.customer.setFields}
-            />
+            <div className='pb-3'>
+              <CustomerForm
+                fields={state.cart.customer.fields}
+                errors={state.cart.customer.errors}
+                setFields={actions.cart.customer.setFields}
+              />
+            </div>
+            <div className='pb-3'>
+              <AddressForm
+                fields={state.cart.billing.fields}
+                errors={state.cart.billing.errors}
+                setFields={actions.cart.billing.setFields}
+              />
+            </div>
+            <div className='pb-3'>
+              <label>
+                <input
+                  type='checkbox'
+                  checked={state.cart.controls.fields.shippingIsSameAsBilling}
+                  onChange={() => actions.cart.controls.setFields({
+                    shippingIsSameAsBilling: !state.cart.controls.fields.shippingIsSameAsBilling,
+                  })}
+                />
+                Shipping Address Is Same As Billing Address
+              </label>
+              <Collapse hasNestedCollapse isOpened={!state.cart.controls.fields.shippingIsSameAsBilling}>
+                <AddressForm
+                  fields={state.cart.shipping.fields}
+                  errors={state.cart.shipping.errors}
+                  setFields={actions.cart.shipping.setFields}
+                />
+              </Collapse>
+              <Textfield
+                label='Additional Instructions'
+                className='pt-3'
+                value={state.cart.shipping.fields.instructions}
+                errors={state.cart.shipping.errors.instructions}
+                onChange={val => actions.cart.shipping.setFields({ last_name: val })}
+              />
+            </div>
           </div>
         </Collapse>
         <div className='mv-4 d-flex'>

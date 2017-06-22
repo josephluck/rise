@@ -1,6 +1,6 @@
 import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
-import {CartEntry} from '../model/cart'
+import { CartEntry } from '../model/cart'
 import Stepper from './stepper'
 import Currency from './currency'
 

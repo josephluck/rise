@@ -1,8 +1,8 @@
 import h from 'helix-react/lib/html'
 import Currency from './currency'
-import {Product} from '../model/products'
-import CollapsableSection from './collapsable-section'
-import Controls from './add-product-controls'
+import { Product } from '../model/products'
+// import CollapsableSection from './collapsable-section'
+// import Controls from './add-product-controls'
 
 export interface Props extends Product {
   className?: string
@@ -21,15 +21,18 @@ export default function ({
     <div className={`${className || ''}`}>
       <img
         src={images[0].url.http}
-        className='w-100 h-auto bra-2 of-hidden d-ib mb-3'
+        className='w-100 h-auto of-hidden d-ib mb-3'
       />
-      <div className='d-flex align-items-center mb-3'>
-        <div className='flex-1 mr-2 fw-500'>{title}</div>
-        <div className='fs-large'>
-          {'£'}<Currency price={price.data.raw.with_tax} />
-        </div>
+      <div className='mb-2 fw-500'>
+        {title}
       </div>
-      <div className='mb-3'>
+      <div>
+        {'£'}<Currency price={price.data.raw.with_tax} />
+      </div>
+    </div>
+  )
+}
+      /*<div className='mb-3'>
         <CollapsableSection
           label='Description'
           defaultOpen={true}
@@ -51,7 +54,4 @@ export default function ({
         <Controls
           onAddToCart={onAddToCart}
         />
-      </div>
-    </div>
-  )
-}
+      </div>*/

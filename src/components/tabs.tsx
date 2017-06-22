@@ -28,9 +28,9 @@ export default function ({
           >
             <a
               className={`
-                pv-3 bb bw-medium fw-500 fc-grey-800 d-ib tt-uppercase fs-small ff-link transition
+                pv-3 fw-500 d-ib tt-uppercase fs-small ff-link transition
                 ${index !== 0 ? 'ml-4' : ''}
-                ${tab.name === activeTab ? 'bc-primary' : 'bc-white'}
+                ${tab.name === activeTab ? 'fc-grey-900' : 'fc-grey-400'}
               `}
               href={tab.href}
             >

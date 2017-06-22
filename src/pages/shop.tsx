@@ -1,18 +1,18 @@
 import h from 'helix-react/lib/html'
-import {Models} from '../model'
+import { Models } from '../model'
 import Product from '../components/product'
 
 const page: Helix.Page<Models> = {
-  onEnter (_state, _prev, actions) {
+  onEnter(_state, _prev, actions) {
     actions.products.fetch()
   },
-  view (state, prev, actions) {
+  view(state, prev, actions) {
     return (
-      <div className='ph-3 pv-4'>
+      <div className='of-hidden d-flex flex-wrap-wrap pa-3'>
         {state.products.items.map((product, index) => {
           return (
             <div
-              className='w-100 mb-8 pb-3 bb bc-grey-100'
+              className={`w-50 pb-3 f-l ${index % 2 === 0 ? 'pr-2' : 'pl-2'}`}
               key={index}
             >
               <Product
