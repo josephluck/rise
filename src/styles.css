@@ -462,7 +462,7 @@ button {
 	-moz-osx-font-smoothing: grayscale;
   -webkit-text-stroke: 0.45px;
   -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-  /*text-shadow: #fff 0px 1px 1px;*/
+  text-shadow: #fff 0px 1px 1px;
 	outline: none;
 }
 

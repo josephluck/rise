@@ -1,4 +1,5 @@
 import h from 'helix-react/lib/html'
+import * as pluralize from 'pluralize'
 import Button from './button'
 
 export interface Props {
@@ -19,7 +20,7 @@ export default function ({
       <div className='max-width ml-auto mr-auto flex-1 d-flex pa-3 tt-uppercase fs-small'>
         <span className='flex-1 d-flex align-items-center'>
           <span className='d-ib w-1 h-1 bra-pill bg-primary mr-2'></span>
-          {items}{' items in your basket'}
+          {`${items} ${pluralize('item', items)} in your basket`}
         </span>
         <Button
           label='Checkout'

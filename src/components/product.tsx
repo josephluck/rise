@@ -21,12 +21,12 @@ export default function ({
     <div className={`${className || ''}`}>
       <img
         src={images[0].url.http}
-        className='w-100 h-auto of-hidden d-ib mb-3'
+        className='w-100 h-auto of-hidden d-ib mb-2'
       />
-      <div className='mb-2 fw-500'>
+      <div className='mb-1 fw-500'>
         {title}
       </div>
-      <div>
+      <div className='fc-grey-500'>
         {'£'}<Currency price={price.data.raw.with_tax} />
       </div>
     </div>

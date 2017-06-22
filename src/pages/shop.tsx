@@ -9,10 +9,10 @@ const page: Helix.Page<Models> = {
   view(state, prev, actions) {
     return (
       <div className='of-hidden d-flex flex-wrap-wrap pa-3'>
-        {state.products.items.map((product, index) => {
+        {state.products.items.concat(state.products.items).map((product, index) => {
           return (
             <div
-              className={`w-50 pb-3 f-l ${index % 2 === 0 ? 'pr-2' : 'pl-2'}`}
+              className={`w-50 pb-4 f-l ${index % 2 === 0 ? 'pr-2' : 'pl-2'}`}
               key={index}
             >
               <Product
