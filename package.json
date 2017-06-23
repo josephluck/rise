@@ -17,9 +17,9 @@
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "pluralize": "^5.0.0",
-    "react-collapse": "^2.3.3",
-    "react-height": "^2.2.0",
-    "react-motion": "^0.4.7",
+    "react-collapse": "^4.0.2",
+    "react-height": "^3.0.0",
+    "react-motion": "^0.5.0",
     "validate.js": "^0.11.1"
   },
   "author": "",

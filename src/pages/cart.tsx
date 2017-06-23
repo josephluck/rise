@@ -10,7 +10,7 @@ import LineItem from '../components/line-item'
 import Show from '../components/show'
 
 interface SectionProps {
-  index: number
+  id: number
   complete: boolean
   formShowing: boolean
   label: React.ReactNode
@@ -19,8 +19,8 @@ interface SectionProps {
   toggleFormShowing: () => any
 }
 
-function Section ({
-  index,
+function Section({
+  id,
   complete,
   formShowing,
   label,
@@ -29,28 +29,41 @@ function Section ({
   toggleFormShowing,
 }: SectionProps) {
   return (
-    <div>
-      <div className='d-flex align-items-center pa-3'>
+    <div className='pa-3 ba bc-grey-100 bra-2'>
+      <div className='d-flex align-items-center'>
         <div className='fs-large mr-3'>
           {complete
             ? <span className='ss-check' />
-            : index
+            : id
           }
         </div>
-        <div className='flex-1'>
-          <div className={`fw-500 ${formShowing ? 'fs-large' : ''}`}>
+        <div className='flex-1 d-flex flex-direction-column align-items-center'>
+          <div className='w-100 fw-500'>
             {label}
           </div>
-          <Show showing={!formShowing}>
-            <div className='fs-small pt-2'>
-              {description}
-            </div>
-          </Show>
+          <div className='w-100'>
+            <Collapse
+              hasNestedCollapse
+              isOpened={!formShowing}
+            >
+              <div className='fs-small pt-2'>
+                {description}
+              </div>
+            </Collapse>
+          </div>
         </div>
         <Show showing={!formShowing}>
-          Change
+          <div onClick={toggleFormShowing}>Change</div>
         </Show>
       </div>
+      <Collapse
+        hasNestedCollapse
+        isOpened={formShowing}
+      >
+        <div className='pt-2'>
+          {form}
+        </div>
+      </Collapse>
     </div>
   )
 }
@@ -58,12 +71,12 @@ function Section ({
 type Mode = 'cart' | 'checkout'
 
 const page = (mode: Mode): Helix.Page<Models> => ({
-  onEnter (state, _prev, actions) {
+  onEnter(state, _prev, actions) {
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
   },
-  view (state, prev, actions) {
+  view(state, prev, actions) {
     return (
       <div className='pb-4'>
         {state.cart.items.map((item, index) => {
@@ -84,13 +97,16 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             />
           )
         })}
-        <Collapse hasNestedCollapse isOpened={mode === 'checkout'}>
+        <Collapse
+          hasNestedCollapse
+          isOpened={mode === 'checkout'}
+        >
           <div>
             <div className='pb-3'>
               <Section
-                index={1}
+                id={1}
                 complete={false}
-                formShowing={false}
+                formShowing={state.checkout.sectionShowing === 1}
                 label='Your Details'
                 description='Joseph Luck, joseph.luck@sky.com'
                 form={(
@@ -100,14 +116,24 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     setFields={actions.checkout.customer.setFields}
                   />
                 )}
-                toggleFormShowing={() => console.log('Toggle the form')}
+                toggleFormShowing={() => actions.checkout.setKey({ sectionShowing: 1 })}
               />
             </div>
             <div className='pb-3'>
-              <AddressForm
-                fields={state.checkout.billing.fields}
-                errors={state.checkout.billing.errors}
-                setFields={actions.checkout.billing.setFields}
+              <Section
+                id={2}
+                complete={false}
+                formShowing={state.checkout.sectionShowing === 2}
+                label='Shipping Information'
+                description='6, Old Street, Shoreditch'
+                form={(
+                  <AddressForm
+                    fields={state.checkout.billing.fields}
+                    errors={state.checkout.billing.errors}
+                    setFields={actions.checkout.billing.setFields}
+                  />
+                )}
+                toggleFormShowing={() => actions.checkout.setKey({ sectionShowing: 2 })}
               />
             </div>
             <div className='pb-3'>
@@ -121,13 +147,6 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                 />
                 Shipping Address Is Same As Billing Address
               </label>
-              <Collapse hasNestedCollapse isOpened={!state.checkout.controls.fields.shippingIsSameAsBilling}>
-                <AddressForm
-                  fields={state.checkout.shipping.fields}
-                  errors={state.checkout.shipping.errors}
-                  setFields={actions.checkout.shipping.setFields}
-                />
-              </Collapse>
               <Textfield
                 label='Additional Instructions'
                 className='pt-3'
@@ -179,3 +198,11 @@ const page = (mode: Mode): Helix.Page<Models> => ({
 })
 
 export default page
+
+{/*<Collapse hasNestedCollapse isOpened={!state.checkout.controls.fields.shippingIsSameAsBilling}>
+  <AddressForm
+    fields={state.checkout.shipping.fields}
+    errors={state.checkout.shipping.errors}
+    setFields={actions.checkout.shipping.setFields}
+  />
+</Collapse>*/}

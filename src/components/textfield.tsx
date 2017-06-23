@@ -39,7 +39,7 @@ export default function ({
           ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-300 bc-primary-f'}
         `}
       />
-      <Collapse isOpened={true}>
+      <Collapse hasNestedCollapse isOpened={true}>
         {errors.map((error, index) => {
           return (
             <div

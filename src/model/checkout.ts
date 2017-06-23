@@ -1,11 +1,13 @@
-/* tslint:disable */
-
 import { Models } from './'
 import * as Form from './form'
 
-export interface LocalState { }
+export interface LocalState {
+  sectionShowing: number
+}
 
-export interface Reducers { }
+export interface Reducers {
+  setKey: Helix.Reducer<Models, State, Record<string, any>>
+}
 
 export interface Effects { }
 
@@ -89,8 +91,17 @@ function baseAddressDefaultForm(): AddressFields {
 
 export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
-    state: {},
-    reducers: {},
+    state: {
+      sectionShowing: 0,
+    },
+    reducers: {
+      setKey(state, payload) {
+        return {
+          ...state,
+          ...payload,
+        }
+      },
+    },
     effects: {},
     models: {
       controls: Form.model<ControlsFields>({
@@ -146,7 +157,7 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
           year: '',
           verification: '',
         })
-      })
-    }
+      }),
+    },
   }
 }
