@@ -1,5 +1,5 @@
 import h from 'helix-react/lib/html'
-import { AddressFields } from '../../model/cart'
+import { AddressFields } from '../../model/checkout'
 import Textfield from '../textfield'
 
 export interface Props {

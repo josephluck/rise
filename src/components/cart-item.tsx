@@ -23,7 +23,7 @@ const CartItem = ({
   className = '',
 }: CartItemProps) => {
   return (
-    <div className={`pv-4 bc-grey-100 d-flex align-items-center ${className}`}>
+    <div className={`pv-3 bc-grey-100 d-flex align-items-center ${className}`}>
       <img
         className='bra-2 w-5 h-5 mr-3'
         src={images[0].url.http}

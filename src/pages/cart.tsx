@@ -3,26 +3,54 @@ import * as Collapse from 'react-collapse'
 import { Models } from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
-import Currency from '../components/currency'
 import CustomerForm from '../components/forms/customer-form'
 import AddressForm from '../components/forms/address-form'
 import Textfield from '../components/textfield'
+import LineItem from '../components/line-item'
+import Show from '../components/show'
 
-interface LineItemProps {
-  label: string
-  amount: number
-  className?: string
+interface SectionProps {
+  index: number
+  complete: boolean
+  formShowing: boolean
+  label: React.ReactNode
+  description: React.ReactNode
+  form: React.ReactNode
+  toggleFormShowing: () => any
 }
 
-function LineItem({
+function Section ({
+  index,
+  complete,
+  formShowing,
   label,
-  amount,
-  className,
-}: LineItemProps) {
+  description,
+  form,
+  toggleFormShowing,
+}: SectionProps) {
   return (
-    <div className={`ta-c ${className}`}>
-      <div className='pb-2 fs-small tt-uppercase'>{label}</div>
-      <div className='fs-medium'>{'£'}<Currency price={amount} /></div>
+    <div>
+      <div className='d-flex align-items-center pa-3'>
+        <div className='fs-large mr-3'>
+          {complete
+            ? <span className='ss-check' />
+            : index
+          }
+        </div>
+        <div className='flex-1'>
+          <div className={`fw-500 ${formShowing ? 'fs-large' : ''}`}>
+            {label}
+          </div>
+          <Show showing={!formShowing}>
+            <div className='fs-small pt-2'>
+              {description}
+            </div>
+          </Show>
+        </div>
+        <Show showing={!formShowing}>
+          Change
+        </Show>
+      </div>
     </div>
   )
 }
@@ -30,12 +58,12 @@ function LineItem({
 type Mode = 'cart' | 'checkout'
 
 const page = (mode: Mode): Helix.Page<Models> => ({
-  onEnter(state, _prev, actions) {
+  onEnter (state, _prev, actions) {
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
   },
-  view(state, prev, actions) {
+  view (state, prev, actions) {
     return (
       <div className='pb-4'>
         {state.cart.items.map((item, index) => {
@@ -59,43 +87,53 @@ const page = (mode: Mode): Helix.Page<Models> => ({
         <Collapse hasNestedCollapse isOpened={mode === 'checkout'}>
           <div>
             <div className='pb-3'>
-              <CustomerForm
-                fields={state.cart.customer.fields}
-                errors={state.cart.customer.errors}
-                setFields={actions.cart.customer.setFields}
+              <Section
+                index={1}
+                complete={false}
+                formShowing={false}
+                label='Your Details'
+                description='Joseph Luck, joseph.luck@sky.com'
+                form={(
+                  <CustomerForm
+                    fields={state.checkout.customer.fields}
+                    errors={state.checkout.customer.errors}
+                    setFields={actions.checkout.customer.setFields}
+                  />
+                )}
+                toggleFormShowing={() => console.log('Toggle the form')}
               />
             </div>
             <div className='pb-3'>
               <AddressForm
-                fields={state.cart.billing.fields}
-                errors={state.cart.billing.errors}
-                setFields={actions.cart.billing.setFields}
+                fields={state.checkout.billing.fields}
+                errors={state.checkout.billing.errors}
+                setFields={actions.checkout.billing.setFields}
               />
             </div>
             <div className='pb-3'>
               <label>
                 <input
                   type='checkbox'
-                  checked={state.cart.controls.fields.shippingIsSameAsBilling}
-                  onChange={() => actions.cart.controls.setFields({
-                    shippingIsSameAsBilling: !state.cart.controls.fields.shippingIsSameAsBilling,
+                  checked={state.checkout.controls.fields.shippingIsSameAsBilling}
+                  onChange={() => actions.checkout.controls.setFields({
+                    shippingIsSameAsBilling: !state.checkout.controls.fields.shippingIsSameAsBilling,
                   })}
                 />
                 Shipping Address Is Same As Billing Address
               </label>
-              <Collapse hasNestedCollapse isOpened={!state.cart.controls.fields.shippingIsSameAsBilling}>
+              <Collapse hasNestedCollapse isOpened={!state.checkout.controls.fields.shippingIsSameAsBilling}>
                 <AddressForm
-                  fields={state.cart.shipping.fields}
-                  errors={state.cart.shipping.errors}
-                  setFields={actions.cart.shipping.setFields}
+                  fields={state.checkout.shipping.fields}
+                  errors={state.checkout.shipping.errors}
+                  setFields={actions.checkout.shipping.setFields}
                 />
               </Collapse>
               <Textfield
                 label='Additional Instructions'
                 className='pt-3'
-                value={state.cart.shipping.fields.instructions}
-                errors={state.cart.shipping.errors.instructions}
-                onChange={val => actions.cart.shipping.setFields({ last_name: val })}
+                value={state.checkout.shipping.fields.instructions}
+                errors={state.checkout.shipping.errors.instructions}
+                onChange={val => actions.checkout.shipping.setFields({ last_name: val })}
               />
             </div>
           </div>
