@@ -8,6 +8,7 @@ import AddressForm from '../components/forms/address-form'
 import Textfield from '../components/textfield'
 import LineItem from '../components/line-item'
 import Show from '../components/show'
+import Icon from '../components/icon'
 
 interface SectionProps {
   id: number
@@ -33,7 +34,7 @@ function Section({
       <div className='d-flex align-items-center'>
         <div className='fs-large mr-3'>
           {complete
-            ? <span className='ss-check' />
+            ? <Icon icon='check' />
             : id
           }
         </div>

@@ -32,7 +32,7 @@
     "@types/react": "^15.0.21",
     "browserify": "^14.3.0",
     "budo": "^9.4.7",
-    "crux-css": "2.0.7",
+    "crux-css": "4.0.0",
     "surge": "^0.19.0",
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",
