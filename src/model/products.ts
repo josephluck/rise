@@ -1,26 +1,7 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 
-interface Image {
-  url: {
-    http: string,
-  }
-}
-
-export interface Product {
-  id: string,
-  title: string
-  price: {
-    value: string,
-    data: {
-      raw: {
-        with_tax: number,
-      },
-    },
-  }
-  images: Image[]
-  description: string
-}
+export type Product = any
 
 export interface State {
   products: Product[]
@@ -44,34 +25,36 @@ export interface Namespace { 'products': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-function emptyState () {
+function emptyState() {
   return {
     products: [],
     product: null,
   }
 }
 
-export function model ({
+export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: emptyState(),
     reducers: {
-      setProducts (state, products) {
-        return { products }
+      setProducts(state, products) {
+        return {
+          products,
+        }
       },
-      setProduct (state, product) {
+      setProduct(state, product) {
         return { product }
       },
     },
     effects: {
-      fetchAll (state, actions) {
+      fetchAll(state, actions) {
         return new Promise(resolve => {
           shop.Product.Find('limit=20', resolve)
         })
           .then(actions[namespace].setProducts)
       },
-      fetch (state, actions, productId) {
+      fetch(state, actions, productId) {
         return new Promise(resolve => {
           shop.Product.Get(productId, resolve)
         })

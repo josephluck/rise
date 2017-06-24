@@ -64,7 +64,7 @@ const page: Helix.Page<Models> = {
           <div className='mb-3'>
             <CollapsableSection
               label='Ingredients'
-              defaultOpen={true}
+              defaultOpen={false}
             >
               <div>
                 {'Dark Chocolate (Cocoa Mass, Cocoa Butter, Emulsifiers (Soya Lecithin), Polyglycerol Polyricinoleate, Salt, Flavouring (Vanilla Essence), Butter (Unsalted Butter [Cows Milk]. Minimum 80% Milk Fat), Sugar, Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Eggs, Vanilla Extract (Water, Ethanol; Vanilla Extract [3%]).'}
@@ -74,7 +74,12 @@ const page: Helix.Page<Models> = {
           <div className='d-flex'>
             <div className='flex-1' />
             <Controls
-              onAddToCart={console.log}
+              onAddToCart={quantity => {
+                actions.cart.add({
+                  ...product,
+                  quantity,
+                })
+              }}
             />
           </div>
         </div>

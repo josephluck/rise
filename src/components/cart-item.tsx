@@ -23,22 +23,13 @@ const CartItem = ({
   className = '',
 }: CartItemProps) => {
   return (
-    <div className={`pv-3 bc-grey-100 d-flex align-items-center ${className}`}>
+    <div className={`bc-grey-100 d-flex align-items-center ${className}`}>
       <img
         className='bra-2 w-5 h-5 mr-3'
         src={images[0].url.http}
       />
-      <div className='flex-1 d-flex flex-direction-column of-hidden mr-3'>
-        <div className='mb-2'>{title}</div>
-        <div
-          className='fs-small of-hidden w-100 fc-grey-600'
-          style={{
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {description}
-        </div>
+      <div className='flex-1 mr-3 fs-small'>
+        {title}
       </div>
       <div className='ta-r'>
         <Collapse hasNestedCollapse isOpened={showControls}>

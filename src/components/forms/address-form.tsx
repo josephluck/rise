@@ -21,6 +21,7 @@ export default function ({
         value={fields.first_name}
         errors={errors.first_name}
         onChange={val => setFields({ first_name: val })}
+        autoFocus
       />
       <Textfield
         label='Last Name'

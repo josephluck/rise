@@ -14,12 +14,13 @@ export type FormConstraints<F> = Constraints<F>
 export interface Reducers<F extends any> {
   resetForm: Helix.ScopedReducer0<State<F>>
   setFields: Helix.ScopedReducer<State<F>, Partial<Record<keyof F, any>>>
-  validateEntireForm: Helix.ScopedReducer<State<F>, any>
+  validateEntireForm: Helix.ScopedReducer0<State<F>>
+  setValidity: Helix.ScopedReducer0<State<F>>
   toggleFormShowing: Helix.ScopedReducer<State<F>, any>
 }
 
 export interface Effects<F extends any> {
-  validateOnSubmit: Helix.ScopedEffect<State<F>, Actions<F>, any>
+  validateOnSubmit: Helix.ScopedEffect0<State<F>, Actions<F>>
 }
 
 export type Actions<F extends any> = Helix.Actions<Reducers<F>, Effects<F>>
@@ -29,14 +30,14 @@ interface Opts<F> {
   defaultForm: () => F
 }
 
-export function model<F extends any> ({
+export function model<F extends any>({
   constraints,
   defaultForm,
 }: Opts<F>): Helix.ScopedModel<State<F>, Reducers<F>, Effects<F>> {
   const fields = defaultForm()
   const emptyErrors = makeDefaultErrors<F>(constraints(fields))
 
-  function initialState () {
+  function initialState() {
     return {
       fields,
       errors: emptyErrors,
@@ -49,10 +50,10 @@ export function model<F extends any> ({
     scoped: true,
     state: initialState(),
     reducers: {
-      resetForm () {
+      resetForm() {
         return initialState()
       },
-      setFields (state, newFields) {
+      setFields(state, newFields) {
         const fields = Object.assign({}, state.fields, newFields)
         const errors = getErrorsForFields(newFields, constraints(fields))
         return {
@@ -60,18 +61,21 @@ export function model<F extends any> ({
           errors: Object.assign({}, state.errors, errors),
         }
       },
-      validateEntireForm (state, additionalFields = {}) {
-        const fields = Object.assign({}, state.fields, additionalFields)
-        const errors = validate(fields, constraints(state.fields))
-        return {errors: errors || emptyErrors, valid: !errors}
+      validateEntireForm(state) {
+        const errors = validate(state.fields, constraints(state.fields))
+        return { errors: errors || emptyErrors, valid: !errors }
       },
-      toggleFormShowing (state, { name }) {
+      setValidity(state) {
+        const errors = validate(state.fields, constraints(state.fields))
+        return { valid: !errors }
+      },
+      toggleFormShowing(state, { name }) {
         return name === state.formShowing ? { formShowing: null } : { formShowing: name }
       },
     },
     effects: {
-      validateOnSubmit (_state, send, additionalFields) {
-        const state = send.validateEntireForm(additionalFields)
+      validateOnSubmit(_state, send) {
+        const state = send.validateEntireForm()
         if (!state.valid) {
           return Promise.reject<any>({
             type: 'validation_error',
@@ -86,7 +90,7 @@ export function model<F extends any> ({
   }
 }
 
-export function makeDefaultErrors<F> (constraints: Record<keyof F, any>): Errors<F> {
+export function makeDefaultErrors<F>(constraints: Record<keyof F, any>): Errors<F> {
   const errors = Object.keys(constraints).reduce((prev, curr) => {
     return {
       ...prev,
@@ -96,13 +100,13 @@ export function makeDefaultErrors<F> (constraints: Record<keyof F, any>): Errors
   return errors as Errors<F>
 }
 
-function getErrorsForFields<F> (fields: F, constraints: Record<keyof F, any>): Record<keyof F, any> {
+function getErrorsForFields<F>(fields: F, constraints: Record<keyof F, any>): Record<keyof F, any> {
   const keys = Object.keys(fields)
-  const initialErrors = keys.reduce((prev, key) => ({...prev, [key]: []}), {})
+  const initialErrors = keys.reduce((prev, key) => ({ ...prev, [key]: [] }), {})
 
   const filteredConstraints = keys.reduce((prev, key) => {
-    return constraints[key] ? {...prev, [key]: constraints[key]} : prev
+    return constraints[key] ? { ...prev, [key]: constraints[key] } : prev
   }, {})
   const errors = validate(fields, filteredConstraints) || {}
-  return {...initialErrors, ...errors}
+  return { ...initialErrors, ...errors }
 }

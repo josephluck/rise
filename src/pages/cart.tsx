@@ -5,71 +5,16 @@ import CartItem from '../components/cart-item'
 import Button from '../components/button'
 import CustomerForm from '../components/forms/customer-form'
 import AddressForm from '../components/forms/address-form'
-import Textfield from '../components/textfield'
 import LineItem from '../components/line-item'
-import Show from '../components/show'
-import Icon from '../components/icon'
-
-interface SectionProps {
-  id: number
-  complete: boolean
-  formShowing: boolean
-  label: React.ReactNode
-  description: React.ReactNode
-  form: React.ReactNode
-  toggleFormShowing: () => any
-}
-
-function Section({
-  id,
-  complete,
-  formShowing,
-  label,
-  description,
-  form,
-  toggleFormShowing,
-}: SectionProps) {
-  return (
-    <div className='pa-3 ba bc-grey-100 bra-2'>
-      <div className='d-flex align-items-center'>
-        <div className='fs-large mr-3'>
-          {complete
-            ? <Icon icon='check' />
-            : id
-          }
-        </div>
-        <div className='flex-1 d-flex flex-direction-column align-items-center'>
-          <div className='w-100 fw-500'>
-            {label}
-          </div>
-          <div className='w-100'>
-            <Collapse
-              hasNestedCollapse
-              isOpened={!formShowing}
-            >
-              <div className='fs-small pt-2'>
-                {description}
-              </div>
-            </Collapse>
-          </div>
-        </div>
-        <Show showing={!formShowing}>
-          <div onClick={toggleFormShowing}>Change</div>
-        </Show>
-      </div>
-      <Collapse
-        hasNestedCollapse
-        isOpened={formShowing}
-      >
-        <div className='pt-2'>
-          {form}
-        </div>
-      </Collapse>
-    </div>
-  )
-}
+import Section from '../components/checkout-section'
 
 type Mode = 'cart' | 'checkout'
+
+const stringify = (strings: any): string => {
+  return Object.keys(strings).reduce((prev, key) => prev.concat(strings[key]), [])
+    .filter(str => str.length)
+    .join(', ')
+}
 
 const page = (mode: Mode): Helix.Page<Models> => ({
   onEnter(state, _prev, actions) {
@@ -80,24 +25,26 @@ const page = (mode: Mode): Helix.Page<Models> => ({
   view(state, prev, actions) {
     return (
       <div className='pb-4'>
-        {state.cart.items.map((item, index) => {
-          return (
-            <CartItem
-              key={index}
-              showControls={mode === 'cart'}
-              updateQuantity={(quantity) => actions.cart.update({
-                index,
-                item: {
-                  ...item,
-                  quantity,
-                },
-              })}
-              removeItem={() => actions.cart.remove(index)}
-              className={index !== 0 ? 'bt' : ''}
-              {...item}
-            />
-          )
-        })}
+        <div className='pa-3 ba bc-grey-100 bra-2 mb-3'>
+          {state.cart.items.map((item, index) => {
+            return (
+              <CartItem
+                key={index}
+                showControls={mode === 'cart'}
+                updateQuantity={(quantity) => actions.cart.update({
+                  index,
+                  item: {
+                    ...item,
+                    quantity,
+                  },
+                })}
+                removeItem={() => actions.cart.remove(index)}
+                className={index !== 0 ? 'bt mt-3' : ''}
+                {...item}
+              />
+            )
+          })}
+        </div>
         <Collapse
           hasNestedCollapse
           isOpened={mode === 'checkout'}
@@ -106,10 +53,10 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             <div className='pb-3'>
               <Section
                 id={1}
-                complete={false}
+                complete={state.checkout.customer.valid}
                 formShowing={state.checkout.sectionShowing === 1}
                 label='Your Details'
-                description='Joseph Luck, joseph.luck@sky.com'
+                description={stringify(state.checkout.customer.fields)}
                 form={(
                   <CustomerForm
                     fields={state.checkout.customer.fields}
@@ -117,64 +64,51 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     setFields={actions.checkout.customer.setFields}
                   />
                 )}
-                toggleFormShowing={() => actions.checkout.setKey({ sectionShowing: 1 })}
+                toggleFormShowing={() => {
+                  actions.checkout.setKey({ sectionShowing: 1 })
+                  actions.checkout.validateSections()
+                }}
               />
             </div>
             <div className='pb-3'>
               <Section
                 id={2}
-                complete={false}
+                complete={state.checkout.shipping.valid}
                 formShowing={state.checkout.sectionShowing === 2}
-                label='Shipping Information'
-                description='6, Old Street, Shoreditch'
+                label='Shipping'
+                description={stringify(state.checkout.shipping.fields)}
                 form={(
                   <AddressForm
-                    fields={state.checkout.billing.fields}
-                    errors={state.checkout.billing.errors}
-                    setFields={actions.checkout.billing.setFields}
+                    fields={state.checkout.shipping.fields}
+                    errors={state.checkout.shipping.errors}
+                    setFields={actions.checkout.shipping.setFields}
                   />
                 )}
-                toggleFormShowing={() => actions.checkout.setKey({ sectionShowing: 2 })}
-              />
-            </div>
-            <div className='pb-3'>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={state.checkout.controls.fields.shippingIsSameAsBilling}
-                  onChange={() => actions.checkout.controls.setFields({
-                    shippingIsSameAsBilling: !state.checkout.controls.fields.shippingIsSameAsBilling,
-                  })}
-                />
-                Shipping Address Is Same As Billing Address
-              </label>
-              <Textfield
-                label='Additional Instructions'
-                className='pt-3'
-                value={state.checkout.shipping.fields.instructions}
-                errors={state.checkout.shipping.errors.instructions}
-                onChange={val => actions.checkout.shipping.setFields({ last_name: val })}
+                toggleFormShowing={() => {
+                  actions.checkout.setKey({ sectionShowing: 2 })
+                  actions.checkout.validateSections()
+                }}
               />
             </div>
           </div>
+          <div className='pv-4 d-flex'>
+            <LineItem
+              label='Sub Total'
+              amount={state.cart.totals.subTotal}
+              className='flex-1 fc-grey-700'
+            />
+            <LineItem
+              label='Shipping'
+              amount={state.cart.totals.shipping}
+              className='flex-1 fc-grey-700'
+            />
+            <LineItem
+              label='Total'
+              amount={state.cart.totals.subTotal + state.cart.totals.shipping}
+              className='flex-1'
+            />
+          </div>
         </Collapse>
-        <div className='mv-4 d-flex'>
-          <LineItem
-            label='Sub Total'
-            amount={state.cart.totals.subTotal}
-            className='flex-1 fc-grey-700'
-          />
-          <LineItem
-            label='Shipping'
-            amount={state.cart.totals.shipping}
-            className='flex-1 fc-grey-700'
-          />
-          <LineItem
-            label='Total'
-            amount={state.cart.totals.subTotal + state.cart.totals.shipping}
-            className='flex-1'
-          />
-        </div>
         {mode === 'cart'
           ? (
             <Button

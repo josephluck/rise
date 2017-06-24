@@ -1,5 +1,5 @@
 import h from 'helix-react/lib/html'
-import component, {StatefulComponent} from './stateful-component'
+import component, { StatefulComponent } from './stateful-component'
 import Stepper from './stepper'
 import Button from './button'
 
@@ -12,7 +12,7 @@ interface State {
 interface Reducers {
   updateQuantity: StatefulComponent.Reducer<State, Props, string>
 }
-interface Effects {}
+interface Effects { }
 // type Send = StatefulComponent.Actions<Reducers, Effects>
 
 export default component<Props, State, Reducers, Effects>({
@@ -20,14 +20,15 @@ export default component<Props, State, Reducers, Effects>({
     quantity: 1,
   },
   reducers: {
-    updateQuantity (state, props, quantity) {
-      return {quantity: parseInt(quantity, 10)}
+    updateQuantity(state, props, quantity) {
+      return { quantity: parseInt(quantity, 10) }
     },
   },
-  render (state, props, actions) {
+  render(state, props, actions) {
     return (
       <div className='d-flex align-items-center'>
         <Stepper
+          className='ba bc-grey-600 bra-2 pa-1'
           value={state.quantity.toString()}
           onChange={actions.updateQuantity}
         />

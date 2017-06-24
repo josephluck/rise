@@ -9,7 +9,9 @@ export interface Reducers {
   setKey: Helix.Reducer<Models, State, Record<string, any>>
 }
 
-export interface Effects { }
+export interface Effects {
+  validateSections: Helix.Effect0<Models>
+}
 
 export type LocalActions = Helix.Actions<Reducers, Effects>
 
@@ -102,7 +104,15 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
         }
       },
     },
-    effects: {},
+    effects: {
+      validateSections(state, actions) {
+        actions.checkout.customer.setValidity()
+        actions.checkout.billing.setValidity()
+        actions.checkout.shipping.setValidity()
+        actions.checkout.payment.setValidity()
+        return Promise.resolve(state)
+      },
+    },
     models: {
       controls: Form.model<ControlsFields>({
         constraints: () => ({
