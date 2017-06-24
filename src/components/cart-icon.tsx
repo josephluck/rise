@@ -1,6 +1,8 @@
 import h from 'helix-react/lib/html'
 
-export default function ({active}: {active: boolean}) {
+import Icon from './icon'
+
+export default function ({ active }: { active: boolean }) {
   return (
     <div
       className={`
@@ -19,10 +21,9 @@ export default function ({active}: {active: boolean}) {
           ></div>
         ) : null
       }
-      <a
-        className='ss-cart fc-grey-500'
-        href={active ? '/cart' : '/shop'}
-      />
+      <a href={active ? '/cart' : '/shop'}>
+        <Icon icon='cart' />
+      </a>
     </div>
   )
 }
