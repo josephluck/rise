@@ -1,3 +1,5 @@
+import * as desanitize from './desanitize'
+
 export interface Shop {
   products: {
     getAll: () => Promise<Core.Product[]>,
@@ -11,16 +13,6 @@ export interface Shop {
   },
 }
 
-const desanitizeProduct = (product: any): Core.Product => {
-  return {
-    price: 10,
-    images: [''],
-    id: '123',
-    title: 'hey',
-    description: 'a product',
-  }
-}
-
 export default function (api: any): Shop {
   return {
     products: {
@@ -28,13 +20,13 @@ export default function (api: any): Shop {
         return new Promise((resolve, reject) => {
           api.Product.Find('limit=100', resolve, reject)
         })
-          .then((p: any[]) => p.map(desanitizeProduct))
+          .then((p: any[]) => p.map(desanitize.product))
       },
       get(productId) {
         return new Promise((resolve, reject) => {
           api.Product.Get(productId, resolve, reject)
         })
-          .then(desanitizeProduct)
+          .then(desanitize.product)
       },
     },
     cart: {
@@ -42,10 +34,11 @@ export default function (api: any): Shop {
         return new Promise((resolve, reject) => {
           api.Cart.Checkout(resolve, reject)
         })
+          .then(desanitize.cart)
       },
       insert(id, quantity) {
         return new Promise((resolve, reject) => {
-          api.Cart.Insert(id, quantity, resolve, reject)
+          api.Cart.Insert(id, quantity, null, resolve, reject)
         })
       },
       remove(id) {
