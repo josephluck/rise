@@ -1,10 +1,9 @@
 import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
-import { CartEntry } from '../model/cart'
 import Stepper from './stepper'
 import Currency from './currency'
 
-export interface CartItemProps extends CartEntry {
+export interface CartItemProps extends Core.CartEntry {
   showControls: boolean
   updateQuantity: (quantity: number) => any
   removeItem: () => any
@@ -26,7 +25,7 @@ const CartItem = ({
     <div className={`bc-grey-100 d-flex align-items-center ${className}`}>
       <img
         className='bra-2 w-5 h-5 mr-3'
-        src={images[0].url.http}
+        src={images[0]}
       />
       <div className='flex-1 mr-3 fs-small'>
         {title}
@@ -46,7 +45,7 @@ const CartItem = ({
             />
           </div>
         </Collapse>
-        <div className='fs-medium'>{'£'}<Currency price={price.data.raw.with_tax * quantity} /></div>
+        <div className='fs-medium'>{'£'}<Currency price={price * quantity} /></div>
       </div>
     </div>
   )

@@ -16,12 +16,19 @@ export default function ({
   return (
     <div>
       <Textfield
-        label='Name'
+        label='First Name'
         className='pb-3'
-        value={fields.name}
-        errors={errors.name}
-        onChange={val => setFields({ name: val })}
+        value={fields.firstName}
+        errors={errors.firstName}
+        onChange={val => setFields({ firstName: val })}
         autoFocus
+      />
+      <Textfield
+        label='Last Name'
+        className='pb-3'
+        value={fields.lastName}
+        errors={errors.lastName}
+        onChange={val => setFields({ lastName: val })}
       />
       <Textfield
         label='Email'

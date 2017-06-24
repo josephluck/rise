@@ -35,7 +35,14 @@ const defaultOpts: Opts = {
 
 function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<Models> {
   return {
-    onEnter: page.onEnter,
+    onEnter(state, prev, actions) {
+      if (!state.cart.items.length) {
+        actions.cart.sync()
+      }
+      if (page.onEnter) {
+        page.onEnter(state, prev, actions)
+      }
+    },
     onUpdate: page.onUpdate,
     onLeave: page.onLeave,
     view(state, prev, actions) {

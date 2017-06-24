@@ -1,25 +1,27 @@
+import shop, { Shop } from './apis/shop'
+
 const moltin = (window as any).Moltin
 
 export interface Apis {
-  shop: any
+  shop: Shop
 }
 
-function setupMoltin () {
-  const shop = new moltin({
+function setupMoltin() {
+  const api = new moltin({
     publicId: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
   })
   return new Promise((resolve) => {
-    shop.Authenticate(abc => {
-      resolve(shop)
+    api.Authenticate(_ => {
+      resolve(api)
     })
   })
 }
 
-export default function (): Promise<Apis> {
+export default function () {
   return Promise.all([setupMoltin()])
     .then((apis) => {
       return {
-        shop: apis[0],
+        shop: shop(apis[0]),
       }
     })
 }

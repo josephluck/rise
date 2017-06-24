@@ -1,16 +1,14 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 
-export type Product = any
-
 export interface State {
-  products: Product[]
-  product: Product | null
+  products: Core.Product[]
+  product: Core.Product | null
 }
 
 export interface Reducers {
-  setProducts: Helix.Reducer<Models, State, Product[]>
-  setProduct: Helix.Reducer<Models, State, Product>
+  setProducts: Helix.Reducer<Models, State, Core.Product[]>
+  setProduct: Helix.Reducer<Models, State, Core.Product>
 }
 
 export interface Effects {
@@ -49,15 +47,11 @@ export function model({
     },
     effects: {
       fetchAll(state, actions) {
-        return new Promise(resolve => {
-          shop.Product.Find('limit=20', resolve)
-        })
+        return shop.products.getAll()
           .then(actions[namespace].setProducts)
       },
       fetch(state, actions, productId) {
-        return new Promise(resolve => {
-          shop.Product.Get(productId, resolve)
-        })
+        return shop.products.get(productId)
           .then(actions[namespace].setProduct)
       },
     },

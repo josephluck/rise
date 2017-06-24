@@ -123,7 +123,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             <Button
               label='Pay Now'
               className='w-100 bg-transparent ta-c'
-              href='/cart'
+              onClick={actions.checkout.submit}
             />
           ) : null
         }

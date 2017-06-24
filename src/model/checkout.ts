@@ -1,7 +1,9 @@
+import { Apis } from '../bootstrap'
 import { Models } from './'
 import * as Form from './form'
 
 export interface LocalState {
+  submitted: boolean
   sectionShowing: number
 }
 
@@ -11,20 +13,20 @@ export interface Reducers {
 
 export interface Effects {
   validateSections: Helix.Effect0<Models>
+  submit: Helix.Effect0<Models>
 }
 
 export type LocalActions = Helix.Actions<Reducers, Effects>
 
 export interface CustomerFields {
-  name: string
+  firstName: string
+  lastName: string
   email: string
 }
 
 export interface AddressFields {
-  first_name: string
-  last_name: string
-  line_1: string
-  line_2: string
+  line1: string
+  line2: string
   postcode: string
   county: string
 }
@@ -36,8 +38,6 @@ export interface ShippingAddressFields extends AddressFields {
 export interface PaymentFields {
   gateway: string
   method: string
-  first_name: string
-  last_name: string
   number: string
   month: string
   year: string
@@ -71,10 +71,8 @@ export type ModelApi = Helix.ModelApi<State, Actions>
 
 function baseAddressConstraints(): Record<keyof AddressFields, any> {
   return {
-    first_name: { presence: true },
-    last_name: { presence: true },
-    line_1: { presence: true },
-    line_2: { presence: true },
+    line1: { presence: true },
+    line2: { presence: true },
     postcode: { presence: true },
     county: { presence: true },
   }
@@ -82,18 +80,19 @@ function baseAddressConstraints(): Record<keyof AddressFields, any> {
 
 function baseAddressDefaultForm(): AddressFields {
   return {
-    first_name: '',
-    last_name: '',
-    line_1: '',
-    line_2: '',
+    line1: '',
+    line2: '',
     postcode: '',
     county: '',
   }
 }
 
-export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
+export function model({
+  shop,
+}: Apis): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
     state: {
+      submitted: false,
       sectionShowing: 0,
     },
     reducers: {
@@ -112,6 +111,24 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
         actions.checkout.payment.setValidity()
         return Promise.resolve(state)
       },
+      submit(state, actions) {
+        actions.checkout.setKey({
+          submitted: true,
+        })
+        return actions.checkout.customer.validateOnSubmit()
+          .then(actions.checkout.billing.validateOnSubmit)
+          .then(actions.checkout.shipping.validateOnSubmit)
+          .then(actions.checkout.payment.validateOnSubmit)
+          // .then(() => {
+          //   return new Promise(resolve => {
+          //     shop.
+          //   })
+          // })
+          .then(() => state)
+          .catch(() => {
+            console.log(state)
+          })
+      },
     },
     models: {
       controls: Form.model<ControlsFields>({
@@ -124,11 +141,13 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
       }),
       customer: Form.model<CustomerFields>({
         constraints: () => ({
-          name: { presence: true },
+          firstName: { presence: true },
+          lastName: { presence: true },
           email: { presence: true, email: true },
         }),
         defaultForm: () => ({
-          name: '',
+          firstName: '',
+          lastName: '',
           email: '',
         }),
       }),
@@ -150,8 +169,6 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
         constraints: () => ({
           gateway: { presence: true },
           method: { presence: true },
-          first_name: { presence: true },
-          last_name: { presence: true },
           number: { presence: true },
           month: { presence: true },
           year: { presence: true },
@@ -160,13 +177,11 @@ export function model(): Helix.ModelImpl<Models, LocalState, Reducers, Effects> 
         defaultForm: () => ({
           gateway: 'stripe',
           method: 'purchace',
-          first_name: '',
-          last_name: '',
           number: '',
           month: '',
           year: '',
           verification: '',
-        })
+        }),
       }),
     },
   }

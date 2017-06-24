@@ -2,12 +2,14 @@ import * as Blog from './blog'
 import * as Cart from './cart'
 import * as Products from './products'
 import * as Checkout from './checkout'
+// import * as User from './user'
 
 export type Models = Helix.Models<
   Blog.Namespace &
   Cart.Namespace &
   Products.Namespace &
   Checkout.Namespace &
+  // User.Namespace &
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
   >
 
@@ -18,9 +20,10 @@ export default function (apis) {
     effects: {},
     models: {
       [Blog.namespace]: Blog.model(),
-      [Cart.namespace]: Cart.model(),
+      [Cart.namespace]: Cart.model(apis),
       [Products.namespace]: Products.model(apis),
-      [Checkout.namespace]: Checkout.model(),
+      [Checkout.namespace]: Checkout.model(apis),
+      // [User.namespace]: User.model(apis),
     },
   }
 }

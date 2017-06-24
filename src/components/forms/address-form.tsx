@@ -16,33 +16,19 @@ export default function ({
   return (
     <div>
       <Textfield
-        label='First Name'
+        label='Address Line 1'
+        value={fields.line1}
         className='pb-3'
-        value={fields.first_name}
-        errors={errors.first_name}
-        onChange={val => setFields({ first_name: val })}
+        errors={errors.line1}
+        onChange={val => setFields({ line1: val })}
         autoFocus
       />
       <Textfield
-        label='Last Name'
-        value={fields.last_name}
-        className='pb-3'
-        errors={errors.last_name}
-        onChange={val => setFields({ last_name: val })}
-      />
-      <Textfield
-        label='Address Line 1'
-        value={fields.line_1}
-        className='pb-3'
-        errors={errors.line_1}
-        onChange={val => setFields({ line_1: val })}
-      />
-      <Textfield
         label='Address Line 2'
-        value={fields.line_2}
+        value={fields.line2}
         className='pb-3'
-        errors={errors.line_2}
-        onChange={val => setFields({ line_2: val })}
+        errors={errors.line2}
+        onChange={val => setFields({ line2: val })}
       />
       <Textfield
         label='Postcode'

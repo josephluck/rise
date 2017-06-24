@@ -26,7 +26,7 @@ const page: Helix.Page<Models> = {
                       <div
                         className='h-11 d-flex flex-direction-column pa-3'
                         style={{
-                          backgroundImage: `url(${image.url.http})`,
+                          backgroundImage: `url(${image})`,
                           backgroundPosition: 'center center',
                           backgroundSize: 'cover',
                           backgroundRepeat: 'no-repeat',
@@ -41,7 +41,7 @@ const page: Helix.Page<Models> = {
             : product.images.length
               ? (
                 <img
-                  src={product.images[0].url.http}
+                  src={product.images[0]}
                   className='w-100 h-auto mb-2'
                 />
               )
@@ -50,7 +50,7 @@ const page: Helix.Page<Models> = {
           <div className='d-flex align-items-center mb-3'>
             <div className='flex-1 mr-2 fw-500'>{product.title}</div>
             <div>
-              {'£'}<Currency price={product.price.data.raw.with_tax} />
+              {'£'}<Currency price={product.price} />
             </div>
           </div>
           <div className='mb-3'>
