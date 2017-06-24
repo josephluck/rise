@@ -5,13 +5,16 @@ import * as Form from './form'
 export interface LocalState {
   submitted: boolean
   sectionShowing: number
+  shippingMethods: Core.ShippingMethod[]
 }
 
 export interface Reducers {
   setKey: Helix.Reducer<Models, State, Record<string, any>>
+  setShippingMethods: Helix.Reducer<Models, State, Core.ShippingMethod[]>
 }
 
 export interface Effects {
+  getShippingMethods: Helix.Effect0<Models>
   validateSections: Helix.Effect0<Models>
   submit: Helix.Effect0<Models>
 }
@@ -34,21 +37,21 @@ export interface PaymentFields {
 }
 
 export interface ControlsFields {
-  shippingIsSameAsBilling: boolean
+  billingIsSameAsShipping: boolean
 }
 
 export interface State extends LocalState {
   customer: Form.State<CustomerFields>
-  billing: Form.State<Core.Address>
-  shipping: Form.State<Core.Address>
+  billing: Form.State<Core.BillingDetails>
+  shipping: Form.State<Core.Shipping>
   payment: Form.State<PaymentFields>
   controls: Form.State<ControlsFields>
 }
 
 export interface Actions extends LocalActions {
   customer: Form.Actions<CustomerFields>
-  billing: Form.Actions<Core.Address>
-  shipping: Form.Actions<Core.Address>
+  billing: Form.Actions<Core.BillingDetails>
+  shipping: Form.Actions<Core.Shipping>
   payment: Form.Actions<PaymentFields>
   controls: Form.Actions<ControlsFields>
 }
@@ -58,32 +61,6 @@ export interface Namespace { 'checkout': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-function baseAddressConstraints(): Record<keyof Core.Address, any> {
-  return {
-    firstName: { presence: true },
-    lastName: { presence: true },
-    line1: { presence: true },
-    city: undefined,
-    county: undefined,
-    country: { presence: true },
-    postcode: { presence: true },
-    phone: undefined,
-  }
-}
-
-function baseAddressDefaultForm(): Core.Address {
-  return {
-    firstName: '',
-    lastName: '',
-    line1: '',
-    city: '',
-    county: '',
-    country: '',
-    postcode: '',
-    phone: '',
-  }
-}
-
 export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
@@ -91,6 +68,7 @@ export function model({
     state: {
       submitted: false,
       sectionShowing: 0,
+      shippingMethods: [],
     },
     reducers: {
       setKey(state, payload) {
@@ -98,6 +76,9 @@ export function model({
           ...state,
           ...payload,
         }
+      },
+      setShippingMethods(state, shippingMethods) {
+        return { shippingMethods }
       },
     },
     effects: {
@@ -107,6 +88,10 @@ export function model({
         actions.checkout.shipping.setValidity()
         actions.checkout.payment.setValidity()
         return Promise.resolve(state)
+      },
+      getShippingMethods(state, actions) {
+        return shop.getShippingMethods()
+          .then(actions.checkout.setShippingMethods)
       },
       submit(state, actions) {
         actions.checkout.setKey({
@@ -148,6 +133,22 @@ export function model({
               },
             })
           })
+          .then(order => {
+            const billing = state.checkout.billing.fields
+            return shop.cart.pay({
+              orderId: order.id,
+              firstName: billing.firstName,
+              lastName: billing.lastName,
+              cardNumber: billing.cardNumber,
+              expiryMonth: billing.expiryMonth,
+              expiryYear: billing.expiryYear,
+              cvv: billing.cvv,
+            })
+          })
+          .then(() => {
+            console.log('All done')
+            return state
+          })
           .catch(() => {
             console.log(state)
           })
@@ -156,10 +157,10 @@ export function model({
     models: {
       controls: Form.model<ControlsFields>({
         constraints: () => ({
-          shippingIsSameAsBilling: undefined,
+          billingIsSameAsShipping: undefined,
         }),
         defaultForm: () => ({
-          shippingIsSameAsBilling: true,
+          billingIsSameAsShipping: true,
         }),
       }),
       customer: Form.model<CustomerFields>({
@@ -174,13 +175,67 @@ export function model({
           email: '',
         }),
       }),
-      billing: Form.model<Core.Address>({
-        constraints: baseAddressConstraints,
-        defaultForm: baseAddressDefaultForm,
+      billing: Form.model<Core.BillingDetails>({
+        constraints: () => {
+          return {
+            firstName: { presence: true },
+            lastName: { presence: true },
+            line1: { presence: true },
+            city: undefined,
+            county: undefined,
+            country: { presence: true },
+            postcode: { presence: true },
+            phone: undefined,
+            cardNumber: { presence: true },
+            expiryMonth: { presence: true },
+            expiryYear: { presence: true },
+            cvv: { presence: true },
+          }
+        },
+        defaultForm: () => {
+          return {
+            firstName: '',
+            lastName: '',
+            line1: '',
+            city: '',
+            county: '',
+            country: 'GB',
+            postcode: '',
+            phone: '',
+            cardNumber: '',
+            expiryMonth: '',
+            expiryYear: '',
+            cvv: '',
+          }
+        },
       }),
-      shipping: Form.model<Core.Address>({
-        constraints: baseAddressConstraints,
-        defaultForm: baseAddressDefaultForm,
+      shipping: Form.model<Core.Shipping>({
+        constraints: () => {
+          return {
+            firstName: { presence: true },
+            lastName: { presence: true },
+            line1: { presence: true },
+            city: undefined,
+            county: undefined,
+            country: { presence: true },
+            postcode: { presence: true },
+            phone: undefined,
+            shippingMethod: { presence: true },
+          }
+        },
+        defaultForm: () => {
+          return {
+            firstName: '',
+            lastName: '',
+            line1: '',
+            city: '',
+            county: '',
+            country: '',
+            postcode: '',
+            phone: '',
+            shippingMethod: '',
+          }
+        },
       }),
       payment: Form.model<PaymentFields>({
         constraints: () => ({

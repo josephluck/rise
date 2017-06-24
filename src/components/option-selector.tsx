@@ -1,10 +1,5 @@
 import h from 'helix-react/lib/html'
 
-export interface Option {
-  label: string
-  value: string
-}
-
 export interface Props {
   label?: string
   className?: string
@@ -13,7 +8,7 @@ export interface Props {
   value: string
   errors: string[]
   onChange: (value: string) => any
-  options: Option[]
+  options: Core.SelectOption[]
   placeholder?: string
 }
 
@@ -37,27 +32,25 @@ export default function ({
           </label>
         ) : null
       }
-      <select
-        defaultValue={placeholder}
-        className={`
-          d-ib w-100 ba bg-white pa-2
-          ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-300 bc-primary-f'}
-        `}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        {placeholder ?
-          <option disabled selected={!value}>{placeholder}</option>
-          : null
-        }
+      <div className='d-ib w-100 ba bg-white bc-grey-300'>
         {options.map((option, index) => {
           return (
-            <option value={option.value} key={index}>
+            <label
+              className={`d-if bc-grey-300 align-items-center w-100 pa-3 ${index > 0 ? 'bt' : ''}`}
+              key={index}
+            >
+              <input
+                value={option.value}
+                onChange={() => onChange(option.value)}
+                className='mr-2'
+                type='radio'
+                checked={option.value === value}
+              />
               {option.label}
-            </option>
+            </label>
           )
         })}
-      </select>
+      </div>
       {errors.map((error, index) => {
         return (
           <div

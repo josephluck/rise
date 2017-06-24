@@ -24,7 +24,7 @@ const CartItem = ({
   return (
     <div className={`bc-grey-100 d-flex align-items-center ${className}`}>
       <img
-        className='bra-2 w-5 h-5 mr-3'
+        className='w-5 h-5 mr-3'
         src={images[0]}
       />
       <div className='flex-1 mr-3 fs-small'>

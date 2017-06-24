@@ -4,7 +4,8 @@ import { Models } from '../model'
 import CartItem from '../components/cart-item'
 import Button from '../components/button'
 import CustomerForm from '../components/forms/customer-form'
-import AddressForm from '../components/forms/address-form'
+import ShippingForm from '../components/forms/shipping-form'
+import BillingForm from '../components/forms/billing-form'
 import LineItem from '../components/line-item'
 import Section from '../components/checkout-section'
 
@@ -21,11 +22,12 @@ const page = (mode: Mode): Helix.Page<Models> => ({
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
+    actions.checkout.getShippingMethods()
   },
   view(state, prev, actions) {
     return (
       <div className='pb-4'>
-        <div className='pa-3 ba bc-grey-100 bra-2 mb-3'>
+        <div className='ba bc-grey-100 mb-3'>
           {state.cart.items.map((item, index) => {
             return (
               <CartItem
@@ -39,7 +41,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   },
                 })}
                 removeItem={() => actions.cart.remove(index)}
-                className={index !== 0 ? 'bt mt-3' : ''}
+                className={`pa-3 ${index !== 0 ? 'bt' : ''}`}
                 {...item}
               />
             )
@@ -78,14 +80,44 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                 label='Shipping'
                 description={stringify(state.checkout.shipping.fields)}
                 form={(
-                  <AddressForm
+                  <ShippingForm
                     fields={state.checkout.shipping.fields}
                     errors={state.checkout.shipping.errors}
                     setFields={actions.checkout.shipping.setFields}
+                    shippingMethods={state.checkout.shippingMethods.map(method => {
+                      return {
+                        label: method.name,
+                        value: method.id,
+                      }
+                    })}
                   />
                 )}
                 toggleFormShowing={() => {
                   actions.checkout.setKey({ sectionShowing: 2 })
+                  actions.checkout.validateSections()
+                }}
+              />
+            </div>
+            <div>
+              <Section
+                id={3}
+                complete={state.checkout.billing.valid}
+                formShowing={state.checkout.sectionShowing === 3}
+                label='Billing'
+                description={stringify(state.checkout.billing.fields)}
+                form={(
+                  <BillingForm
+                    fields={state.checkout.billing.fields}
+                    errors={state.checkout.billing.errors}
+                    setFields={actions.checkout.billing.setFields}
+                    useShippingAddress={state.checkout.controls.fields.billingIsSameAsShipping}
+                    toggleUseShippingAddress={billingIsSameAsShipping => actions.checkout.controls.setFields({
+                      billingIsSameAsShipping,
+                    })}
+                  />
+                )}
+                toggleFormShowing={() => {
+                  actions.checkout.setKey({ sectionShowing: 3 })
                   actions.checkout.validateSections()
                 }}
               />
@@ -113,7 +145,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           ? (
             <Button
               label='Checkout'
-              className='w-100 bg-transparent ta-c'
+              className='w-100 bg-transparent ta-c bra-pill'
               href='/checkout'
             />
           ) : null
@@ -121,8 +153,8 @@ const page = (mode: Mode): Helix.Page<Models> => ({
         {mode === 'checkout'
           ? (
             <Button
-              label='Pay Now'
-              className='w-100 bg-transparent ta-c'
+              label='Pay'
+              className='w-100 bg-transparent ta-c bra-pill'
               onClick={actions.checkout.submit}
             />
           ) : null
@@ -133,11 +165,3 @@ const page = (mode: Mode): Helix.Page<Models> => ({
 })
 
 export default page
-
-{/*<Collapse hasNestedCollapse isOpened={!state.checkout.controls.fields.shippingIsSameAsBilling}>
-  <AddressForm
-    fields={state.checkout.shipping.fields}
-    errors={state.checkout.shipping.errors}
-    setFields={actions.checkout.shipping.setFields}
-  />
-</Collapse>*/}

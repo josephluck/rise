@@ -24,7 +24,7 @@ export default function Section({
   toggleFormShowing,
 }: SectionProps) {
   return (
-    <div className='pa-3 ba bc-grey-100 bra-2'>
+    <div className='pa-3 ba bc-grey-100'>
       <div
         onClick={toggleFormShowing}
         className='d-flex align-items-center'

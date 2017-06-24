@@ -16,7 +16,7 @@ function Btn({
   return (
     <span
       className={`
-        d-if align-items-center bc-grey-600 pa-1 fs-tiny lh-4 bra-2
+        d-if align-items-center bc-grey-600 pa-1 fs-tiny lh-4 
       `}
       onClick={onClick}
     >

@@ -13,6 +13,7 @@ export interface State {
 }
 
 export interface Reducers {
+  reset: Helix.Reducer0<Models, State>
   doSync: Helix.Reducer<Models, State, Core.Cart>
 }
 
@@ -33,19 +34,24 @@ export interface Namespace { 'cart': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
+function defaultState() {
+  return {
+    items: [],
+    totals: {
+      subTotal: 0,
+      quantity: 0,
+      shipping: 0,
+    },
+  }
+}
+
 export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
-    state: {
-      items: [],
-      totals: {
-        subTotal: 0,
-        quantity: 0,
-        shipping: 0,
-      },
-    },
+    state: defaultState(),
     reducers: {
+      reset: defaultState,
       doSync(state, cart) {
         return {
           items: cart.items,
@@ -61,6 +67,7 @@ export function model({
       sync(state, actions) {
         return shop.cart.get()
           .then(actions.cart.doSync)
+          .catch(actions.cart.reset)
       },
       add(state, actions, newItem) {
         return shop.cart.insert(newItem.id, newItem.quantity)

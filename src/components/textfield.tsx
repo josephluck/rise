@@ -34,7 +34,7 @@ export default function ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={`
-          d-ib w-100 ba bg-white pa-2 bra-2
+          d-ib w-100 ba bg-white pa-2
           ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-300 bc-primary-f'}
         `}
       />

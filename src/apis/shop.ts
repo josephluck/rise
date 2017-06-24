@@ -11,7 +11,9 @@ export interface Shop {
     remove: (id: string) => Promise<Core.Cart>,
     update: (id: string, quantity: number) => Promise<Core.Cart>,
     checkout: (details: Core.CheckoutDetails) => Promise<any>,
+    pay: (details: Core.PaymentDetails) => Promise<any>,
   },
+  getShippingMethods: () => Promise<Core.ShippingMethod[]>
 }
 
 export default function (api: any): Shop {
@@ -88,6 +90,26 @@ export default function (api: any): Shop {
           }, resolve, reject)
         })
       },
+      pay(details) {
+        return new Promise((resolve, reject) => {
+          api.Checkout.Payment('purchase', details.orderId, {
+            data: {
+              first_name: details.firstName,
+              last_name: details.lastName,
+              number: details.cardNumber,
+              expiry_month: details.expiryMonth,
+              expiry_year: details.expiryYear,
+              cvv: details.cvv,
+            },
+          }, resolve, reject)
+        })
+      },
+    },
+    getShippingMethods() {
+      return new Promise((resolve, reject) => {
+        api.Cart.Checkout(resolve, reject)
+      })
+        .then(desanitize.shippingMethods)
     },
   }
 }

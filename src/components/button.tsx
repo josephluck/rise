@@ -31,7 +31,7 @@ export default function ({
   href,
   style = {},
 }: Props) {
-  const baseClass = 'd-ib tt-uppercase ba c-pointer bra-2'
+  const baseClass = 'd-ib tt-uppercase ba c-pointer'
   const sizeClass = getSizeClass(size)
   const buttonClass = `${baseClass} ${sizeClass} ${className}`
   if (href) {

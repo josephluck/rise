@@ -61,6 +61,7 @@ const page: Helix.Page<Models> = {
               label='Shop'
               href='/shop'
               size='large'
+              className='bra-pill w-100'
             />
           </div>
           <div className='ta-c ph-4 mb-9'>
@@ -72,6 +73,7 @@ const page: Helix.Page<Models> = {
               label='Our Story'
               href='/about'
               size='large'
+              className='bra-pill w-100'
             />
           </div>
           <div className='ta-c ph-4 mb-9'>

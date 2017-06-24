@@ -28,7 +28,7 @@ export default component<Props, State, Reducers, Effects>({
     return (
       <div className='d-flex align-items-center'>
         <Stepper
-          className='ba bc-grey-600 bra-2 pa-1'
+          className='ba bc-grey-600 pa-1'
           value={state.quantity.toString()}
           onChange={actions.updateQuantity}
         />

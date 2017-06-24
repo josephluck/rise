@@ -30,6 +30,15 @@ declare namespace Core {
     phone?: string
   }
 
+  interface Shipping extends Address {
+    shippingMethod: string
+  }
+
+  interface SelectOption {
+    label: string
+    value: string
+  }
+
   interface CheckoutDetails {
     customer: {
       firstName: string
@@ -41,5 +50,28 @@ declare namespace Core {
     billing: Address
     shipToBillingAddress: boolean
     shipping?: Address
+  }
+
+  interface PaymentDetails {
+    orderId: string
+    firstName: string
+    lastName: string
+    cardNumber: string
+    expiryMonth: string
+    expiryYear: string
+    cvv: string
+  }
+
+  interface BillingDetails extends Address {
+    cardNumber: string
+    expiryMonth: string
+    expiryYear: string
+    cvv: string
+  }
+
+  interface ShippingMethod {
+    id: string
+    name: string
+    price: number
   }
 }

@@ -8,11 +8,11 @@ export function product(product: any): Core.Product {
   }
 }
 
-export function cart(cart: any): Core.Cart {
+export function cart(resp: any): Core.Cart {
   return {
-    items: Object.keys(cart.cart.contents)
+    items: Object.keys(resp.cart.contents)
       .reduce((prev, key) => {
-        return prev.concat(cart.cart.contents[key])
+        return prev.concat(resp.cart.contents[key])
       }, [])
       .map(product => {
         return {
@@ -25,4 +25,14 @@ export function cart(cart: any): Core.Cart {
         }
       }),
   }
+}
+
+export function shippingMethods(resp: any): Core.ShippingMethod[] {
+  return resp.shipping.methods.map(method => {
+    return {
+      id: method.id,
+      name: method.title,
+      price: method.price.data.raw.with_tax,
+    }
+  })
 }
