@@ -82,7 +82,7 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
               isOpened={opts.showTabs}
               className='ta-c'
             >
-              <div className='pv-3'>
+              <div>
                 <Tabs
                   tabs={[
                     { label: 'Shop', name: 'shop', href: '/shop' },

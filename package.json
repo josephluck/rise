@@ -13,12 +13,12 @@
     "dist:browserify": "browserify lib/index.js > dist/index.js",
     "dist:assets": "cp -R src/assets dist/assets && cp src/index.html dist/index.html && cp src/index.html dist/200.html",
     "dist:minify": "uglifyjs ./dist/index.js --compress --mangle -o ./dist/index.js",
-    "test": "echo \"Error: no test specified.\""
+    "test": "echo \"Error: no test specified.\"",
+    "deploy:surge": "npm run dist && surge --project ./dist --domain rise.surge.sh"
   },
   "dependencies": {
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
-    "packman": "git@github.com:josephluck/packman.git",
     "pluralize": "^5.0.0",
     "react-collapse": "^4.0.2",
     "react-height": "^3.0.0",
@@ -33,6 +33,7 @@
     "browserify": "^14.3.0",
     "budo": "^9.4.7",
     "crux-css": "4.0.0",
+    "packman": "git@github.com:josephluck/packman.git",
     "surge": "^0.19.0",
     "tsify": "^3.0.1",
     "tslint": "^4.4.2",
