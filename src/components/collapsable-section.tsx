@@ -38,19 +38,19 @@ export default component<Props, State, Reducers, Effects>({
           className='fc-grey-700 fs-tiny tt-uppercase pos-relative d-flex align-items-center'
           onClick={actions.toggleShowing}
         >
+          <span className='pos-relative fs-medium bg-white pr-1'>{props.label}</span>
           <Icon
             icon='arrow-right'
             className='transition d-ib'
             style={{
-              top: -10,
-              left: -10,
-              height: 20,
-              width: 20,
+              top: -8,
+              left: -8,
+              height: 16,
+              width: 16,
               transform: state.showing ? 'rotate(90deg)' : 'rotate(0deg)',
-              fill: '#999999',
+              fill: '#888888',
             }}
           />
-          <span className='pos-relative fs-medium bg-white pl-1'>{props.label}</span>
         </div>
         <Collapse hasNestedCollapse isOpened={state.showing}>
           <div className='pt-2 fs-small lh-5 fc-grey-900'>
