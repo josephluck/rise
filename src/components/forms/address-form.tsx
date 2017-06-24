@@ -1,11 +1,12 @@
 import h from 'helix-react/lib/html'
-import { AddressFields } from '../../model/checkout'
 import Textfield from '../textfield'
+import Select from '../select'
+import { forSelect } from '../../countries'
 
 export interface Props {
-  fields: AddressFields
-  errors: Core.Errors<AddressFields>
-  setFields: Core.SetFields<AddressFields>
+  fields: Core.Address
+  errors: Core.Errors<Core.Address>
+  setFields: Core.SetFields<Core.Address>
 }
 
 export default function ({
@@ -24,11 +25,11 @@ export default function ({
         autoFocus
       />
       <Textfield
-        label='Address Line 2'
-        value={fields.line2}
+        label='City'
+        value={fields.city}
         className='pb-3'
-        errors={errors.line2}
-        onChange={val => setFields({ line2: val })}
+        errors={errors.city}
+        onChange={val => setFields({ city: val })}
       />
       <Textfield
         label='Postcode'
@@ -37,11 +38,13 @@ export default function ({
         errors={errors.postcode}
         onChange={val => setFields({ postcode: val })}
       />
-      <Textfield
-        label='County'
-        value={fields.county}
-        errors={errors.county}
-        onChange={val => setFields({ county: val })}
+      <Select
+        label='Country'
+        value={fields.country}
+        errors={errors.country}
+        onChange={val => setFields({ country: val })}
+        options={forSelect}
+        placeholder=''
       />
     </div>
   )

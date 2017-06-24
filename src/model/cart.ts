@@ -59,7 +59,7 @@ export function model({
     },
     effects: {
       sync(state, actions) {
-        return shop.cart.checkout()
+        return shop.cart.get()
           .then(actions.cart.doSync)
       },
       add(state, actions, newItem) {

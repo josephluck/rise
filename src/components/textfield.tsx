@@ -1,5 +1,4 @@
 import h from 'helix-react/lib/html'
-import * as Collapse from 'react-collapse'
 
 export interface Props {
   label?: string
@@ -17,7 +16,7 @@ export default function ({
   type = 'text',
   autoFocus = false,
   value,
-  errors,
+  errors = [],
   onChange,
 }: Props) {
   return (
@@ -39,18 +38,16 @@ export default function ({
           ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-300 bc-primary-f'}
         `}
       />
-      <Collapse hasNestedCollapse isOpened={true}>
-        {errors.map((error, index) => {
-          return (
-            <div
-              key={index}
-              className='pt-1 fs-small fc-red'
-            >
-              {error}
-            </div>
-          )
-        })}
-      </Collapse>
+      {errors.map((error, index) => {
+        return (
+          <div
+            key={index}
+            className='pt-1 fs-small fc-red'
+          >
+            {error}
+          </div>
+        )
+      })}
     </div>
   )
 }

@@ -6,10 +6,11 @@ export interface Shop {
     get: (productId: string) => Promise<Core.Product>,
   },
   cart: {
-    checkout: () => Promise<Core.Cart>,
+    get: () => Promise<Core.Cart>,
     insert: (id: string, quantity: number) => Promise<Core.Cart>,
     remove: (id: string) => Promise<Core.Cart>,
     update: (id: string, quantity: number) => Promise<Core.Cart>,
+    checkout: (details: Core.CheckoutDetails) => Promise<any>,
   },
 }
 
@@ -30,7 +31,7 @@ export default function (api: any): Shop {
       },
     },
     cart: {
-      checkout() {
+      get() {
         return new Promise((resolve, reject) => {
           api.Cart.Checkout(resolve, reject)
         })
@@ -49,6 +50,42 @@ export default function (api: any): Shop {
       update(id, quantity) {
         return new Promise((resolve, reject) => {
           api.Cart.Update(id, { quantity }, resolve, reject)
+        })
+      },
+      checkout(details) {
+        return new Promise((resolve, reject) => {
+          const billingAddress = {
+            first_name: details.billing.firstName,
+            last_name: details.billing.lastName,
+            address_1: details.billing.line1,
+            city: details.billing.city,
+            county: details.billing.county,
+            country: details.billing.country,
+            postcode: details.billing.postcode,
+            phone: details.billing.phone,
+          }
+          api.Cart.Complete({
+            customer: {
+              first_name: details.customer.firstName,
+              last_name: details.customer.lastName,
+              email: details.customer.email,
+            },
+            shipping: details.shippingMethod,
+            gateway: 'stripe',
+            bill_to: billingAddress,
+            ship_to: details.shipToBillingAddress
+              ? billingAddress
+              : {
+                first_name: details.shipping.firstName,
+                last_name: details.shipping.lastName,
+                address_1: details.shipping.line1,
+                city: details.shipping.city,
+                county: details.shipping.county,
+                country: details.shipping.country,
+                postcode: details.shipping.postcode,
+                phone: details.shipping.phone,
+              },
+          }, resolve, reject)
         })
       },
     },

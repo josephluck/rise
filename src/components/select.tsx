@@ -6,44 +6,68 @@ export interface Option {
 }
 
 export interface Props {
+  label?: string
   className?: string
-  placeholder?: string
-  options: Option[]
+  type?: string
+  autoFocus?: boolean
   value: string
+  errors: string[]
   onChange: (value: string) => any
+  options: Option[]
+  placeholder?: string
 }
 
 export default function ({
+  label,
   className = '',
-  placeholder = '',
-  options,
+  type = 'text',
+  autoFocus = false,
   value,
+  errors,
   onChange,
+  placeholder,
+  options,
 }: Props) {
   return (
-    <select
-      defaultValue={placeholder}
-      className={`
-        ph-3 pv-2 fw-300 bw-small fs-small bc-grey-600 bg-white bra-0 ta-c
-        ${className}
-      `}
-      style={{
-        textAlignLast: 'center',
-      }}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      {placeholder ?
-        <option value={placeholder}>{placeholder}</option>
-        : null
+    <div className={className}>
+      {label
+        ? (
+          <label className='d-ib w-100 mb-1 fc-grey-500 fs-small'>
+            {label}
+          </label>
+        ) : null
       }
-      {options.map((option, index) => {
+      <select
+        defaultValue={placeholder}
+        className={`
+          d-ib w-100 ba bg-white pa-2 bra-2
+          ${errors.length ? 'bc-red bc-red-f' : 'bc-grey-300 bc-primary-f'}
+        `}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        {placeholder ?
+          <option disabled selected={!value}>{placeholder}</option>
+          : null
+        }
+        {options.map((option, index) => {
+          return (
+            <option value={option.value} key={index}>
+              {option.label}
+            </option>
+          )
+        })}
+      </select>
+      {errors.map((error, index) => {
         return (
-          <option value={option.value} key={index}>
-            {option.label}
-          </option>
+          <div
+            key={index}
+            className='pt-1 fs-small fc-red'
+          >
+            {error}
+          </div>
         )
       })}
-    </select>
+    </div>
   )
 }

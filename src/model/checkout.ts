@@ -24,17 +24,6 @@ export interface CustomerFields {
   email: string
 }
 
-export interface AddressFields {
-  line1: string
-  line2: string
-  postcode: string
-  county: string
-}
-
-export interface ShippingAddressFields extends AddressFields {
-  instructions: string
-}
-
 export interface PaymentFields {
   gateway: string
   method: string
@@ -50,16 +39,16 @@ export interface ControlsFields {
 
 export interface State extends LocalState {
   customer: Form.State<CustomerFields>
-  billing: Form.State<AddressFields>
-  shipping: Form.State<ShippingAddressFields>
+  billing: Form.State<Core.Address>
+  shipping: Form.State<Core.Address>
   payment: Form.State<PaymentFields>
   controls: Form.State<ControlsFields>
 }
 
 export interface Actions extends LocalActions {
   customer: Form.Actions<CustomerFields>
-  billing: Form.Actions<AddressFields>
-  shipping: Form.Actions<ShippingAddressFields>
+  billing: Form.Actions<Core.Address>
+  shipping: Form.Actions<Core.Address>
   payment: Form.Actions<PaymentFields>
   controls: Form.Actions<ControlsFields>
 }
@@ -69,21 +58,29 @@ export interface Namespace { 'checkout': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-function baseAddressConstraints(): Record<keyof AddressFields, any> {
+function baseAddressConstraints(): Record<keyof Core.Address, any> {
   return {
+    firstName: { presence: true },
+    lastName: { presence: true },
     line1: { presence: true },
-    line2: { presence: true },
+    city: undefined,
+    county: undefined,
+    country: { presence: true },
     postcode: { presence: true },
-    county: { presence: true },
+    phone: undefined,
   }
 }
 
-function baseAddressDefaultForm(): AddressFields {
+function baseAddressDefaultForm(): Core.Address {
   return {
+    firstName: '',
+    lastName: '',
     line1: '',
-    line2: '',
-    postcode: '',
+    city: '',
     county: '',
+    country: '',
+    postcode: '',
+    phone: '',
   }
 }
 
@@ -115,16 +112,42 @@ export function model({
         actions.checkout.setKey({
           submitted: true,
         })
-        return actions.checkout.customer.validateOnSubmit()
-          .then(actions.checkout.billing.validateOnSubmit)
-          .then(actions.checkout.shipping.validateOnSubmit)
-          .then(actions.checkout.payment.validateOnSubmit)
-          // .then(() => {
-          //   return new Promise(resolve => {
-          //     shop.
-          //   })
-          // })
-          .then(() => state)
+        const validations = [
+          actions.checkout.customer.validateOnSubmit(),
+          actions.checkout.billing.validateOnSubmit(),
+          actions.checkout.shipping.validateOnSubmit(),
+          actions.checkout.payment.validateOnSubmit(),
+        ] as any[]
+        return Promise.all(validations)
+          .then(() => {
+            const customer = state.checkout.customer.fields
+            const billing = state.checkout.billing.fields
+            const shipping = state.checkout.shipping.fields
+            return shop.cart.checkout({
+              customer: {
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                email: customer.email,
+              },
+              shippingMethod: '123325434',
+              gateway: 'stripe',
+              billing: {
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                line1: billing.line1,
+                country: billing.country,
+                postcode: billing.postcode,
+              },
+              shipToBillingAddress: true,
+              shipping: {
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                line1: shipping.line1,
+                country: shipping.country,
+                postcode: shipping.postcode,
+              },
+            })
+          })
           .catch(() => {
             console.log(state)
           })
@@ -151,19 +174,13 @@ export function model({
           email: '',
         }),
       }),
-      billing: Form.model<AddressFields>({
+      billing: Form.model<Core.Address>({
         constraints: baseAddressConstraints,
         defaultForm: baseAddressDefaultForm,
       }),
-      shipping: Form.model<ShippingAddressFields>({
-        constraints: () => ({
-          ...baseAddressConstraints(),
-          instructions: undefined,
-        }),
-        defaultForm: () => ({
-          ...baseAddressDefaultForm(),
-          instructions: '',
-        }),
+      shipping: Form.model<Core.Address>({
+        constraints: baseAddressConstraints,
+        defaultForm: baseAddressDefaultForm,
       }),
       payment: Form.model<PaymentFields>({
         constraints: () => ({
