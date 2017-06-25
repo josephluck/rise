@@ -9,38 +9,45 @@ import shop from './shop'
 import product from './product'
 import order from './order'
 import complete from './complete'
+import contact from './contact'
 
 export default {
   '/': lMain(home),
   '/blog': lMain(blog),
   '/about': lMain(about),
-  '/blog/:blogId': lMain(post),
+  '/contact': lMain(contact),
+  '/blog/:blogId': lMain(post, {
+    showBackArrow: true,
+    showTabs: false,
+    showCartIcon: false,
+    showAlert: false,
+  }),
   '/cart': lMain(cart('cart'), {
     showTabs: true,
     showCartIcon: true,
     showAlert: false,
   }),
   '/checkout': lMain(cart('checkout'), {
-    backLocation: '/cart',
+    showBackArrow: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,
   }),
   '/checkout/complete': lMain(complete, {
-    backLocation: '/shop',
+    showBackArrow: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,
   }),
   '/shop': lMain(shop),
   '/shop/:productId': lMain(product, {
-    backLocation: '/shop',
+    showBackArrow: true,
     showTabs: false,
     showCartIcon: true,
     showAlert: true,
   }),
   '/orders/:orderId': lMain(order, {
-    backLocation: '/orders',
+    showBackArrow: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,

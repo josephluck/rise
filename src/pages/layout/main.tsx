@@ -20,14 +20,14 @@ function getActiveTab(pathname) {
 }
 
 interface Opts {
-  backLocation?: string
+  showBackArrow?: boolean
   showTabs?: boolean
   showCartIcon?: boolean
   showAlert?: boolean
 }
 
 const defaultOpts: Opts = {
-  backLocation: '',
+  showBackArrow: false,
   showTabs: true,
   showCartIcon: true,
   showAlert: true,
@@ -46,14 +46,21 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
     onUpdate: page.onUpdate,
     onLeave: page.onLeave,
     view(state, prev, actions) {
+      const goBack = () => {
+        if (window.history.length > 1) {
+          window.history.go(-1)
+        } else {
+          actions.location.set('/')
+        }
+      }
       const activeTab = getActiveTab(state.location.pathname)
       return (
         <div className='pb-5'>
           <div className='pa-3'>
             <div className='d-flex align-items-center w-100'>
               <div className='flex-1'>
-                <Show showing={!!opts.backLocation}>
-                  <a href={opts.backLocation}>
+                <Show showing={!!opts.showBackArrow}>
+                  <a onClick={goBack}>
                     <Icon icon='arrow-left' />
                   </a>
                 </Show>

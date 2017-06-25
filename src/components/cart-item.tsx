@@ -23,11 +23,18 @@ const CartItem = ({
 }: CartItemProps) => {
   return (
     <div className={`bc-grey-100 d-flex align-items-center ${className}`}>
-      <img
-        className='w-5 h-5 mr-3'
-        src={images[0]}
-      />
+      <a href={`/shop/${id}`}>
+        <img
+          className='w-5 h-5 mr-3'
+          src={images[0]}
+        />
+      </a>
       <div className='flex-1 mr-3 fs-small'>
+        <Collapse hasNestedCollapse isOpened={!showControls}>
+          <div className='pb-1 fc-grey-600 fs-tiny tt-uppercase'>
+            Qty: {quantity}
+          </div>
+        </Collapse>
         {title}
       </div>
       <div className='ta-r'>

@@ -24,8 +24,8 @@ function Btn({
         icon={icon}
         className={`ml-auto mr-auto ${className}`}
         style={{
-          height: 12,
-          width: 12,
+          height: 13,
+          width: 13,
         }}
       />
     </span>

@@ -1,28 +1,29 @@
 import h from 'helix-react/lib/html'
-import Currency from './currency'
 
-export interface Props extends Core.Product {
+export interface Props {
+  name: string
+  avatar: string
+  description: string
   className?: string
-  onAddToCart: (quantity: number) => any
 }
 
 export default function ({
-  images,
+  name,
   className,
-  price,
-  title,
+  avatar,
+  description,
 }: Props) {
   return (
     <div className={`${className || ''}`}>
       <img
-        src={images[0]}
+        src={avatar}
         className='w-100 h-auto of-hidden d-ib mb-2'
       />
       <div className='mb-1 fw-500'>
-        {title}
+        {name}
       </div>
       <div className='fc-grey-500'>
-        {'£'}<Currency price={price} />
+        {description}
       </div>
     </div>
   )

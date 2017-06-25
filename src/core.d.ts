@@ -19,6 +19,12 @@ declare namespace Core {
     items: CartEntry[]
   }
 
+  interface Person {
+    name: string
+    description: string
+    avatar: string
+  }
+
   interface Address {
     firstName: string
     lastName: string

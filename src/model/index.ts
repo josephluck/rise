@@ -4,6 +4,7 @@ import * as Products from './products'
 import * as Checkout from './checkout'
 // import * as User from './user'
 import * as Orders from './orders'
+import * as Contact from './contact'
 
 export type Models = Helix.Models<
   Blog.Namespace &
@@ -12,6 +13,7 @@ export type Models = Helix.Models<
   Checkout.Namespace &
   // User.Namespace &
   Orders.Namespace &
+  Contact.Namespace &
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
   >
 
@@ -27,6 +29,7 @@ export default function (apis) {
       [Checkout.namespace]: Checkout.model(apis),
       // [User.namespace]: User.model(apis),
       [Orders.namespace]: Orders.model(apis),
+      [Contact.namespace]: Contact.model(),
     },
   }
 }
