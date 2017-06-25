@@ -3,6 +3,7 @@ import Textfield from '../textfield'
 import Select from '../select'
 import AddressForm from './address-form'
 import * as Collapse from 'react-collapse'
+import { expiryMonths, expiryYears } from '../../utils/date-select-options'
 
 export interface Props {
   fields: Core.BillingDetails
@@ -11,34 +12,6 @@ export interface Props {
   useShippingAddress: boolean
   toggleUseShippingAddress: (use: boolean) => any
 }
-
-const createExpiryMonths = (): Core.SelectOption[] => {
-  return Array.from({ length: 12 })
-    .map((_, index) => {
-      const value = index + 1 < 10
-        ? `0${index + 1}`
-        : (index + 1).toString()
-      return {
-        value,
-        label: value,
-      }
-    })
-}
-
-const createExpiryYears = (): Core.SelectOption[] => {
-  const thisYear = new Date().getFullYear()
-  return Array.from({ length: 12 })
-    .map((_, index) => {
-      const value = ((thisYear + index) % 2000).toString()
-      return {
-        value,
-        label: value,
-      }
-    })
-}
-
-const expiryMonths = createExpiryMonths()
-const expiryYears = createExpiryYears()
 
 export default function ({
   fields,
@@ -49,6 +22,23 @@ export default function ({
 }: Props) {
   return (
     <div>
+      <Textfield
+        label='First Name'
+        className='pb-3'
+        value={fields.firstName}
+        errors={errors.firstName}
+        onChange={val => setFields({ firstName: val })}
+        autoFocus
+        required
+      />
+      <Textfield
+        label='Last Name'
+        className='pb-3'
+        value={fields.lastName}
+        errors={errors.lastName}
+        onChange={val => setFields({ lastName: val })}
+        required
+      />
       <label className='d-flex align-items-center pb-3'>
         <input
           type='checkbox'
@@ -76,7 +66,7 @@ export default function ({
         className='pb-3'
         errors={errors.cardNumber}
         onChange={val => setFields({ cardNumber: val })}
-        autoFocus
+        required
       />
       <div className='d-flex'>
         <Select
@@ -87,6 +77,7 @@ export default function ({
           onChange={val => setFields({ expiryMonth: val })}
           options={expiryMonths}
           placeholder=''
+          required
         />
         <Select
           label='Exp Year'
@@ -96,6 +87,7 @@ export default function ({
           onChange={val => setFields({ expiryYear: val })}
           options={expiryYears}
           placeholder=''
+          required
         />
         <Textfield
           label='CVV'
@@ -103,6 +95,7 @@ export default function ({
           className='flex-1 pl-1'
           errors={errors.cvv}
           onChange={val => setFields({ cvv: val })}
+          required
         />
       </div>
     </div>

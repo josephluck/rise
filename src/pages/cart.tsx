@@ -8,6 +8,7 @@ import ShippingForm from '../components/forms/shipping-form'
 import BillingForm from '../components/forms/billing-form'
 import LineItem from '../components/line-item'
 import Section from '../components/checkout-section'
+import { emptyAddress } from '../model/checkout'
 
 type Mode = 'cart' | 'checkout'
 
@@ -63,7 +64,11 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   <CustomerForm
                     fields={state.checkout.customer.fields}
                     errors={state.checkout.customer.errors}
-                    setFields={actions.checkout.customer.setFields}
+                    setFields={payload => {
+                      actions.checkout.customer.setFields(payload)
+                      actions.checkout.shipping.setFields(payload)
+                      actions.checkout.billing.setFields(payload)
+                    }}
                   />
                 )}
                 toggleFormShowing={() => {
@@ -83,7 +88,12 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   <ShippingForm
                     fields={state.checkout.shipping.fields}
                     errors={state.checkout.shipping.errors}
-                    setFields={actions.checkout.shipping.setFields}
+                    setFields={payload => {
+                      actions.checkout.shipping.setFields(payload)
+                      if (state.checkout.controls.fields.billingIsSameAsShipping) {
+                        actions.checkout.billing.setFields(payload)
+                      }
+                    }}
                     shippingMethods={state.checkout.shippingMethods}
                   />
                 )}
@@ -106,9 +116,17 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     errors={state.checkout.billing.errors}
                     setFields={actions.checkout.billing.setFields}
                     useShippingAddress={state.checkout.controls.fields.billingIsSameAsShipping}
-                    toggleUseShippingAddress={billingIsSameAsShipping => actions.checkout.controls.setFields({
-                      billingIsSameAsShipping,
-                    })}
+                    toggleUseShippingAddress={billingIsSameAsShipping => {
+                      actions.checkout.controls.setFields({
+                        billingIsSameAsShipping,
+                      })
+                      if (billingIsSameAsShipping) {
+                        console.log('Should set fields')
+                        actions.checkout.billing.setFields(state.checkout.shipping.fields)
+                      } else {
+                        actions.checkout.billing.setFields(emptyAddress())
+                      }
+                    }}
                   />
                 )}
                 toggleFormShowing={() => {

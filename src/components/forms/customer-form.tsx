@@ -22,6 +22,7 @@ export default function ({
         errors={errors.firstName}
         onChange={val => setFields({ firstName: val })}
         autoFocus
+        required
       />
       <Textfield
         label='Last Name'
@@ -29,12 +30,14 @@ export default function ({
         value={fields.lastName}
         errors={errors.lastName}
         onChange={val => setFields({ lastName: val })}
+        required
       />
       <Textfield
         label='Email'
         value={fields.email}
         errors={errors.email}
         onChange={val => setFields({ email: val })}
+        required
       />
     </div>
   )

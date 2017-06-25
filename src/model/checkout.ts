@@ -1,6 +1,7 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 import * as Form from './form'
+import { expiryMonths, expiryYears } from '../utils/date-select-options'
 
 export interface LocalState {
   submitted: boolean
@@ -27,15 +28,6 @@ export interface CustomerFields {
   email: string
 }
 
-export interface PaymentFields {
-  gateway: string
-  method: string
-  number: string
-  month: string
-  year: string
-  verification: string
-}
-
 export interface ControlsFields {
   billingIsSameAsShipping: boolean
 }
@@ -44,7 +36,6 @@ export interface State extends LocalState {
   customer: Form.State<CustomerFields>
   billing: Form.State<Core.BillingDetails>
   shipping: Form.State<Core.Shipping>
-  payment: Form.State<PaymentFields>
   controls: Form.State<ControlsFields>
 }
 
@@ -52,7 +43,6 @@ export interface Actions extends LocalActions {
   customer: Form.Actions<CustomerFields>
   billing: Form.Actions<Core.BillingDetails>
   shipping: Form.Actions<Core.Shipping>
-  payment: Form.Actions<PaymentFields>
   controls: Form.Actions<ControlsFields>
 }
 
@@ -61,13 +51,27 @@ export interface Namespace { 'checkout': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
+export function emptyAddress() {
+  return {
+    firstName: '',
+    lastName: '',
+    line1: '',
+    line2: '',
+    city: '',
+    county: '',
+    country: 'GB',
+    postcode: '',
+    phone: '',
+  }
+}
+
 export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
     state: {
       submitted: false,
-      sectionShowing: 0,
+      sectionShowing: 1,
       shippingMethods: [],
     },
     reducers: {
@@ -86,7 +90,6 @@ export function model({
         actions.checkout.customer.setValidity()
         actions.checkout.billing.setValidity()
         actions.checkout.shipping.setValidity()
-        actions.checkout.payment.setValidity()
         return Promise.resolve(state)
       },
       getShippingMethods(state, actions) {
@@ -101,7 +104,6 @@ export function model({
           actions.checkout.customer.validateOnSubmit(),
           actions.checkout.billing.validateOnSubmit(),
           actions.checkout.shipping.validateOnSubmit(),
-          actions.checkout.payment.validateOnSubmit(),
         ] as any[]
         return Promise.all(validations)
           .then(() => {
@@ -114,7 +116,7 @@ export function model({
                 lastName: customer.lastName,
                 email: customer.email,
               },
-              shippingMethod: '123325434',
+              shippingMethod: shipping.shippingMethod,
               gateway: 'stripe',
               billing: {
                 firstName: customer.firstName,
@@ -195,18 +197,10 @@ export function model({
         },
         defaultForm: () => {
           return {
-            firstName: '',
-            lastName: '',
-            line1: '',
-            line2: '',
-            city: '',
-            county: '',
-            country: 'GB',
-            postcode: '',
-            phone: '',
+            ...emptyAddress(),
             cardNumber: '',
-            expiryMonth: '',
-            expiryYear: '',
+            expiryMonth: expiryMonths[0].value,
+            expiryYear: expiryYears[0].value,
             cvv: '',
           }
         },
@@ -228,36 +222,10 @@ export function model({
         },
         defaultForm: () => {
           return {
-            firstName: '',
-            lastName: '',
-            line1: '',
-            line2: '',
-            city: '',
-            county: '',
-            country: '',
-            postcode: '',
-            phone: '',
+            ...emptyAddress(),
             shippingMethod: '',
           }
         },
-      }),
-      payment: Form.model<PaymentFields>({
-        constraints: () => ({
-          gateway: { presence: true },
-          method: { presence: true },
-          number: { presence: true },
-          month: { presence: true },
-          year: { presence: true },
-          verification: { presence: true },
-        }),
-        defaultForm: () => ({
-          gateway: 'stripe',
-          method: 'purchace',
-          number: '',
-          month: '',
-          year: '',
-          verification: '',
-        }),
       }),
     },
   }

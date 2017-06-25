@@ -15,6 +15,7 @@ export interface Props {
   onChange: (value: string) => any
   options: Option[]
   placeholder?: string
+  required?: boolean
 }
 
 export default function ({
@@ -23,17 +24,18 @@ export default function ({
   type = 'text',
   autoFocus = false,
   value,
-  errors,
+  errors = [],
   onChange,
   placeholder,
   options,
+  required = false,
 }: Props) {
   return (
     <div className={className}>
       {label
         ? (
           <label className='d-ib w-100 mb-1 fc-grey-500 fs-small'>
-            {label}
+            {label}{required ? '*' : ''}
           </label>
         ) : null
       }

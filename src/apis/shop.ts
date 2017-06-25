@@ -1,5 +1,19 @@
 import * as desanitize from './desanitize'
 
+function cleanObj<O>(obj: O): Partial<O> {
+  return Object.keys(obj)
+    .reduce((prev, key) => {
+      if (obj[key] !== undefined && obj[key] !== null) {
+        return {
+          ...prev,
+          [key]: obj[key],
+        }
+      } else {
+        return prev
+      }
+    }, {})
+}
+
 export interface Shop {
   products: {
     getAll: () => Promise<Core.Product[]>,
@@ -56,7 +70,7 @@ export default function (api: any): Shop {
       },
       checkout(details) {
         return new Promise((resolve, reject) => {
-          const shippingAddress = {
+          const billingAddress = cleanObj({
             first_name: details.billing.firstName,
             last_name: details.billing.lastName,
             address_1: details.billing.line1,
@@ -66,8 +80,8 @@ export default function (api: any): Shop {
             country: details.billing.country,
             postcode: details.billing.postcode,
             phone: details.billing.phone,
-          }
-          const billingAddress = {
+          })
+          const shippingAddress = cleanObj({
             first_name: details.shipping.firstName,
             last_name: details.shipping.lastName,
             address_1: details.shipping.line1,
@@ -77,13 +91,13 @@ export default function (api: any): Shop {
             country: details.shipping.country,
             postcode: details.shipping.postcode,
             phone: details.shipping.phone,
-          }
+          })
           api.Cart.Complete({
-            customer: {
+            customer: cleanObj({
               first_name: details.customer.firstName,
               last_name: details.customer.lastName,
               email: details.customer.email,
-            },
+            }),
             shipping: details.shippingMethod,
             gateway: 'stripe',
             ship_to: shippingAddress,
@@ -96,14 +110,14 @@ export default function (api: any): Shop {
       pay(details) {
         return new Promise((resolve, reject) => {
           api.Checkout.Payment('purchase', details.orderId, {
-            data: {
+            data: cleanObj({
               first_name: details.firstName,
               last_name: details.lastName,
               number: details.cardNumber,
               expiry_month: details.expiryMonth,
               expiry_year: details.expiryYear,
               cvv: details.cvv,
-            },
+            }),
           }, resolve, reject)
         })
       },

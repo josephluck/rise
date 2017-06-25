@@ -40,6 +40,7 @@ export default function ({
           }
         })}
         placeholder=''
+        required
       />
     </div>
   )

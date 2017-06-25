@@ -23,6 +23,7 @@ export default function ({
         errors={errors.line1}
         onChange={val => setFields({ line1: val })}
         autoFocus
+        required
       />
       <Textfield
         label='Line 2'
@@ -39,6 +40,7 @@ export default function ({
         onChange={val => setFields({ country: val })}
         options={forSelect}
         placeholder=''
+        required
       />
       <div className='d-flex pb-3'>
         <Textfield
@@ -47,6 +49,7 @@ export default function ({
           className='pr-1'
           errors={errors.postcode}
           onChange={val => setFields({ postcode: val })}
+          required
         />
         <Textfield
           label='City'
