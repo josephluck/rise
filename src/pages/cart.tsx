@@ -90,6 +90,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     errors={state.checkout.shipping.errors}
                     setFields={payload => {
                       actions.checkout.shipping.setFields(payload)
+                      actions.checkout.calculateTotals(state.cart)
                       if (state.checkout.controls.fields.billingIsSameAsShipping) {
                         actions.checkout.billing.setFields(payload)
                       }
@@ -138,17 +139,17 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           <div className='pv-4 d-flex'>
             <LineItem
               label='Sub Total'
-              amount={state.cart.totals.subTotal}
+              amount={state.checkout.totals.subTotal}
               className='flex-1 fc-grey-700'
             />
             <LineItem
               label='Shipping'
-              amount={state.cart.totals.shipping}
+              amount={state.checkout.totals.shipping}
               className='flex-1 fc-grey-700'
             />
             <LineItem
               label='Total'
-              amount={state.cart.totals.subTotal + state.cart.totals.shipping}
+              amount={state.checkout.totals.total}
               className='flex-1'
             />
           </div>

@@ -99,7 +99,7 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
             </div>
           </div>
           <CartAlert
-            items={!opts.showAlert ? 0 : state.cart.totals.quantity}
+            items={!opts.showAlert ? 0 : state.checkout.totals.quantity}
           />
         </div>
       )

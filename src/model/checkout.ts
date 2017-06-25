@@ -7,9 +7,11 @@ export interface LocalState {
   submitted: boolean
   sectionShowing: number
   shippingMethods: Core.ShippingMethod[]
+  totals: Core.Totals
 }
 
 export interface Reducers {
+  calculateTotals: Helix.Reducer<Models, State, Core.Cart>
   setKey: Helix.Reducer<Models, State, Record<string, any>>
   setShippingMethods: Helix.Reducer<Models, State, Core.ShippingMethod[]>
 }
@@ -45,16 +47,42 @@ export interface Namespace { 'checkout': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
+function defaultState(): LocalState {
+  return {
+    submitted: false,
+    sectionShowing: 1,
+    shippingMethods: [],
+    totals: {
+      subTotal: 0,
+      total: 0,
+      quantity: 0,
+      shipping: 0,
+    },
+  }
+}
+
 export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, LocalState, Reducers, Effects> {
   return {
-    state: {
-      submitted: false,
-      sectionShowing: 1,
-      shippingMethods: [],
-    },
+    state: defaultState(),
     reducers: {
+      calculateTotals(state, cart) {
+        const subTotal = total(cart.items)
+        const shippingMethod = state.shippingMethods.find(method => method.id === state.shipping.fields.shippingMethod)
+        const shipping = state.shipping.fields.shippingMethod && shippingMethod
+          ? shippingMethod.price
+          : 0
+
+        return {
+          totals: {
+            subTotal,
+            total: subTotal + shipping,
+            quantity: quantity(cart.items),
+            shipping,
+          },
+        }
+      },
       setKey(state, payload) {
         return {
           ...state,
@@ -194,4 +222,16 @@ export function model({
       }),
     },
   }
+}
+
+function total(items: Core.CartEntry[]): number {
+  return items.reduce((prev, curr) => {
+    return prev + (curr.price * curr.quantity)
+  }, 0)
+}
+
+function quantity(items: Core.CartEntry[]): number {
+  return items.reduce((prev, curr) => {
+    return prev + curr.quantity
+  }, 0)
 }

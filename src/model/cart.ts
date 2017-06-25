@@ -2,7 +2,6 @@ import { Apis } from '../bootstrap'
 import { Models } from './'
 
 export interface State {
-  totals: Core.Totals
   items: Core.CartEntry[]
 }
 
@@ -31,12 +30,6 @@ export type ModelApi = Helix.ModelApi<State, Actions>
 function defaultState() {
   return {
     items: [],
-    totals: {
-      subTotal: 0,
-      total: 0,
-      quantity: 0,
-      shipping: 0,
-    },
   }
 }
 
@@ -50,19 +43,14 @@ export function model({
       doSync(state, cart) {
         return {
           items: cart.items,
-          totals: {
-            subTotal: total(cart.items),
-            total: total(cart.items),
-            shipping: 0,
-            quantity: quantity(cart.items),
-          },
         }
       },
     },
     effects: {
-      sync(state, actions) {
+      sync(_state, actions) {
         return shop.cart.get()
           .then(actions.cart.doSync)
+          .then(state => actions.checkout.calculateTotals(state.cart))
           .catch(actions.cart.reset)
       },
       add(state, actions, newItem) {
@@ -81,16 +69,4 @@ export function model({
       },
     },
   }
-}
-
-function total(items: Core.CartEntry[]): number {
-  return items.reduce((prev, curr) => {
-    return prev + (curr.price * curr.quantity)
-  }, 0)
-}
-
-function quantity(items: Core.CartEntry[]): number {
-  return items.reduce((prev, curr) => {
-    return prev + curr.quantity
-  }, 0)
 }
