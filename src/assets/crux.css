@@ -356,7 +356,8 @@
 .ff-link { font-family: 'PT Sans', sans-serif; }
 .fs-tiny { font-size: 0.7rem; }
 .fs-small { font-size: 0.8rem; }
-.fs-medium { font-size: 1rem; }
+.fs-regular { font-size: 1rem; }
+.fs-medium { font-size: 1.2rem; }
 .fs-large { font-size: 1.5rem; }
 .fs-sub-heading { font-size: 1.5rem; }
 .fs-heading { font-size: 2rem; }
@@ -1114,7 +1115,8 @@
 .ff-link-f:focus { font-family: 'PT Sans', sans-serif; }
 .fs-tiny-f:focus { font-size: 0.7rem; }
 .fs-small-f:focus { font-size: 0.8rem; }
-.fs-medium-f:focus { font-size: 1rem; }
+.fs-regular-f:focus { font-size: 1rem; }
+.fs-medium-f:focus { font-size: 1.2rem; }
 .fs-large-f:focus { font-size: 1.5rem; }
 .fs-sub-heading-f:focus { font-size: 1.5rem; }
 .fs-heading-f:focus { font-size: 2rem; }
@@ -1873,7 +1875,8 @@
   .ff-link-ns { font-family: 'PT Sans', sans-serif; }
   .fs-tiny-ns { font-size: 0.7rem; }
   .fs-small-ns { font-size: 0.8rem; }
-  .fs-medium-ns { font-size: 1rem; }
+  .fs-regular-ns { font-size: 1rem; }
+  .fs-medium-ns { font-size: 1.2rem; }
   .fs-large-ns { font-size: 1.5rem; }
   .fs-sub-heading-ns { font-size: 1.5rem; }
   .fs-heading-ns { font-size: 2rem; }
@@ -2633,7 +2636,8 @@
   .ff-link-m { font-family: 'PT Sans', sans-serif; }
   .fs-tiny-m { font-size: 0.7rem; }
   .fs-small-m { font-size: 0.8rem; }
-  .fs-medium-m { font-size: 1rem; }
+  .fs-regular-m { font-size: 1rem; }
+  .fs-medium-m { font-size: 1.2rem; }
   .fs-large-m { font-size: 1.5rem; }
   .fs-sub-heading-m { font-size: 1.5rem; }
   .fs-heading-m { font-size: 2rem; }
@@ -3393,7 +3397,8 @@
   .ff-link-l { font-family: 'PT Sans', sans-serif; }
   .fs-tiny-l { font-size: 0.7rem; }
   .fs-small-l { font-size: 0.8rem; }
-  .fs-medium-l { font-size: 1rem; }
+  .fs-regular-l { font-size: 1rem; }
+  .fs-medium-l { font-size: 1.2rem; }
   .fs-large-l { font-size: 1.5rem; }
   .fs-sub-heading-l { font-size: 1.5rem; }
   .fs-heading-l { font-size: 2rem; }

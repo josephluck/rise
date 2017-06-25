@@ -45,7 +45,7 @@ const CartItem = ({
             />
           </div>
         </Collapse>
-        <div className='fs-medium'>{'£'}<Currency price={price * quantity} /></div>
+        <div className='fs-regular'>{'£'}<Currency price={price * quantity} /></div>
       </div>
     </div>
   )

@@ -38,7 +38,7 @@ export default component<Props, State, Reducers, Effects>({
           className='fc-grey-700 fs-tiny tt-uppercase pos-relative d-flex align-items-center'
           onClick={actions.toggleShowing}
         >
-          <span className='pos-relative fs-medium bg-white pr-1'>{props.label}</span>
+          <span className='pos-relative fs-regular bg-white pr-1'>{props.label}</span>
           <Icon
             icon='arrow-right'
             className='transition d-ib'

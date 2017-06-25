@@ -17,7 +17,16 @@ const page: Helix.Page<Models> = {
     if (order) {
       return (
         <div>
-          <div className='mb-3'>
+          <div className='mb-6'>
+            <img
+              src='/assets/images/thank-you.jpg'
+              className='h-auto w-100 mb-3'
+            />
+            <div className='fs-medium ta-c pb-3 bb bc-grey-100'>
+              Thank You For Your Order
+            </div>
+          </div>
+          <div className='mb-6'>
             <CollapsableSection
               label='Summary'
               defaultOpen={true}
@@ -35,10 +44,10 @@ const page: Helix.Page<Models> = {
             </CollapsableSection>
           </div>
 
-          <div className='mb-3'>
+          <div className='mb-6'>
             <CollapsableSection
               label='Shipping Information'
-              defaultOpen={false}
+              defaultOpen={true}
             >
               <DisplayAddress
                 className='ba bc-grey-100 pa-3'
@@ -47,10 +56,10 @@ const page: Helix.Page<Models> = {
             </CollapsableSection>
           </div>
 
-          <div className='mb-3'>
+          <div>
             <CollapsableSection
               label='Payment Information'
-              defaultOpen={false}
+              defaultOpen={true}
             >
               <div className='ba bc-grey-100 pa-3'>
                 <DisplayAddress

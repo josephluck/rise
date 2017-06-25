@@ -7,7 +7,7 @@ interface LineItemProps {
   className?: string
 }
 
-export default function LineItem ({
+export default function LineItem({
   label,
   amount,
   className,
@@ -15,7 +15,7 @@ export default function LineItem ({
   return (
     <div className={`ta-c ${className}`}>
       <div className='pb-2 fs-small tt-uppercase'>{label}</div>
-      <div className='fs-medium'>{'£'}<Currency price={amount} /></div>
+      <div className='fs-regular'>{'£'}<Currency price={amount} /></div>
     </div>
   )
 }

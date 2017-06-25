@@ -2,7 +2,6 @@ import h from 'helix-react/lib/html'
 import { Models } from '../model'
 import Button from '../components/button'
 import Carousel from '../components/carousel'
-// import ProductControls from '../components/add-product-controls'
 import Currency from '../components/currency'
 
 const page: Helix.Page<Models> = {
@@ -38,16 +37,6 @@ const page: Helix.Page<Models> = {
                       {'£'}<Currency price={product.price} />
                     </div>
                   </div>
-                  {/*<div className='d-ib ta-c mt-2'>
-                    <ProductControls
-                      onAddToCart={(quantity) => {
-                        actions.cart.add({
-                          ...product,
-                          quantity,
-                        })
-                      }}
-                    />
-                  </div>*/}
                 </a>
               </div>
             )
@@ -55,19 +44,33 @@ const page: Helix.Page<Models> = {
         />
         <div className='pv-5'>
           <div className='ta-c ph-4 mb-9'>
-            <div className='fs-heading mb-4 fw-500'>Baking Lives Better</div>
-            <div className='lh-5 mb-4'>Lorem ipsum dolor sit amet</div>
+            <div className='fs-heading mb-4 fw-500'>
+              Baking Lives Better
+            </div>
+            <div className='lh-5 fs-medium mb-4'>
+              Brownies through your letterbox from <span className='fw-500'>£14.95</span>
+            </div>
             <Button
-              label='Shop'
+              label='Buy Brownies'
               href='/shop'
               size='large'
-              className='bra-pill w-100'
+              className='bra-pill w-100 ta-c'
             />
           </div>
           <div className='ta-c ph-4 mb-9'>
-            <div className='fs-heading mb-4 fw-500'>Local, London</div>
+            <div className='fs-heading mb-4 fw-500'>
+              Make a Difference
+            </div>
             <div className='lh-5 mb-4'>
-              We are based just off Brick Lane. We honed our trade selling cakes to local businesses. And after a couple of years our cakes were going down so well locally, we decided to start selling our amazingly delicious brownies online too.
+              <p className='mb-3'>
+                Every box of brownies we sell helps people affected by homelessness in their journey towards employment and a brighter, more stable future, through training, qualitifications and support.
+              </p>
+              <p className='mb-3'>
+                As well as delivering gift boxes to your desk or door, we also take bulk corporate orders for client gifts and company events or meetings. Why not treat your team and make a social difference at the same time?
+              </p>
+              <p>
+                Check the shop for quantities and prices, or e-mail Andrea on bakery@providencerow.org.uk for bespoke business orders.
+              </p>
             </div>
             <Button
               label='Our Story'

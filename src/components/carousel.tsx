@@ -1,6 +1,6 @@
 import h from 'helix-react/lib/html'
 import * as Flickity from 'flickity'
-import {Component} from 'react'
+import { Component } from 'react'
 
 interface Props {
   items: any[]
@@ -9,23 +9,23 @@ interface Props {
 }
 
 export default class Carousel extends Component<Props, any> {
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setupCarousel()
   }
 
-  shouldComponentUpdate (props) {
+  shouldComponentUpdate(props) {
     return props.items.length !== this.props.items.length
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.setupCarousel()
   }
 
-  setupCarousel () {
+  setupCarousel() {
     if (this.props.items.length) {
       new Flickity(this.refs.carousel, {
         autoPlay: this.props.autoPlay || false,
@@ -33,10 +33,10 @@ export default class Carousel extends Component<Props, any> {
     }
   }
 
-  render () {
+  render() {
     return (
       <div
-        className='carousel mb-4'
+        className='carousel mb-6'
         ref='carousel'
       >
         {this.props.items.map((itm, index) => {

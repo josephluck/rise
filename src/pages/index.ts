@@ -2,6 +2,7 @@ import lMain from './layout/main'
 
 import home from './home'
 import blog from './blog'
+import about from './about'
 import post from './post'
 import cart from './cart'
 import shop from './shop'
@@ -12,6 +13,7 @@ import complete from './complete'
 export default {
   '/': lMain(home),
   '/blog': lMain(blog),
+  '/about': lMain(about),
   '/blog/:blogId': lMain(post),
   '/cart': lMain(cart('cart'), {
     showTabs: true,
