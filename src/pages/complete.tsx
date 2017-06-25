@@ -22,7 +22,7 @@ const page: Helix.Page<Models> = {
               src='/assets/images/thank-you.jpg'
               className='h-auto w-100 mb-3'
             />
-            <div className='fs-medium ta-c pb-3 bb bc-grey-100'>
+            <div className='fs-medium ta-c'>
               Thank You For Your Order
             </div>
           </div>

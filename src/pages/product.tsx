@@ -9,6 +9,9 @@ const page: Helix.Page<Models> = {
   onEnter(state, _prev, actions) {
     actions.products.fetch(state.location.params.productId)
   },
+  onLeave(state, _prev, actions) {
+    actions.products.reset()
+  },
   view(state, prev, actions) {
     const product = state.products.product
     if (product) {

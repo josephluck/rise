@@ -7,6 +7,7 @@ export interface State {
 }
 
 export interface Reducers {
+  reset: Helix.Reducer0<Models, State>
   setProducts: Helix.Reducer<Models, State, Core.Product[]>
   setProduct: Helix.Reducer<Models, State, Core.Product>
 }
@@ -36,6 +37,7 @@ export function model({
   return {
     state: emptyState(),
     reducers: {
+      reset: emptyState,
       setProducts(state, products) {
         return {
           products,
