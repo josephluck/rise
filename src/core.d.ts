@@ -31,7 +31,7 @@ declare namespace Core {
     phone?: string
   }
 
-  interface Shipping extends Address {
+  interface ShippingDetails extends Address {
     shippingMethod: string
   }
 
@@ -75,9 +75,26 @@ declare namespace Core {
     cvv: string
   }
 
+  interface CustomerDetails {
+    firstName: string
+    lastName: string
+    email: string
+  }
+
   interface ShippingMethod {
     id: string
     name: string
     price: number
   }
+
+  // interface Order {
+  //   dateCreated: string
+  //   datePaid: string
+  //   status: 'pending' | 'paid' | 'shipped' // TODO: Work out the options here
+  //   items: CartEntry[]
+  //   shippingAddress: Address
+  //   shippingMethod: ShippingMethod
+  //   billingAddress: Address
+  // }
+  type Order = any
 }

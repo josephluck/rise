@@ -8,7 +8,7 @@ import ShippingForm from '../components/forms/shipping-form'
 import BillingForm from '../components/forms/billing-form'
 import LineItem from '../components/line-item'
 import Section from '../components/checkout-section'
-import { emptyAddress } from '../model/checkout'
+import * as fixtures from '../utils/fixtures'
 
 type Mode = 'cart' | 'checkout'
 
@@ -124,7 +124,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                         console.log('Should set fields')
                         actions.checkout.billing.setFields(state.checkout.shipping.fields)
                       } else {
-                        actions.checkout.billing.setFields(emptyAddress())
+                        actions.checkout.billing.setFields(fixtures.address())
                       }
                     }}
                   />

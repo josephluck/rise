@@ -27,7 +27,11 @@ export interface Shop {
     checkout: (details: Core.CheckoutDetails) => Promise<any>,
     pay: (details: Core.PaymentDetails) => Promise<any>,
   },
-  getShippingMethods: () => Promise<Core.ShippingMethod[]>
+  getShippingMethods: () => Promise<Core.ShippingMethod[]>,
+  orders: {
+    getAll: () => Promise<Core.Order[]>,
+    get: (orderId: string) => Promise<Core.Order>,
+  }
 }
 
 export default function (api: any): Shop {
@@ -127,6 +131,18 @@ export default function (api: any): Shop {
         api.Cart.Checkout(resolve, reject)
       })
         .then(desanitize.shippingMethods)
+    },
+    orders: {
+      getAll() {
+        return new Promise((resolve, reject) => {
+          api.Orders.Find('linit=100', resolve, reject)
+        })
+      },
+      get(orderId) {
+        return new Promise((resolve, reject) => {
+          api.Order.Get(orderId, resolve, reject)
+        })
+      },
     },
   }
 }

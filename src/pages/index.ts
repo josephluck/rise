@@ -6,6 +6,7 @@ import post from './post'
 import cart from './cart'
 import shop from './shop'
 import product from './product'
+import order from './order'
 
 export default {
   '/': lMain(home),
@@ -28,5 +29,11 @@ export default {
     showTabs: false,
     showCartIcon: true,
     showAlert: true,
+  }),
+  '/orders/:orderId': lMain(order, {
+    backLocation: '/orders',
+    showTabs: false,
+    showCartIcon: false,
+    showAlert: false,
   }),
 }

@@ -1,11 +1,10 @@
 import h from 'helix-react/lib/html'
-import { CustomerFields } from '../../model/checkout'
 import Textfield from '../textfield'
 
 export interface Props {
-  fields: CustomerFields
-  errors: Core.Errors<CustomerFields>
-  setFields: Core.SetFields<CustomerFields>
+  fields: Core.CustomerDetails
+  errors: Core.Errors<Core.CustomerDetails>
+  setFields: Core.SetFields<Core.CustomerDetails>
 }
 
 export default function ({

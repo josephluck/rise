@@ -1,7 +1,7 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 import * as Form from './form'
-import { expiryMonths, expiryYears } from '../utils/date-select-options'
+import * as fixtures from '../utils/fixtures'
 
 export interface LocalState {
   submitted: boolean
@@ -22,27 +22,21 @@ export interface Effects {
 
 export type LocalActions = Helix.Actions<Reducers, Effects>
 
-export interface CustomerFields {
-  firstName: string
-  lastName: string
-  email: string
-}
-
 export interface ControlsFields {
   billingIsSameAsShipping: boolean
 }
 
 export interface State extends LocalState {
-  customer: Form.State<CustomerFields>
+  customer: Form.State<Core.CustomerDetails>
   billing: Form.State<Core.BillingDetails>
-  shipping: Form.State<Core.Shipping>
+  shipping: Form.State<Core.ShippingDetails>
   controls: Form.State<ControlsFields>
 }
 
 export interface Actions extends LocalActions {
-  customer: Form.Actions<CustomerFields>
+  customer: Form.Actions<Core.CustomerDetails>
   billing: Form.Actions<Core.BillingDetails>
-  shipping: Form.Actions<Core.Shipping>
+  shipping: Form.Actions<Core.ShippingDetails>
   controls: Form.Actions<ControlsFields>
 }
 
@@ -50,20 +44,6 @@ export const namespace: keyof Namespace = 'checkout'
 export interface Namespace { 'checkout': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
-
-export function emptyAddress() {
-  return {
-    firstName: '',
-    lastName: '',
-    line1: '',
-    line2: '',
-    city: '',
-    county: '',
-    country: 'GB',
-    postcode: '',
-    phone: '',
-  }
-}
 
 export function model({
   shop,
@@ -147,12 +127,14 @@ export function model({
               cvv: billing.cvv,
             })
           })
-          .then(() => {
-            console.log('All done')
-            return state
+          .then(order => {
+            actions.orders.setOrder(order)
+            const newState = actions.location.set(`/order/${order.id}`)
+            return newState
           })
-          .catch(() => {
-            console.log(state)
+          .catch(err => {
+            console.info('Handle error')
+            console.error(err)
           })
       },
     },
@@ -165,17 +147,13 @@ export function model({
           billingIsSameAsShipping: true,
         }),
       }),
-      customer: Form.model<CustomerFields>({
+      customer: Form.model<Core.CustomerDetails>({
         constraints: () => ({
           firstName: { presence: true },
           lastName: { presence: true },
           email: { presence: true, email: true },
         }),
-        defaultForm: () => ({
-          firstName: '',
-          lastName: '',
-          email: '',
-        }),
+        defaultForm: fixtures.customer,
       }),
       billing: Form.model<Core.BillingDetails>({
         constraints: () => {
@@ -195,17 +173,9 @@ export function model({
             cvv: { presence: true },
           }
         },
-        defaultForm: () => {
-          return {
-            ...emptyAddress(),
-            cardNumber: '',
-            expiryMonth: expiryMonths[0].value,
-            expiryYear: expiryYears[0].value,
-            cvv: '',
-          }
-        },
+        defaultForm: fixtures.billing,
       }),
-      shipping: Form.model<Core.Shipping>({
+      shipping: Form.model<Core.ShippingDetails>({
         constraints: () => {
           return {
             firstName: { presence: true },
@@ -220,12 +190,7 @@ export function model({
             shippingMethod: { presence: true },
           }
         },
-        defaultForm: () => {
-          return {
-            ...emptyAddress(),
-            shippingMethod: '',
-          }
-        },
+        defaultForm: fixtures.shipping,
       }),
     },
   }

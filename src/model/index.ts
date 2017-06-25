@@ -3,6 +3,7 @@ import * as Cart from './cart'
 import * as Products from './products'
 import * as Checkout from './checkout'
 // import * as User from './user'
+import * as Orders from './orders'
 
 export type Models = Helix.Models<
   Blog.Namespace &
@@ -10,6 +11,7 @@ export type Models = Helix.Models<
   Products.Namespace &
   Checkout.Namespace &
   // User.Namespace &
+  Orders.Namespace &
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
   >
 
@@ -24,6 +26,7 @@ export default function (apis) {
       [Products.namespace]: Products.model(apis),
       [Checkout.namespace]: Checkout.model(apis),
       // [User.namespace]: User.model(apis),
+      [Orders.namespace]: Orders.model(apis),
     },
   }
 }

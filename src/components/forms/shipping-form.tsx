@@ -4,9 +4,9 @@ import AddressForm from './address-form'
 import Currency from '../currency'
 
 export interface Props {
-  fields: Core.Shipping
-  errors: Core.Errors<Core.Shipping>
-  setFields: Core.SetFields<Core.Shipping>
+  fields: Core.ShippingDetails
+  errors: Core.Errors<Core.ShippingDetails>
+  setFields: Core.SetFields<Core.ShippingDetails>
   shippingMethods: Core.ShippingMethod[]
 }
 
