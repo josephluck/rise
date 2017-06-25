@@ -121,7 +121,6 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                         billingIsSameAsShipping,
                       })
                       if (billingIsSameAsShipping) {
-                        console.log('Should set fields')
                         actions.checkout.billing.setFields(state.checkout.shipping.fields)
                       } else {
                         actions.checkout.billing.setFields(fixtures.address())

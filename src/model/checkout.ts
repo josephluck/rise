@@ -129,7 +129,7 @@ export function model({
           })
           .then(order => {
             actions.orders.setOrder(order)
-            const newState = actions.location.set(`/order/${order.id}`)
+            const newState = actions.location.set('/checkout/complete')
             return newState
           })
           .catch(err => {

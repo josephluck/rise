@@ -112,9 +112,8 @@ declare namespace Core {
     paymentCard: PaymentCard
     dateCreated: string
     datePaid: string
-    price: number // Note this will be in pence
     refunds: Refund[]
-    refunded: number // Note this will be in pence
+    refunded: number
     totals: Totals
   }
 

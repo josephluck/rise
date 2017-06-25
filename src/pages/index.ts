@@ -7,6 +7,7 @@ import cart from './cart'
 import shop from './shop'
 import product from './product'
 import order from './order'
+import complete from './complete'
 
 export default {
   '/': lMain(home),
@@ -19,6 +20,12 @@ export default {
   }),
   '/checkout': lMain(cart('checkout'), {
     backLocation: '/cart',
+    showTabs: false,
+    showCartIcon: false,
+    showAlert: false,
+  }),
+  '/checkout/complete': lMain(complete, {
+    backLocation: '/shop',
     showTabs: false,
     showCartIcon: false,
     showAlert: false,

@@ -25,7 +25,7 @@ export interface Shop {
     remove: (id: string) => Promise<Core.Cart>,
     update: (id: string, quantity: number) => Promise<Core.Cart>,
     checkout: (details: Core.CheckoutFields) => Promise<any>,
-    pay: (details: Core.PaymentFields) => Promise<any>,
+    pay: (details: Core.PaymentFields) => Promise<Core.Order>,
   },
   getShippingMethods: () => Promise<Core.ShippingMethod[]>,
   orders: {
@@ -124,6 +124,7 @@ export default function (api: any): Shop {
             }),
           }, resolve, reject)
         })
+          .then((resp: any) => desanitize.order(resp))
       },
     },
     getShippingMethods() {
