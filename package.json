@@ -13,8 +13,9 @@
     "dist:browserify": "browserify lib/index.js > dist/index.js",
     "dist:assets": "cp -R src/assets dist/assets && cp src/index.html dist/index.html && cp src/index.html dist/200.html",
     "dist:minify": "uglifyjs ./dist/index.js --compress --mangle -o ./dist/index.js",
+    "dist:clean": "rm -rf lib && rm -rf dist",
     "test": "echo \"Error: no test specified.\"",
-    "deploy:surge": "npm run dist && surge --project ./dist --domain rise.surge.sh"
+    "deploy:surge": "npm run dist && surge --project ./dist --domain rise.surge.sh && npm run dist:clean"
   },
   "dependencies": {
     "flickity": "^2.0.5",
