@@ -24,8 +24,8 @@ export interface Shop {
     insert: (id: string, quantity: number) => Promise<Core.Cart>,
     remove: (id: string) => Promise<Core.Cart>,
     update: (id: string, quantity: number) => Promise<Core.Cart>,
-    checkout: (details: Core.CheckoutDetails) => Promise<any>,
-    pay: (details: Core.PaymentDetails) => Promise<any>,
+    checkout: (details: Core.CheckoutFields) => Promise<any>,
+    pay: (details: Core.PaymentFields) => Promise<any>,
   },
   getShippingMethods: () => Promise<Core.ShippingMethod[]>,
   orders: {

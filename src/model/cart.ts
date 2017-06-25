@@ -1,14 +1,8 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 
-interface Totals {
-  subTotal: number
-  quantity: number
-  shipping: number
-}
-
 export interface State {
-  totals: Totals
+  totals: Core.Totals
   items: Core.CartEntry[]
 }
 
@@ -39,6 +33,7 @@ function defaultState() {
     items: [],
     totals: {
       subTotal: 0,
+      total: 0,
       quantity: 0,
       shipping: 0,
     },
@@ -57,6 +52,7 @@ export function model({
           items: cart.items,
           totals: {
             subTotal: total(cart.items),
+            total: total(cart.items),
             shipping: 0,
             quantity: quantity(cart.items),
           },

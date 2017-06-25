@@ -28,7 +28,7 @@ export function address(): Core.Address {
     }
 }
 
-export function billing(): Core.BillingDetails {
+export function billing(): Core.BillingFields {
   return test
     ? {
       ...address(),
@@ -46,7 +46,7 @@ export function billing(): Core.BillingDetails {
     }
 }
 
-export function shipping(): Core.ShippingDetails {
+export function shipping(): Core.ShippingFields {
   return test
     ? {
       ...address(),
@@ -58,7 +58,7 @@ export function shipping(): Core.ShippingDetails {
     }
 }
 
-export function customer(): Core.CustomerDetails {
+export function customer(): Core.CustomerFields {
   return test
     ? {
       firstName: 'Bob',

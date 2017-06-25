@@ -6,9 +6,9 @@ import * as Collapse from 'react-collapse'
 import { expiryMonths, expiryYears } from '../../utils/date-select-options'
 
 export interface Props {
-  fields: Core.BillingDetails
-  errors: Core.Errors<Core.BillingDetails>
-  setFields: Core.SetFields<Core.BillingDetails>
+  fields: Core.BillingFields
+  errors: Core.Errors<Core.BillingFields>
+  setFields: Core.SetFields<Core.BillingFields>
   useShippingAddress: boolean
   toggleUseShippingAddress: (use: boolean) => any
 }

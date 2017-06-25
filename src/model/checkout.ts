@@ -27,16 +27,16 @@ export interface ControlsFields {
 }
 
 export interface State extends LocalState {
-  customer: Form.State<Core.CustomerDetails>
-  billing: Form.State<Core.BillingDetails>
-  shipping: Form.State<Core.ShippingDetails>
+  customer: Form.State<Core.CustomerFields>
+  billing: Form.State<Core.BillingFields>
+  shipping: Form.State<Core.ShippingFields>
   controls: Form.State<ControlsFields>
 }
 
 export interface Actions extends LocalActions {
-  customer: Form.Actions<Core.CustomerDetails>
-  billing: Form.Actions<Core.BillingDetails>
-  shipping: Form.Actions<Core.ShippingDetails>
+  customer: Form.Actions<Core.CustomerFields>
+  billing: Form.Actions<Core.BillingFields>
+  shipping: Form.Actions<Core.ShippingFields>
   controls: Form.Actions<ControlsFields>
 }
 
@@ -147,7 +147,7 @@ export function model({
           billingIsSameAsShipping: true,
         }),
       }),
-      customer: Form.model<Core.CustomerDetails>({
+      customer: Form.model<Core.CustomerFields>({
         constraints: () => ({
           firstName: { presence: true },
           lastName: { presence: true },
@@ -155,7 +155,7 @@ export function model({
         }),
         defaultForm: fixtures.customer,
       }),
-      billing: Form.model<Core.BillingDetails>({
+      billing: Form.model<Core.BillingFields>({
         constraints: () => {
           return {
             firstName: { presence: true },
@@ -175,7 +175,7 @@ export function model({
         },
         defaultForm: fixtures.billing,
       }),
-      shipping: Form.model<Core.ShippingDetails>({
+      shipping: Form.model<Core.ShippingFields>({
         constraints: () => {
           return {
             firstName: { presence: true },
