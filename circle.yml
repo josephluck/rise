@@ -2,4 +2,4 @@ deployment:
   production:
     branch: master
     commands:
-      - npm run dist && surge --project ./dist --domain rise.surge.sh
+      # - npm run dist && surge --project ./dist --domain rise.surge.sh
