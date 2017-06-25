@@ -1,12 +1,12 @@
 import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
 import { Models } from '../model'
-import CartItem from '../components/cart-item'
+import CartItemsList from '../components/cart-items-list'
 import Button from '../components/button'
 import CustomerForm from '../components/forms/customer-form'
 import ShippingForm from '../components/forms/shipping-form'
 import BillingForm from '../components/forms/billing-form'
-import LineItem from '../components/line-item'
+import Totals from '../components/totals'
 import Section from '../components/checkout-section'
 import * as fixtures from '../utils/fixtures'
 
@@ -28,26 +28,19 @@ const page = (mode: Mode): Helix.Page<Models> => ({
   view(state, prev, actions) {
     return (
       <div className='pb-4'>
-        <div className='ba bc-grey-100 mb-3'>
-          {state.cart.items.map((item, index) => {
-            return (
-              <CartItem
-                key={index}
-                showControls={mode === 'cart'}
-                updateQuantity={(quantity) => actions.cart.update({
-                  index,
-                  item: {
-                    ...item,
-                    quantity,
-                  },
-                })}
-                removeItem={() => actions.cart.remove(index)}
-                className={`pa-3 ${index !== 0 ? 'bt' : ''}`}
-                {...item}
-              />
-            )
+        <CartItemsList
+          items={state.cart.items}
+          className='mb-3'
+          showControls={mode === 'cart'}
+          updateQuantity={(item, quantity, index) => actions.cart.update({
+            index,
+            item: {
+              ...item,
+              quantity,
+            },
           })}
-        </div>
+          removeItem={(index) => actions.cart.remove(index)}
+        />
         <Collapse
           hasNestedCollapse
           isOpened={mode === 'checkout'}
@@ -136,23 +129,10 @@ const page = (mode: Mode): Helix.Page<Models> => ({
               />
             </div>
           </div>
-          <div className='pv-4 d-flex'>
-            <LineItem
-              label='Sub Total'
-              amount={state.checkout.totals.subTotal}
-              className='flex-1 fc-grey-700'
-            />
-            <LineItem
-              label='Shipping'
-              amount={state.checkout.totals.shipping}
-              className='flex-1 fc-grey-700'
-            />
-            <LineItem
-              label='Total'
-              amount={state.checkout.totals.total}
-              className='flex-1'
-            />
-          </div>
+          <Totals
+            className='pb-4'
+            totals={state.checkout.totals}
+          />
         </Collapse>
         {mode === 'cart'
           ? (

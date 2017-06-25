@@ -66,7 +66,7 @@ const page: Helix.Page<Models> = {
               label='Ingredients'
               defaultOpen={false}
             >
-              <div>
+              <div className='fs-small lh-5 fc-grey-900'>
                 {'Dark Chocolate (Cocoa Mass, Cocoa Butter, Emulsifiers (Soya Lecithin), Polyglycerol Polyricinoleate, Salt, Flavouring (Vanilla Essence), Butter (Unsalted Butter [Cows Milk]. Minimum 80% Milk Fat), Sugar, Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Eggs, Vanilla Extract (Water, Ethanol; Vanilla Extract [3%]).'}
               </div>
             </CollapsableSection>

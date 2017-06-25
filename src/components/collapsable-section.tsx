@@ -53,7 +53,7 @@ export default component<Props, State, Reducers, Effects>({
           />
         </div>
         <Collapse hasNestedCollapse isOpened={state.showing}>
-          <div className='pt-2 fs-small lh-5 fc-grey-900'>
+          <div className='mb-2'>
             {props.children}
           </div>
         </Collapse>
