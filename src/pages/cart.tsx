@@ -130,7 +130,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
             </div>
           </div>
           <Totals
-            className='pb-4'
+            className='pv-4'
             totals={state.checkout.totals}
           />
         </Collapse>

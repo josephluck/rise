@@ -153,7 +153,7 @@ export function model({
               expiryMonth: billing.expiryMonth,
               expiryYear: billing.expiryYear,
               cvv: billing.cvv,
-            })
+            }, state.cart.items)
           })
           .then(order => {
             actions.orders.setOrder(order)

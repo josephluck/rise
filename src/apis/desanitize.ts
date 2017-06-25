@@ -97,7 +97,7 @@ export function paymentCardFromPayment(payment: any): Core.PaymentCard {
 
 export function totalsFromOrder(order): Core.Totals {
   return {
-    subTotal: order.subtotal,
+    subTotal: order.total - order.shipping_price,
     total: order.total,
     shipping: order.shipping_price,
     quantity: 0, // TODO: use the orders/id/items endpoint

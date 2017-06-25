@@ -59,11 +59,9 @@ const page: Helix.Page<Models> = {
                 />
                 <DisplayFields
                   fields={[
-                    { label: 'Name', value: order.paymentCard.name },
                     { label: 'Type', value: order.paymentCard.brand },
-                    { label: 'Exp Month', value: order.paymentCard.expiryMonth },
-                    { label: 'Exp Year', value: order.paymentCard.expiryYear },
-                    { label: 'Card Number', value: order.paymentCard.last4 },
+                    { label: 'Expiry', value: `${order.paymentCard.expiryMonth} / ${order.paymentCard.expiryYear}` },
+                    { label: 'Card Number', value: `**** **** **** ${order.paymentCard.last4}` },
                   ]}
                 />
               </div>
