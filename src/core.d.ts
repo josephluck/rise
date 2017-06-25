@@ -23,6 +23,7 @@ declare namespace Core {
     firstName: string
     lastName: string
     line1: string
+    line2?: string
     city?: string
     county?: string
     country: string
@@ -36,6 +37,11 @@ declare namespace Core {
 
   interface SelectOption {
     label: string
+    value: string
+  }
+
+  interface OptionSelectorOption {
+    label: React.ReactNode
     value: string
   }
 

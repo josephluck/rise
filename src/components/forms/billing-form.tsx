@@ -1,5 +1,6 @@
 import h from 'helix-react/lib/html'
 import Textfield from '../textfield'
+import Select from '../select'
 import AddressForm from './address-form'
 import * as Collapse from 'react-collapse'
 
@@ -10,6 +11,34 @@ export interface Props {
   useShippingAddress: boolean
   toggleUseShippingAddress: (use: boolean) => any
 }
+
+const createExpiryMonths = (): Core.SelectOption[] => {
+  return Array.from({ length: 12 })
+    .map((_, index) => {
+      const value = index + 1 < 10
+        ? `0${index + 1}`
+        : (index + 1).toString()
+      return {
+        value,
+        label: value,
+      }
+    })
+}
+
+const createExpiryYears = (): Core.SelectOption[] => {
+  const thisYear = new Date().getFullYear()
+  return Array.from({ length: 12 })
+    .map((_, index) => {
+      const value = ((thisYear + index) % 2000).toString()
+      return {
+        value,
+        label: value,
+      }
+    })
+}
+
+const expiryMonths = createExpiryMonths()
+const expiryYears = createExpiryYears()
 
 export default function ({
   fields,
@@ -49,13 +78,41 @@ export default function ({
         onChange={val => setFields({ cardNumber: val })}
         autoFocus
       />
-      <Textfield
-        label='CVV'
-        value={fields.cvv}
-        className='pb-3'
-        errors={errors.cvv}
-        onChange={val => setFields({ cvv: val })}
-      />
+      <div className='d-flex'>
+        <Select
+          label='Expiry Month'
+          className='flex-1 pr-2'
+          value={fields.expiryMonth}
+          errors={errors.expiryMonth}
+          onChange={val => setFields({ expiryMonth: val })}
+          options={expiryMonths}
+          placeholder=''
+        />
+        <Select
+          label='Expiry Month'
+          className='flex-1 ph-2'
+          value={fields.expiryYear}
+          errors={errors.expiryYear}
+          onChange={val => setFields({ expiryYear: val })}
+          options={expiryYears}
+          placeholder=''
+        />
+        <Textfield
+          label='CVV'
+          value={fields.cvv}
+          className='flex-1 pl-2'
+          errors={errors.cvv}
+          onChange={val => setFields({ cvv: val })}
+        />
+      </div>
     </div>
   )
 }
+
+// orderId: string
+// firstName: string
+// lastName: string
+// cardNumber: string
+// expiryMonth: string
+// expiryYear: string
+// cvv: string

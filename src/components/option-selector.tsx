@@ -8,7 +8,7 @@ export interface Props {
   value: string
   errors: string[]
   onChange: (value: string) => any
-  options: Core.SelectOption[]
+  options: Core.OptionSelectorOption[]
   placeholder?: string
 }
 

@@ -84,12 +84,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     fields={state.checkout.shipping.fields}
                     errors={state.checkout.shipping.errors}
                     setFields={actions.checkout.shipping.setFields}
-                    shippingMethods={state.checkout.shippingMethods.map(method => {
-                      return {
-                        label: method.name,
-                        value: method.id,
-                      }
-                    })}
+                    shippingMethods={state.checkout.shippingMethods}
                   />
                 )}
                 toggleFormShowing={() => {

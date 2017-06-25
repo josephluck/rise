@@ -17,7 +17,7 @@ export default function ({
   return (
     <div>
       <Textfield
-        label='Address Line 1'
+        label='Line 1'
         value={fields.line1}
         className='pb-3'
         errors={errors.line1}
@@ -25,26 +25,50 @@ export default function ({
         autoFocus
       />
       <Textfield
-        label='City'
-        value={fields.city}
+        label='Line 2'
+        value={fields.line2}
         className='pb-3'
-        errors={errors.city}
-        onChange={val => setFields({ city: val })}
-      />
-      <Textfield
-        label='Postcode'
-        value={fields.postcode}
-        className='pb-3'
-        errors={errors.postcode}
-        onChange={val => setFields({ postcode: val })}
+        errors={errors.line2}
+        onChange={val => setFields({ line2: val })}
+        autoFocus
       />
       <Select
         label='Country'
+        className='pb-3'
         value={fields.country}
         errors={errors.country}
         onChange={val => setFields({ country: val })}
         options={forSelect}
         placeholder=''
+      />
+      <div className='d-flex pb-3'>
+        <Textfield
+          label='Postcode'
+          value={fields.postcode}
+          className='pr-2'
+          errors={errors.postcode}
+          onChange={val => setFields({ postcode: val })}
+        />
+        <Textfield
+          label='City'
+          value={fields.city}
+          className='ph-2'
+          errors={errors.city}
+          onChange={val => setFields({ city: val })}
+        />
+        <Textfield
+          label='County'
+          value={fields.county}
+          className='pl-2'
+          errors={errors.county}
+          onChange={val => setFields({ county: val })}
+        />
+      </div>
+      <Textfield
+        label='Phone Number'
+        value={fields.phone}
+        errors={errors.phone}
+        onChange={val => setFields({ phone: val })}
       />
     </div>
   )
