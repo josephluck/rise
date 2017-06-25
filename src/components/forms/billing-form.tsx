@@ -80,8 +80,8 @@ export default function ({
       />
       <div className='d-flex'>
         <Select
-          label='Expiry Month'
-          className='flex-1 pr-2'
+          label='Exp Month'
+          className='flex-1 pr-1'
           value={fields.expiryMonth}
           errors={errors.expiryMonth}
           onChange={val => setFields({ expiryMonth: val })}
@@ -89,8 +89,8 @@ export default function ({
           placeholder=''
         />
         <Select
-          label='Expiry Month'
-          className='flex-1 ph-2'
+          label='Exp Year'
+          className='flex-1 ph-1'
           value={fields.expiryYear}
           errors={errors.expiryYear}
           onChange={val => setFields({ expiryYear: val })}
@@ -100,7 +100,7 @@ export default function ({
         <Textfield
           label='CVV'
           value={fields.cvv}
-          className='flex-1 pl-2'
+          className='flex-1 pl-1'
           errors={errors.cvv}
           onChange={val => setFields({ cvv: val })}
         />

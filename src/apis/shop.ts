@@ -56,15 +56,27 @@ export default function (api: any): Shop {
       },
       checkout(details) {
         return new Promise((resolve, reject) => {
-          const billingAddress = {
+          const shippingAddress = {
             first_name: details.billing.firstName,
             last_name: details.billing.lastName,
             address_1: details.billing.line1,
+            address_2: details.billing.line2,
             city: details.billing.city,
             county: details.billing.county,
             country: details.billing.country,
             postcode: details.billing.postcode,
             phone: details.billing.phone,
+          }
+          const billingAddress = {
+            first_name: details.shipping.firstName,
+            last_name: details.shipping.lastName,
+            address_1: details.shipping.line1,
+            address_2: details.shipping.line2,
+            city: details.shipping.city,
+            county: details.shipping.county,
+            country: details.shipping.country,
+            postcode: details.shipping.postcode,
+            phone: details.shipping.phone,
           }
           api.Cart.Complete({
             customer: {
@@ -74,19 +86,10 @@ export default function (api: any): Shop {
             },
             shipping: details.shippingMethod,
             gateway: 'stripe',
-            bill_to: billingAddress,
-            ship_to: details.shipToBillingAddress
-              ? billingAddress
-              : {
-                first_name: details.shipping.firstName,
-                last_name: details.shipping.lastName,
-                address_1: details.shipping.line1,
-                city: details.shipping.city,
-                county: details.shipping.county,
-                country: details.shipping.country,
-                postcode: details.shipping.postcode,
-                phone: details.shipping.phone,
-              },
+            ship_to: shippingAddress,
+            bill_to: details.useShippingAddress
+              ? shippingAddress
+              : billingAddress,
           }, resolve, reject)
         })
       },

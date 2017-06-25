@@ -30,7 +30,6 @@ export default function ({
         className='pb-3'
         errors={errors.line2}
         onChange={val => setFields({ line2: val })}
-        autoFocus
       />
       <Select
         label='Country'
@@ -45,21 +44,21 @@ export default function ({
         <Textfield
           label='Postcode'
           value={fields.postcode}
-          className='pr-2'
+          className='pr-1'
           errors={errors.postcode}
           onChange={val => setFields({ postcode: val })}
         />
         <Textfield
           label='City'
           value={fields.city}
-          className='ph-2'
+          className='ph-1'
           errors={errors.city}
           onChange={val => setFields({ city: val })}
         />
         <Textfield
           label='County'
           value={fields.county}
-          className='pl-2'
+          className='pl-1'
           errors={errors.county}
           onChange={val => setFields({ county: val })}
         />

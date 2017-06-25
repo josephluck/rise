@@ -123,7 +123,7 @@ export function model({
                 country: billing.country,
                 postcode: billing.postcode,
               },
-              shipToBillingAddress: true,
+              useShippingAddress: true,
               shipping: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,

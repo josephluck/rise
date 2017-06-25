@@ -54,7 +54,7 @@ declare namespace Core {
     shippingMethod: string
     gateway: string
     billing: Address
-    shipToBillingAddress: boolean
+    useShippingAddress: boolean
     shipping?: Address
   }
 
