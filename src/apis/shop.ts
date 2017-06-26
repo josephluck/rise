@@ -5,7 +5,7 @@ import cleanObj from '../utils/clean-object'
 
 export interface Shop {
   authentication: {
-    guest: () => Promise<any>,
+    guest: () => Promise<string>,
   },
   products: {
     getAll: (token: string) => Promise<Core.Product[]>,
@@ -46,14 +46,14 @@ export default function (api: any): Shop {
           grant_type: 'implicit',
           client_id: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
         }))
-          .then(console.log)
+          .then(resp => resp.data.access_token)
       },
     },
     products: {
       getAll(token) {
         return axios.get(`${API_ROOT}/products`, getHeaders(token))
-          .then((p) => {
-            return p.data.result.map(desanitize.product)
+          .then(resp => {
+            return resp.data.result.map(desanitize.product)
           })
       },
       get(token, productId) {

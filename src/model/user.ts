@@ -36,9 +36,16 @@ export function model({
     },
     effects: {
       authenticate(state, actions) {
+        // if (state.user.token.length) {
+        //   return Promise.resolve(state)
+        // } else {
         return shop.authentication.guest()
-          .then(actions.user.storeToken)
-          .then(() => state)
+          .then(token => {
+            console.log(token)
+            window.localStorage.setItem('moltin-token', token)
+            return actions.user.storeToken(token)
+          })
+        // }
       },
     },
   }
