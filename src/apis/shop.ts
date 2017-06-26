@@ -1,4 +1,5 @@
 import * as desanitize from './desanitize'
+import axios from 'axios'
 
 function cleanObj<O>(obj: O): Partial<O> {
   return Object.keys(obj)
@@ -15,6 +16,9 @@ function cleanObj<O>(obj: O): Partial<O> {
 }
 
 export interface Shop {
+  authentication: {
+    guest: () => Promise<any>
+  },
   products: {
     getAll: () => Promise<Core.Product[]>,
     get: (productId: string) => Promise<Core.Product>,
@@ -34,14 +38,26 @@ export interface Shop {
   }
 }
 
+const API_ROOT = 'https://api.molt.in/v1'
+
 export default function (api: any): Shop {
   return {
+    authentication: {
+      guest() {
+        return axios.post(`${API_ROOT}/oauth/access_token`)
+          .then(console.log)
+      },
+    },
     products: {
       getAll() {
-        return new Promise((resolve, reject) => {
-          api.Product.Find('limit=100', resolve, reject)
+        return axios.get(`${API_ROOT}/products`, {
+          headers: {
+            'Authorization': 'Bearer 5ca59bccd9e81440db789495487c5918e1bba2be'
+          },
         })
-          .then((p: any[]) => p.map(desanitize.product))
+          .then((p) => {
+            return p.data.result.map(desanitize.product)
+          })
       },
       get(productId) {
         return new Promise((resolve, reject) => {

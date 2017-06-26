@@ -18,6 +18,7 @@
     "deploy:surge": "npm run dist && surge --project ./dist --domain rise.surge.sh && npm run dist:clean"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "pluralize": "^5.0.0",
