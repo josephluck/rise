@@ -49,11 +49,11 @@ export function model({
     },
     effects: {
       fetchAll(state, actions) {
-        return shop.orders.getAll()
+        return shop.orders.getAll(state.user.token)
           .then(actions[namespace].setOrders)
       },
       fetch(state, actions, orderId) {
-        return shop.orders.get(orderId)
+        return shop.orders.get(state.user.token, orderId)
           .then(actions[namespace].setOrder)
       },
     },

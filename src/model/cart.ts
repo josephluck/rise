@@ -47,24 +47,24 @@ export function model({
       },
     },
     effects: {
-      sync(_state, actions) {
-        return shop.cart.get()
+      sync(state, actions) {
+        return shop.cart.get(state.user.token)
           .then(actions.cart.doSync)
           .then(state => actions.checkout.calculateTotals(state.cart))
           .catch(actions.cart.reset)
       },
       add(state, actions, newItem) {
-        return shop.cart.insert(newItem.id, newItem.quantity)
+        return shop.cart.insert(state.user.token, newItem.id, newItem.quantity)
           .then(actions.cart.sync)
       },
       remove(state, actions, index) {
         const id = state.cart.items[index].id
-        return shop.cart.remove(id)
+        return shop.cart.remove(state.user.token, id)
           .then(actions.cart.sync)
       },
       update(state, actions, { index, item }) {
         const id = state.cart.items[index].id
-        return shop.cart.update(id, item.quantity)
+        return shop.cart.update(state.user.token, id, item.quantity)
           .then(actions.cart.sync)
       },
     },

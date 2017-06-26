@@ -101,7 +101,7 @@ export function model({
         return Promise.resolve(state)
       },
       getShippingMethods(state, actions) {
-        return shop.getShippingMethods()
+        return shop.getShippingMethods(state.user.token)
           .then(actions.checkout.setShippingMethods)
       },
       submit(state, actions) {
@@ -118,7 +118,7 @@ export function model({
             const customer = state.checkout.customer.fields
             const billing = state.checkout.billing.fields
             const shipping = state.checkout.shipping.fields
-            return shop.cart.checkout({
+            return shop.cart.checkout(state.user.token, {
               customer: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
@@ -145,7 +145,7 @@ export function model({
           })
           .then(order => {
             const billing = state.checkout.billing.fields
-            return shop.cart.pay({
+            return shop.cart.pay(state.user.token, {
               orderId: order.id,
               firstName: billing.firstName,
               lastName: billing.lastName,

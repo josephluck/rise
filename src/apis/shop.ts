@@ -1,65 +1,62 @@
 import * as desanitize from './desanitize'
 import axios from 'axios'
-
-function cleanObj<O>(obj: O): Partial<O> {
-  return Object.keys(obj)
-    .reduce((prev, key) => {
-      if (obj[key] !== undefined && obj[key] !== null) {
-        return {
-          ...prev,
-          [key]: obj[key],
-        }
-      } else {
-        return prev
-      }
-    }, {})
-}
+import * as qs from 'qs'
+import cleanObj from '../utils/clean-object'
 
 export interface Shop {
   authentication: {
-    guest: () => Promise<any>
+    guest: () => Promise<any>,
   },
   products: {
-    getAll: () => Promise<Core.Product[]>,
-    get: (productId: string) => Promise<Core.Product>,
+    getAll: (token: string) => Promise<Core.Product[]>,
+    get: (token: string, productId: string) => Promise<Core.Product>,
   },
   cart: {
-    get: () => Promise<Core.Cart>,
-    insert: (id: string, quantity: number) => Promise<Core.Cart>,
-    remove: (id: string) => Promise<Core.Cart>,
-    update: (id: string, quantity: number) => Promise<Core.Cart>,
-    checkout: (details: Core.CheckoutFields) => Promise<any>,
-    pay: (details: Core.PaymentFields, items: Core.CartEntry[]) => Promise<Core.Order>,
+    get: (token: string) => Promise<Core.Cart>,
+    insert: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
+    remove: (token: string, id: string) => Promise<Core.Cart>,
+    update: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
+    checkout: (token: string, details: Core.CheckoutFields) => Promise<any>,
+    pay: (token: string, details: Core.PaymentFields, items: Core.CartEntry[]) => Promise<Core.Order>,
   },
-  getShippingMethods: () => Promise<Core.ShippingMethod[]>,
+  getShippingMethods: (token: string) => Promise<Core.ShippingMethod[]>,
   orders: {
-    getAll: () => Promise<Core.Order[]>,
-    get: (orderId: string) => Promise<Core.Order>,
+    getAll: (token: string) => Promise<Core.Order[]>,
+    get: (token: string, orderId: string) => Promise<Core.Order>,
   }
 }
 
 const API_ROOT = 'https://api.molt.in/v1'
 
+function getHeaders(token: string) {
+  return {
+    headers: {
+      'Authorization': token,
+    },
+  }
+}
+
+const data = qs.stringify
+
 export default function (api: any): Shop {
   return {
     authentication: {
       guest() {
-        return axios.post(`${API_ROOT}/oauth/access_token`)
+        return axios.post(`https://api.molt.in/oauth/access_token`, data({
+          grant_type: 'implicit',
+          client_id: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
+        }))
           .then(console.log)
       },
     },
     products: {
-      getAll() {
-        return axios.get(`${API_ROOT}/products`, {
-          headers: {
-            'Authorization': 'Bearer 5ca59bccd9e81440db789495487c5918e1bba2be'
-          },
-        })
+      getAll(token) {
+        return axios.get(`${API_ROOT}/products`, getHeaders(token))
           .then((p) => {
             return p.data.result.map(desanitize.product)
           })
       },
-      get(productId) {
+      get(token, productId) {
         return new Promise((resolve, reject) => {
           api.Product.Get(productId, resolve, reject)
         })
@@ -67,28 +64,28 @@ export default function (api: any): Shop {
       },
     },
     cart: {
-      get() {
+      get(token) {
         return new Promise((resolve, reject) => {
           api.Cart.Checkout(resolve, reject)
         })
           .then(desanitize.cart)
       },
-      insert(id, quantity) {
+      insert(token, id, quantity) {
         return new Promise((resolve, reject) => {
           api.Cart.Insert(id, quantity, null, resolve, reject)
         })
       },
-      remove(id) {
+      remove(token, id) {
         return new Promise((resolve, reject) => {
           api.Cart.Remove(id, resolve, reject)
         })
       },
-      update(id, quantity) {
+      update(token, id, quantity) {
         return new Promise((resolve, reject) => {
           api.Cart.Update(id, { quantity }, resolve, reject)
         })
       },
-      checkout(details) {
+      checkout(token, details) {
         return new Promise((resolve, reject) => {
           const billingAddress = cleanObj({
             first_name: details.billing.firstName,
@@ -127,7 +124,7 @@ export default function (api: any): Shop {
           }, resolve, reject)
         })
       },
-      pay(details, items) {
+      pay(token, details, items) {
         return new Promise((resolve, reject) => {
           api.Checkout.Payment('purchase', details.orderId, {
             data: cleanObj({
@@ -148,19 +145,19 @@ export default function (api: any): Shop {
           })
       },
     },
-    getShippingMethods() {
+    getShippingMethods(token) {
       return new Promise((resolve, reject) => {
         api.Cart.Checkout(resolve, reject)
       })
         .then(desanitize.shippingMethods)
     },
     orders: {
-      getAll() {
+      getAll(token) {
         return new Promise((resolve, reject) => {
           api.Orders.Find('linit=100', resolve, reject)
         })
       },
-      get(orderId) {
+      get(token, orderId) {
         return new Promise((resolve, reject) => {
           api.Order.Get(orderId, resolve, reject)
         })
