@@ -5,29 +5,6 @@ import cleanObj from '../utils/clean-object'
 
 import * as Fingerprint from 'fingerprintjs2'
 
-export interface Shop {
-  authentication: {
-    guest: () => Promise<string>,
-  },
-  products: {
-    getAll: (token: string) => Promise<Core.Product[]>,
-    get: (token: string, productId: string) => Promise<Core.Product>,
-  },
-  cart: {
-    get: (token: string) => Promise<Core.Cart>,
-    insert: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
-    remove: (token: string, id: string) => Promise<Core.Cart>,
-    update: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
-    checkout: (token: string, details: Core.CheckoutFields) => Promise<string>, // Returns an order ID
-    pay: (token: string, details: Core.PaymentFields, items: Core.CartEntry[]) => Promise<Core.Order>,
-  },
-  getShippingMethods: (token: string) => Promise<Core.ShippingMethod[]>,
-  orders: {
-    getAll: (token: string) => Promise<Core.Order[]>,
-    get: (token: string, orderId: string) => Promise<Core.Order>,
-  }
-}
-
 const API_BASE = 'https://api.molt.in'
 const API_ROOT = `${API_BASE}/v1`
 
@@ -48,10 +25,10 @@ getFingerprint.get(resp => {
   window.localStorage.setItem('moltin-fingerprint', resp)
 })
 
-export default function (): Shop {
+export default function api() {
   return {
     authentication: {
-      guest() {
+      guest(): Promise<string> {
         return axios.post(`${API_BASE}/oauth/access_token`, data({
           grant_type: 'implicit',
           client_id: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
@@ -60,41 +37,41 @@ export default function (): Shop {
       },
     },
     products: {
-      getAll(token) {
+      getAll(token): Promise<Core.Product[]> {
         return axios.get(`${API_ROOT}/products`, getHeaders(token))
           .then(resp => {
             return resp.data.result.map(desanitize.product)
           })
       },
-      get(token, productId) {
+      get(token, productId): Promise<Core.Product> {
         return axios.get(`${API_ROOT}/products/${productId}`, getHeaders(token))
           .then(resp => desanitize.product(resp.data.result))
       },
     },
     cart: {
-      get(token) {
+      get(token): Promise<Core.Cart> {
         return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
           .then(resp => desanitize.cart(resp.data.result))
       },
-      insert(token, id, quantity) {
+      insert(token, id, quantity): Promise<any> {
         return axios.post(`${API_ROOT}/carts/${fingerprint}`, data({
           quantity,
           id,
         }), getHeaders(token))
           .then(resp => resp.data)
       },
-      remove(token, productId) {
+      remove(token, productId): Promise<any> {
         return axios.delete(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, getHeaders(token))
           .then(resp => resp.data)
       },
-      update(token, productId, quantity) {
+      update(token, productId, quantity): Promise<any> {
         return axios.put(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, data({
           productId,
           quantity,
         }), getHeaders(token))
           .then(resp => resp.data)
       },
-      checkout(token, details) {
+      checkout(token, details): Promise<string> {
         const billingAddress = cleanObj({
           first_name: details.billing.firstName,
           last_name: details.billing.lastName,
@@ -132,7 +109,7 @@ export default function (): Shop {
         }), getHeaders(token))
           .then(resp => resp.data.result.id)
       },
-      pay(token, details, items) {
+      pay(token, details, items): Promise<Core.Order> {
         const payload = data({
           data: cleanObj({
             first_name: details.firstName,
@@ -152,7 +129,7 @@ export default function (): Shop {
           })
       },
     },
-    getShippingMethods(token) {
+    getShippingMethods(token): Promise<Core.ShippingMethod[]> {
       return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
         .then(resp => desanitize.shippingMethods(resp.data.result))
     },

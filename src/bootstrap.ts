@@ -1,4 +1,5 @@
-import shop, { Shop } from './apis/shop'
+import shop from './apis/shop'
+import { Shop } from './apis/types'
 
 export interface Apis {
   shop: Shop
