@@ -143,10 +143,10 @@ export function model({
               },
             })
           })
-          .then(order => {
+          .then(orderId => {
             const billing = state.checkout.billing.fields
             return shop.cart.pay(state.user.token, {
-              orderId: order.id,
+              orderId,
               firstName: billing.firstName,
               lastName: billing.lastName,
               cardNumber: billing.cardNumber,

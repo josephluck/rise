@@ -7,11 +7,11 @@ import bootstrap from './bootstrap'
 let mount = document.createElement('div')
 document.body.appendChild(mount)
 
-bootstrap().then(apis => {
-  helix({
-    model: model(apis),
-    routes,
-    mount,
-    plugins: [log],
-  })
+const apis = bootstrap()
+
+helix({
+  model: model(apis),
+  routes,
+  mount,
+  plugins: [log],
 })

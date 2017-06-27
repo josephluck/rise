@@ -18,7 +18,7 @@ export interface Shop {
     insert: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
     remove: (token: string, id: string) => Promise<Core.Cart>,
     update: (token: string, id: string, quantity: number) => Promise<Core.Cart>,
-    checkout: (token: string, details: Core.CheckoutFields) => Promise<any>,
+    checkout: (token: string, details: Core.CheckoutFields) => Promise<string>, // Returns an order ID
     pay: (token: string, details: Core.PaymentFields, items: Core.CartEntry[]) => Promise<Core.Order>,
   },
   getShippingMethods: (token: string) => Promise<Core.ShippingMethod[]>,
@@ -48,7 +48,7 @@ getFingerprint.get(resp => {
   window.localStorage.setItem('moltin-fingerprint', resp)
 })
 
-export default function (api: any): Shop {
+export default function (): Shop {
   return {
     authentication: {
       guest() {
@@ -73,7 +73,6 @@ export default function (api: any): Shop {
     },
     cart: {
       get(token) {
-        console.log(token)
         return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
           .then(resp => desanitize.cart(resp.data.result))
       },
@@ -131,44 +130,40 @@ export default function (api: any): Shop {
             ? shippingAddress
             : billingAddress,
         }), getHeaders(token))
+          .then(resp => resp.data.result.id)
       },
       pay(token, details, items) {
-        return new Promise((resolve, reject) => {
-          api.Checkout.Payment('purchase', details.orderId, {
-            data: cleanObj({
-              first_name: details.firstName,
-              last_name: details.lastName,
-              number: details.cardNumber,
-              expiry_month: details.expiryMonth,
-              expiry_year: details.expiryYear,
-              cvv: details.cvv,
-            }),
-          }, resolve, reject)
+        const payload = data({
+          data: cleanObj({
+            first_name: details.firstName,
+            last_name: details.lastName,
+            number: details.cardNumber,
+            expiry_month: details.expiryMonth,
+            expiry_year: details.expiryYear,
+            cvv: details.cvv,
+          }),
         })
-          .then((resp: any) => {
+        return axios.post(`${API_ROOT}/checkout/payment/purchase/${details.orderId}`, payload, getHeaders(token))
+          .then((resp) => {
             return {
-              ...desanitize.order(resp),
+              ...desanitize.order(resp.data.result),
               items,
             }
           })
       },
     },
     getShippingMethods(token) {
-      return new Promise((resolve, reject) => {
-        api.Cart.Checkout(resolve, reject)
-      })
-        .then(desanitize.shippingMethods)
+      return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
+        .then(resp => desanitize.shippingMethods(resp.data.result))
     },
     orders: {
       getAll(token) {
-        return new Promise((resolve, reject) => {
-          api.Orders.Find('linit=100', resolve, reject)
-        })
+        return axios.get(`${API_ROOT}/orders`, getHeaders(token))
+          .then(resp => resp.data)
       },
       get(token, orderId) {
-        return new Promise((resolve, reject) => {
-          api.Order.Get(orderId, resolve, reject)
-        })
+        return axios.get(`${API_ROOT}/orders/${orderId}`, getHeaders(token))
+          .then(resp => resp.data)
       },
     },
   }
