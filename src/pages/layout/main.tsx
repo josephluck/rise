@@ -36,6 +36,7 @@ const defaultOpts: Opts = {
 function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<Models> {
   return {
     onEnter(state, prev, actions) {
+      actions.user.authenticate()
       if (!state.cart.items.length) {
         actions.cart.sync()
       }

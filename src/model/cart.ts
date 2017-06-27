@@ -48,24 +48,32 @@ export function model({
     },
     effects: {
       sync(_state, actions) {
-        return shop.cart.get()
+        return actions.user.authenticate()
+          .then(state => shop.cart.get(state.user.token))
           .then(actions.cart.doSync)
           .then(state => actions.checkout.calculateTotals(state.cart))
           .catch(actions.cart.reset)
       },
-      add(state, actions, newItem) {
-        return shop.cart.insert(newItem.id, newItem.quantity)
+      add(_state, actions, newItem) {
+        return actions.user.authenticate()
+          .then(state => shop.cart.insert(state.user.token, newItem.id, newItem.quantity))
           .then(actions.cart.sync)
       },
-      remove(state, actions, index) {
-        const id = state.cart.items[index].id
-        return shop.cart.remove(id)
-          .then(actions.cart.sync)
+      remove(_state, actions, index) {
+        return actions.user.authenticate()
+          .then(state => {
+            const id = state.cart.items[index].id
+            return shop.cart.remove(state.user.token, id)
+              .then(actions.cart.sync)
+          })
       },
-      update(state, actions, { index, item }) {
-        const id = state.cart.items[index].id
-        return shop.cart.update(id, item.quantity)
-          .then(actions.cart.sync)
+      update(_state, actions, { index, item }) {
+        return actions.user.authenticate()
+          .then(state => {
+            const id = state.cart.items[index].id
+            return shop.cart.update(state.user.token, id, item.quantity)
+              .then(actions.cart.sync)
+          })
       },
     },
   }
