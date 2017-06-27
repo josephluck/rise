@@ -21,31 +21,27 @@ export interface Namespace { 'user': ModelApi }
 
 export type ModelApi = Helix.ModelApi<State, Actions>
 
-const token = window.localStorage.getItem('moltin-token')
-
 export function model({
   shop,
 }: Apis): Helix.ModelImpl<Models, State, Reducers, Effects> {
   return {
     state: {
       user: null,
-      token: `Bearer ${token}` || '',
+      token: '',
     },
     reducers: {
       storeToken: (state, token) => ({ token }),
     },
     effects: {
       authenticate(state, actions) {
-        // if (state.user.token.length) {
-        //   return Promise.resolve(state)
-        // } else {
-        return shop.authentication.guest()
-          .then(token => {
-            console.log(token)
-            window.localStorage.setItem('moltin-token', token)
-            return actions.user.storeToken(token)
-          })
-        // }
+        if (state.user.token.length) {
+          return Promise.resolve(state)
+        } else {
+          return shop.authentication.guest()
+            .then(token => {
+              return actions.user.storeToken(token)
+            })
+        }
       },
     },
   }

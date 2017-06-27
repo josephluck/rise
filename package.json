@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "clientjs": "^0.1.11",
+    "fingerprintjs2": "^1.5.1",
     "flickity": "^2.0.5",
     "helix-react": "git://github.com/josephluck/helix-react",
     "pluralize": "^5.0.0",
