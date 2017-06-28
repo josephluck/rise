@@ -5,6 +5,7 @@ import Totals from '../components/totals'
 import CollapsableSection from '../components/collapsable-section'
 import DisplayAddress from '../components/display-address'
 import DisplayFields from '../components/display-fields'
+import { formatCurrency } from '../components/currency'
 
 const page: Helix.Page<Models> = {
   onEnter(state, _prev, actions) {
@@ -31,13 +32,12 @@ const page: Helix.Page<Models> = {
               label='Summary'
               defaultOpen={true}
             >
-              <div>
+              <div className='ba bc-grey-100'>
                 <ProductList
-                  className='mb-3'
                   items={order.items}
                 />
                 <Totals
-                  className='pb-3 bc-grey-100 bb'
+                  className='pv-3 bc-grey-100 bt'
                   totals={order.totals}
                 />
               </div>
@@ -49,10 +49,17 @@ const page: Helix.Page<Models> = {
               label='Shipping Information'
               defaultOpen={true}
             >
-              <DisplayAddress
-                className='ba bc-grey-100 pa-3'
-                address={order.shippingAddress}
-              />
+              <div className='ba bc-grey-100 pa-3'>
+                <DisplayFields
+                  className='mb-3'
+                  fields={[
+                    { label: 'Method', value: `${order.shippingMethod.name} - £${formatCurrency(order.shippingMethod.price)}` },
+                  ]}
+                />
+                <DisplayAddress
+                  address={order.shippingAddress}
+                />
+              </div>
             </CollapsableSection>
           </div>
 

@@ -10,7 +10,7 @@ interface Props {
   className?: string
 }
 
-export default function ProductList({
+export default function DisplayFields({
   fields,
   className = '',
 }: Props) {

@@ -32,7 +32,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
       <div className='pb-4'>
         <CartItemsList
           items={state.cart.items}
-          className='mb-3'
+          className='mb-3 ba bc-grey-100 '
           showControls={mode === 'cart'}
           updateQuantity={(item, quantity, index) => actions.cart.update({
             index,
