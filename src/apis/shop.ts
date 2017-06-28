@@ -1,12 +1,9 @@
 import * as desanitize from './desanitize'
 import axios from 'axios'
 import * as qs from 'qs'
-import cleanObj from '../utils/clean-object'
-
 import * as Fingerprint from 'fingerprintjs2'
-
-const API_BASE = 'https://api.molt.in'
-const API_ROOT = `${API_BASE}/v1`
+import cleanObj from '../utils/clean-object'
+import config from '../../config'
 
 function getHeaders(token: string) {
   return {
@@ -27,18 +24,18 @@ getFingerprint.get(resp => {
 
 export default function api(loading) {
   const hooks = {
-    onRequest: (config) => loading.setLoading(config.url || ''),
+    onRequest: (conf) => loading.setLoading(conf.url || ''),
     onResponse: (response) => loading.unsetLoading(response.config.url || ''),
     onError: (err) => loading.unsetLoading(err.config.url || ''),
   }
 
   const http = axios.create()
 
-  http.interceptors.request.use(config => {
+  http.interceptors.request.use(conf => {
     if (hooks.onRequest) {
-      hooks.onRequest(config)
+      hooks.onRequest(conf)
     }
-    return config
+    return conf
   })
 
   http.interceptors.response.use(response => {
@@ -56,43 +53,43 @@ export default function api(loading) {
   return {
     authentication: {
       guest(): Promise<string> {
-        return http.post(`${API_BASE}/oauth/access_token`, data({
+        return http.post(`${config.MOLTIN_API_BASE}/oauth/access_token`, data({
           grant_type: 'implicit',
-          client_id: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
+          client_id: config.MOLTIN_KEY,
         }))
           .then(resp => resp.data.access_token)
       },
     },
     products: {
       getAll(token): Promise<Core.Product[]> {
-        return http.get(`${API_ROOT}/products`, getHeaders(token))
+        return http.get(`${config.MOLTIN_API_ROOT}/products`, getHeaders(token))
           .then(resp => {
             return resp.data.result.map(desanitize.product)
           })
       },
       get(token, productId): Promise<Core.Product> {
-        return http.get(`${API_ROOT}/products/${productId}`, getHeaders(token))
+        return http.get(`${config.MOLTIN_API_ROOT}/products/${productId}`, getHeaders(token))
           .then(resp => desanitize.product(resp.data.result))
       },
     },
     cart: {
       get(token): Promise<Core.Cart> {
-        return http.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
+        return http.get(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
           .then(resp => desanitize.cart(resp.data.result))
       },
       insert(token, id, quantity): Promise<any> {
-        return http.post(`${API_ROOT}/carts/${fingerprint}`, data({
+        return http.post(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}`, data({
           quantity,
           id,
         }), getHeaders(token))
           .then(resp => resp.data)
       },
       remove(token, productId): Promise<any> {
-        return http.delete(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, getHeaders(token))
+        return http.delete(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}/item/${productId}`, getHeaders(token))
           .then(resp => resp.data)
       },
       update(token, productId, quantity): Promise<any> {
-        return http.put(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, data({
+        return http.put(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}/item/${productId}`, data({
           productId,
           quantity,
         }), getHeaders(token))
@@ -121,7 +118,7 @@ export default function api(loading) {
           postcode: details.shipping.postcode,
           phone: details.shipping.phone,
         })
-        return http.post(`${API_ROOT}/carts/${fingerprint}/checkout`, data({
+        return http.post(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}/checkout`, data({
           customer: cleanObj({
             first_name: details.customer.firstName,
             last_name: details.customer.lastName,
@@ -147,7 +144,7 @@ export default function api(loading) {
             cvv: details.cvv,
           }),
         })
-        return http.post(`${API_ROOT}/checkout/payment/purchase/${details.orderId}`, payload, getHeaders(token))
+        return http.post(`${config.MOLTIN_API_ROOT}/checkout/payment/purchase/${details.orderId}`, payload, getHeaders(token))
           .then((resp) => {
             return {
               ...desanitize.order(resp.data.result),
@@ -157,16 +154,16 @@ export default function api(loading) {
       },
     },
     getShippingMethods(token): Promise<Core.ShippingMethod[]> {
-      return http.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
+      return http.get(`${config.MOLTIN_API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
         .then(resp => desanitize.shippingMethods(resp.data.result))
     },
     orders: {
       getAll(token) {
-        return http.get(`${API_ROOT}/orders`, getHeaders(token))
+        return http.get(`${config.MOLTIN_API_ROOT}/orders`, getHeaders(token))
           .then(resp => resp.data)
       },
       get(token, orderId) {
-        return http.get(`${API_ROOT}/orders/${orderId}`, getHeaders(token))
+        return http.get(`${config.MOLTIN_API_ROOT}/orders/${orderId}`, getHeaders(token))
           .then(resp => resp.data)
       },
     },
