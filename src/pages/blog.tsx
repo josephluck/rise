@@ -13,7 +13,7 @@ const page: Helix.Page<Models> = {
           return (
             <PostItem
               key={index}
-              className='pb-4 mb-4 bb bc-grey-100'
+              className='mb-4 bb bc-grey-100'
               {...post}
             />
           )

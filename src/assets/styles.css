@@ -558,3 +558,29 @@ select {
     transform: rotate(360deg);
   }
 }
+
+.html p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.html img {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.html ul, .html li {
+  list-style-type: circle;
+}
+.html ul {
+  margin-left: 2rem;
+}
+.html blockquote {
+  margin: 0px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  overflow: hidden;
+  background: #eee;
+  border-left: solid 5px #ddd;
+}
