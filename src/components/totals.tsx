@@ -6,7 +6,7 @@ interface Props {
   className?: string
 }
 
-export default function ProductList({
+export default function Totals({
   totals,
   className = '',
 }: Props) {

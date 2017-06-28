@@ -27,7 +27,7 @@ const page: Helix.Page<Models> = {
             >
               <div>
                 <ProductList
-                  className='mb-3'
+                  className='mb-3 ba bc-grey-100'
                   items={order.items}
                 />
                 <Totals
