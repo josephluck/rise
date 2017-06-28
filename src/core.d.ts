@@ -1,5 +1,4 @@
 declare namespace Core {
-
   interface Address {
     firstName: string
     lastName: string
@@ -103,6 +102,8 @@ declare namespace Core {
     description: string
     avatar: string
   }
+
+  type Post = any
 
   interface Product {
     price: number

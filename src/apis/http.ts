@@ -2,9 +2,15 @@ import axios from 'axios'
 
 export default function (loading) {
   const hooks = {
-    onRequest: (conf) => loading.setLoading(conf.url || ''),
-    onResponse: (response) => loading.unsetLoading(response.config.url || ''),
-    onError: (err) => loading.unsetLoading(err.config.url || ''),
+    onRequest: (conf) => {
+      loading.setLoading(conf.url || '')
+    },
+    onResponse: (response) => {
+      loading.unsetLoading(response.config.url || '')
+    },
+    onError: (err) => {
+      loading.unsetLoading(err.config.url || '')
+    },
   }
 
   const http = axios.create()

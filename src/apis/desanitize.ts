@@ -1,10 +1,15 @@
-export function product(product: any): Core.Product {
+export function addressFromOrder(address: any): Core.Address {
   return {
-    description: product.description,
-    id: product.id,
-    images: product.images.map(img => img.url.http),
-    price: product.price.data.raw.with_tax,
-    title: product.title,
+    // id: address.id,
+    firstName: address.first_name,
+    lastName: address.last_name,
+    line1: address.address_1,
+    line2: address.address_2,
+    city: address.city,
+    county: address.county,
+    country: address.country.value,
+    postcode: address.postcode,
+    phone: address.phone,
   }
 }
 
@@ -27,16 +32,6 @@ export function cart(resp: any): Core.Cart {
   }
 }
 
-export function shippingMethods(resp: any): Core.ShippingMethod[] {
-  return resp.shipping.methods.map(method => {
-    return {
-      id: method.id,
-      name: method.title,
-      price: method.price.data.raw.with_tax,
-    }
-  })
-}
-
 export function customerFromOrder(order: any): Core.Customer {
   const customer = order.customer.data
   return {
@@ -49,27 +44,23 @@ export function customerFromOrder(order: any): Core.Customer {
   }
 }
 
-export function addressFromOrder(address: any): Core.Address {
+export function order(resp: any): Core.Order {
+  const order = resp.order
+  const payment = resp.data
   return {
-    // id: address.id,
-    firstName: address.first_name,
-    lastName: address.last_name,
-    line1: address.address_1,
-    line2: address.address_2,
-    city: address.city,
-    county: address.county,
-    country: address.country.value,
-    postcode: address.postcode,
-    phone: address.phone,
-  }
-}
-
-export function shippingMethodFromOrder(order: any): Core.ShippingMethod {
-  const method = order.shipping.data
-  return {
-    id: method.id,
-    name: method.title,
-    price: method.price.data.raw.with_tax,
+    id: order.id,
+    status: order.status.value === 'Paid' ? 'paid' : 'pending',
+    items: [], // TODO: use the orders/id/items endpoint
+    customer: customerFromOrder(order),
+    shippingAddress: addressFromOrder(order.ship_to.data),
+    shippingMethod: shippingMethodFromOrder(order),
+    billingAddress: addressFromOrder(order.bill_to.data),
+    paymentCard: paymentCardFromPayment(payment),
+    dateCreated: order.created_at,
+    datePaid: payment.created.toString(),
+    refunds: [], // TODO: create the type for this when refunds have been tested
+    refunded: 0, // TODO: see above
+    totals: totalsFromOrder(order),
   }
 }
 
@@ -95,31 +86,40 @@ export function paymentCardFromPayment(payment: any): Core.PaymentCard {
   }
 }
 
+export function product(product: any): Core.Product {
+  return {
+    description: product.description,
+    id: product.id,
+    images: product.images.map(img => img.url.http),
+    price: product.price.data.raw.with_tax,
+    title: product.title,
+  }
+}
+
+export function shippingMethods(resp: any): Core.ShippingMethod[] {
+  return resp.shipping.methods.map(method => {
+    return {
+      id: method.id,
+      name: method.title,
+      price: method.price.data.raw.with_tax,
+    }
+  })
+}
+
+export function shippingMethodFromOrder(order: any): Core.ShippingMethod {
+  const method = order.shipping.data
+  return {
+    id: method.id,
+    name: method.title,
+    price: method.price.data.raw.with_tax,
+  }
+}
+
 export function totalsFromOrder(order): Core.Totals {
   return {
     subTotal: order.total - order.shipping_price,
     total: order.total,
     shipping: order.shipping_price,
     quantity: 0, // TODO: use the orders/id/items endpoint
-  }
-}
-
-export function order(resp: any): Core.Order {
-  const order = resp.order
-  const payment = resp.data
-  return {
-    id: order.id,
-    status: order.status.value === 'Paid' ? 'paid' : 'pending',
-    items: [], // TODO: use the orders/id/items endpoint
-    customer: customerFromOrder(order),
-    shippingAddress: addressFromOrder(order.ship_to.data),
-    shippingMethod: shippingMethodFromOrder(order),
-    billingAddress: addressFromOrder(order.bill_to.data),
-    paymentCard: paymentCardFromPayment(payment),
-    dateCreated: order.created_at,
-    datePaid: payment.created.toString(),
-    refunds: [], // TODO: create the type for this when refunds have been tested
-    refunded: 0, // TODO: see above
-    totals: totalsFromOrder(order),
   }
 }
