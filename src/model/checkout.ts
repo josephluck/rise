@@ -14,6 +14,7 @@ export interface Reducers {
   calculateTotals: Helix.Reducer<Models, State, Core.Cart>
   setKey: Helix.Reducer<Models, State, Record<string, any>>
   setShippingMethods: Helix.Reducer<Models, State, Core.ShippingMethod[]>
+  openSectionWithError: Helix.Reducer0<Models, State>
 }
 
 export interface Effects {
@@ -91,6 +92,20 @@ export function model({
       },
       setShippingMethods(state, shippingMethods) {
         return { shippingMethods }
+      },
+      openSectionWithError(state) {
+        function sectionShowing() {
+          if (!state.customer.valid) {
+            return 1
+          } else if (!state.shipping.valid) {
+            return 2
+          } else {
+            return 3
+          }
+        }
+        return {
+          sectionShowing: sectionShowing(),
+        }
       },
     },
     effects: {
@@ -172,6 +187,7 @@ export function model({
             return newState
           })
           .catch(err => {
+            actions.checkout.openSectionWithError()
             console.info('Handle error')
             console.error(err)
           })
