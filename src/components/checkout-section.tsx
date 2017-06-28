@@ -29,11 +29,15 @@ export default function Section({
         onClick={toggleFormShowing}
         className='d-flex align-items-center'
       >
-        <div className='mr-3'>
-          {complete
-            ? <Icon icon='check' />
-            : id
-          }
+        <div
+          className='mr-3 d-flex align-items-center ta-c fs-medium w-3'
+        >
+          <div className='ml-auto mr-auto'>
+            {complete
+              ? <Icon icon='check' />
+              : id
+            }
+          </div>
         </div>
         <div className='flex-1 d-flex flex-direction-column align-items-center of-hidden pr-3'>
           <div className='w-100 fw-500'>
@@ -45,7 +49,7 @@ export default function Section({
               isOpened={!formShowing && complete}
             >
               <div
-                className='fs-tiny pt-1 fc-grey-500 of-hidden'
+                className='fs-tiny pt-2 fc-grey-500 of-hidden'
                 style={{
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',

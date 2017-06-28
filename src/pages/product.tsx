@@ -19,7 +19,7 @@ const page: Helix.Page<Models> = {
         <div className='pb-5'>
           {product.images.length > 1
             ? (
-              <div className='mb-2'>
+              <div className='mb-3'>
                 <Carousel
                   key='product-images-carousel'
                   autoPlay
@@ -45,29 +45,31 @@ const page: Helix.Page<Models> = {
               ? (
                 <img
                   src={product.images[0]}
-                  className='w-100 h-auto mb-2'
+                  className='w-100 h-auto mb-3'
                 />
               )
               : null
           }
-          <div className='d-flex align-items-center mb-3'>
+          <div className='d-flex mb-5 fs-medium'>
             <div className='flex-1 mr-2 fw-500'>{product.title}</div>
             <div>
               {'£'}<Currency price={product.price} />
             </div>
           </div>
-          <div className='mb-3'>
+          <div className='mb-5'>
             <CollapsableSection
               label='Description'
               defaultOpen={true}
             >
-              {product.description}
+              <div className='fs-small lh-5 fc-grey-900'>
+                {product.description}
+              </div>
             </CollapsableSection>
           </div>
-          <div className='mb-3'>
+          <div className='mb-5'>
             <CollapsableSection
               label='Ingredients'
-              defaultOpen={false}
+              defaultOpen={true}
             >
               <div className='fs-small lh-5 fc-grey-900'>
                 {'Dark Chocolate (Cocoa Mass, Cocoa Butter, Emulsifiers (Soya Lecithin), Polyglycerol Polyricinoleate, Salt, Flavouring (Vanilla Essence), Butter (Unsalted Butter [Cows Milk]. Minimum 80% Milk Fat), Sugar, Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Eggs, Vanilla Extract (Water, Ethanol; Vanilla Extract [3%]).'}

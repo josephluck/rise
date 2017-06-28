@@ -1,5 +1,6 @@
-import helix from 'helix-react'
 import h from 'helix-react/lib/html'
+import helix from 'helix-react'
+import log from 'helix-react/lib/log'
 
 const mount = document.createElement('div')
 document.body.appendChild(mount)
@@ -35,5 +36,6 @@ export default function render() {
       )
     },
     mount,
+    plugins: [log],
   })
 }
