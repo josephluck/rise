@@ -23,7 +23,9 @@ const page = (mode: Mode): Helix.Page<Models> => ({
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
-    actions.checkout.getShippingMethods()
+    if (!state.checkout.shippingMethods.length) {
+      actions.checkout.getShippingMethods()
+    }
   },
   view(state, prev, actions) {
     return (

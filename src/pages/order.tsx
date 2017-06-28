@@ -17,7 +17,6 @@ const page: Helix.Page<Models> = {
   view(state, prev, actions) {
     const order = state.orders.order
     if (order) {
-      console.log(order)
       return (
         <div>
           <div className='mb-3'>
