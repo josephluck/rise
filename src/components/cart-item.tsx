@@ -29,30 +29,41 @@ const CartItem = ({
           src={images[0]}
         />
       </a>
-      <div className='flex-1 mr-3 fs-small'>
-        <Collapse hasNestedCollapse isOpened={!showControls}>
-          <div className='pb-1 fc-grey-600 fs-tiny tt-uppercase'>
-            Qty: {quantity}
+      <div className='flex-1'>
+        <span className={`transition ${showControls ? 'fw-500' : ''}`}>{title}</span>
+        <div className='mt-2 d-flex align-items-center'>
+          <div className='flex-1'>
+            <Collapse
+              className='w-100'
+              hasNestedCollapse
+              isOpened={!showControls}
+            >
+              <div className='fc-grey-600 fs-tiny tt-uppercase'>
+                Quantity: <span className='fw-500'>{quantity}</span>
+              </div>
+            </Collapse>
+            <Collapse
+              className='w-100'
+              hasNestedCollapse
+              isOpened={showControls}
+            >
+              <div className='of-hidden'>
+                <Stepper
+                  value={quantity.toString()}
+                  onChange={(quantity) => {
+                    if (quantity === '0') {
+                      return removeItem()
+                    }
+                    return updateQuantity(parseInt(quantity, 10))
+                  }}
+                />
+              </div>
+            </Collapse>
           </div>
-        </Collapse>
-        {title}
-      </div>
-      <div className='ta-r'>
-        <Collapse hasNestedCollapse isOpened={showControls}>
-          <div className='of-hidden'>
-            <Stepper
-              className='mb-2'
-              value={quantity.toString()}
-              onChange={(quantity) => {
-                if (quantity === '0') {
-                  return removeItem()
-                }
-                return updateQuantity(parseInt(quantity, 10))
-              }}
-            />
+          <div className='fs-regular'>
+            {'£'}<Currency price={price * quantity} />
           </div>
-        </Collapse>
-        <div className='fs-regular'>{'£'}<Currency price={price * quantity} /></div>
+        </div>
       </div>
     </div>
   )

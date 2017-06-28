@@ -35,7 +35,7 @@ export default component<Props, State, Reducers, Effects>({
     return (
       <div>
         <div
-          className='fc-grey-700 fs-tiny tt-uppercase pos-relative d-flex align-items-center'
+          className='pos-relative d-flex align-items-center'
           onClick={actions.toggleShowing}
         >
           <span className='pos-relative fs-regular bg-white pr-1'>{props.label}</span>
@@ -48,7 +48,6 @@ export default component<Props, State, Reducers, Effects>({
               height: 16,
               width: 16,
               transform: state.showing ? 'rotate(90deg)' : 'rotate(0deg)',
-              fill: '#888888',
             }}
           />
         </div>
