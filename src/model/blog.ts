@@ -1,16 +1,9 @@
 import { Apis } from '../bootstrap'
 import { Models } from './'
 
-export interface Post {
-  id: string,
-  title: string
-  description: string
-  by: string
-}
-
 export interface State {
-  posts: Post[]
-  post: Post | null
+  posts: Core.Post[]
+  post: Core.Post | null
 }
 
 export interface Reducers {
@@ -20,7 +13,7 @@ export interface Reducers {
 
 export interface Effects {
   getPosts: Helix.Effect0<Models>
-  getPost: Helix.Effect0<Models>
+  getPost: Helix.Effect<Models, string>
 }
 
 export type Actions = Helix.Actions<Reducers, Effects>
@@ -49,10 +42,10 @@ export function model(api: Apis): Helix.ModelImpl<Models, State, Reducers, Effec
         return api.blog.posts.all()
           .then(actions.blog.setPosts)
       },
-      getPost(state, actions) {
-        const post = state[namespace].posts.find(p => p.id === state.location.params.blogId)
-        return Promise.resolve(actions[namespace].setPost(post))
-      }
+      getPost(state, actions, postId) {
+        return api.blog.posts.fetch(postId)
+          .then(actions.blog.setPost)
+      },
     },
   }
 }

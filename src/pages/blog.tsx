@@ -3,6 +3,9 @@ import { Models } from '../model'
 import PostItem from '../components/post-item'
 
 const page: Helix.Page<Models> = {
+  onEnter(state, prev, actions) {
+    actions.blog.getPosts()
+  },
   view(state, prev, actions) {
     return (
       <div className='pv-4'>

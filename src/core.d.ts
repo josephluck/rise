@@ -103,7 +103,14 @@ declare namespace Core {
     avatar: string
   }
 
-  type Post = any
+  interface Post {
+    author: Person
+    content: string
+    excerpt: string
+    id: string
+    title: string
+    thumbnail: string | null
+  }
 
   interface Product {
     price: number
