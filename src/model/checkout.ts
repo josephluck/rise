@@ -18,7 +18,7 @@ export interface Reducers {
 
 export interface Effects {
   getShippingMethods: Helix.Effect0<Models>
-  validateSections: Helix.Effect0<Models>
+  setSectionShowing: Helix.Effect<Models, number>
   submit: Helix.Effect0<Models>
 }
 
@@ -94,10 +94,21 @@ export function model({
       },
     },
     effects: {
-      validateSections(state, actions) {
+      setSectionShowing(state, actions, newSection) {
+        const currentSection = state.checkout.sectionShowing
+        if (currentSection === 1) {
+          actions.checkout.customer.validateOnSubmit()
+        } else if (currentSection === 2) {
+          actions.checkout.shipping.validateOnSubmit()
+        } else if (currentSection === 3) {
+          actions.checkout.billing.validateOnSubmit()
+        }
         actions.checkout.customer.setValidity()
         actions.checkout.billing.setValidity()
         actions.checkout.shipping.setValidity()
+        actions.checkout.setKey({
+          sectionShowing: newSection,
+        })
         return Promise.resolve(state)
       },
       getShippingMethods(state, actions) {
