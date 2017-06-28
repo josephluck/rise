@@ -25,11 +25,38 @@ getFingerprint.get(resp => {
   window.localStorage.setItem('moltin-fingerprint', resp)
 })
 
-export default function api() {
+export default function api(loading) {
+  const hooks = {
+    onRequest: (config) => loading.setLoading(config.url || ''),
+    onResponse: (response) => loading.unsetLoading(response.config.url || ''),
+    onError: (err) => loading.unsetLoading(err.config.url || ''),
+  }
+
+  const http = axios.create()
+
+  http.interceptors.request.use(config => {
+    if (hooks.onRequest) {
+      hooks.onRequest(config)
+    }
+    return config
+  })
+
+  http.interceptors.response.use(response => {
+    if (hooks.onResponse) {
+      hooks.onResponse(response)
+    }
+    return response
+  }, (err) => {
+    if (hooks.onError) {
+      hooks.onError(err)
+    }
+    return Promise.reject(err)
+  })
+
   return {
     authentication: {
       guest(): Promise<string> {
-        return axios.post(`${API_BASE}/oauth/access_token`, data({
+        return http.post(`${API_BASE}/oauth/access_token`, data({
           grant_type: 'implicit',
           client_id: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
         }))
@@ -38,34 +65,34 @@ export default function api() {
     },
     products: {
       getAll(token): Promise<Core.Product[]> {
-        return axios.get(`${API_ROOT}/products`, getHeaders(token))
+        return http.get(`${API_ROOT}/products`, getHeaders(token))
           .then(resp => {
             return resp.data.result.map(desanitize.product)
           })
       },
       get(token, productId): Promise<Core.Product> {
-        return axios.get(`${API_ROOT}/products/${productId}`, getHeaders(token))
+        return http.get(`${API_ROOT}/products/${productId}`, getHeaders(token))
           .then(resp => desanitize.product(resp.data.result))
       },
     },
     cart: {
       get(token): Promise<Core.Cart> {
-        return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
+        return http.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
           .then(resp => desanitize.cart(resp.data.result))
       },
       insert(token, id, quantity): Promise<any> {
-        return axios.post(`${API_ROOT}/carts/${fingerprint}`, data({
+        return http.post(`${API_ROOT}/carts/${fingerprint}`, data({
           quantity,
           id,
         }), getHeaders(token))
           .then(resp => resp.data)
       },
       remove(token, productId): Promise<any> {
-        return axios.delete(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, getHeaders(token))
+        return http.delete(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, getHeaders(token))
           .then(resp => resp.data)
       },
       update(token, productId, quantity): Promise<any> {
-        return axios.put(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, data({
+        return http.put(`${API_ROOT}/carts/${fingerprint}/item/${productId}`, data({
           productId,
           quantity,
         }), getHeaders(token))
@@ -94,7 +121,7 @@ export default function api() {
           postcode: details.shipping.postcode,
           phone: details.shipping.phone,
         })
-        return axios.post(`${API_ROOT}/carts/${fingerprint}/checkout`, data({
+        return http.post(`${API_ROOT}/carts/${fingerprint}/checkout`, data({
           customer: cleanObj({
             first_name: details.customer.firstName,
             last_name: details.customer.lastName,
@@ -120,7 +147,7 @@ export default function api() {
             cvv: details.cvv,
           }),
         })
-        return axios.post(`${API_ROOT}/checkout/payment/purchase/${details.orderId}`, payload, getHeaders(token))
+        return http.post(`${API_ROOT}/checkout/payment/purchase/${details.orderId}`, payload, getHeaders(token))
           .then((resp) => {
             return {
               ...desanitize.order(resp.data.result),
@@ -130,16 +157,16 @@ export default function api() {
       },
     },
     getShippingMethods(token): Promise<Core.ShippingMethod[]> {
-      return axios.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
+      return http.get(`${API_ROOT}/carts/${fingerprint}/checkout`, getHeaders(token))
         .then(resp => desanitize.shippingMethods(resp.data.result))
     },
     orders: {
       getAll(token) {
-        return axios.get(`${API_ROOT}/orders`, getHeaders(token))
+        return http.get(`${API_ROOT}/orders`, getHeaders(token))
           .then(resp => resp.data)
       },
       get(token, orderId) {
-        return axios.get(`${API_ROOT}/orders/${orderId}`, getHeaders(token))
+        return http.get(`${API_ROOT}/orders/${orderId}`, getHeaders(token))
           .then(resp => resp.data)
       },
     },

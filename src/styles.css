@@ -517,3 +517,35 @@ select {
 .flickity-page-dots {
   bottom: -35px;
 }
+
+.pe-none {
+  pointer-events: none;
+}
+
+.loading-container {
+  background: rgba(255, 255, 255, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -1.5rem;
+  margin-top: -1.5rem;
+  height: 3rem;
+  width: 3rem;
+  animation: rotation 1s infinite linear;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+
+@keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -5,8 +5,8 @@ export interface Apis {
   shop: Shop
 }
 
-export default function () {
+export default function (setLoading) {
   return {
-    shop: shop(),
+    shop: shop(setLoading),
   }
 }
