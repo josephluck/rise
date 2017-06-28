@@ -5,6 +5,7 @@ export interface State<F extends any> {
   fields: F
   errors: Errors<F>
   formShowing: string | null
+  submitted: boolean
 }
 
 export type Errors<F> = Record<keyof F, string[]>
@@ -17,6 +18,7 @@ export interface Reducers<F extends any> {
   validateEntireForm: Helix.ScopedReducer0<State<F>>
   setValidity: Helix.ScopedReducer0<State<F>>
   toggleFormShowing: Helix.ScopedReducer<State<F>, any>
+  setSubmitted: Helix.ScopedReducer<State<F>, boolean>
 }
 
 export interface Effects<F extends any> {
@@ -43,6 +45,7 @@ export function model<F extends any>({
       errors: emptyErrors,
       valid: false,
       formShowing: null,
+      submitted: false,
     }
   }
 
@@ -72,10 +75,12 @@ export function model<F extends any>({
       toggleFormShowing(state, { name }) {
         return name === state.formShowing ? { formShowing: null } : { formShowing: name }
       },
+      setSubmitted: (state, submitted) => ({ submitted }),
     },
     effects: {
-      validateOnSubmit(_state, send) {
-        const state = send.validateEntireForm()
+      validateOnSubmit(_state, actions) {
+        actions.setSubmitted(true)
+        const state = actions.validateEntireForm()
         if (!state.valid) {
           return Promise.reject<any>({
             type: 'validation_error',
