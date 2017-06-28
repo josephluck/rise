@@ -1,29 +1,4 @@
 declare namespace Core {
-  type Errors<F> = Record<keyof F, string[]>
-
-  type SetFields<F> = (opts: Partial<Record<keyof F, any>>) => any
-
-  interface Product {
-    price: number
-    images: string[]
-    id: string
-    title: string
-    description: string
-  }
-
-  interface CartEntry extends Product {
-    quantity: number
-  }
-
-  interface Cart {
-    items: CartEntry[]
-  }
-
-  interface Person {
-    name: string
-    description: string
-    avatar: string
-  }
 
   interface Address {
     firstName: string
@@ -37,18 +12,19 @@ declare namespace Core {
     phone?: string
   }
 
-  interface ShippingFields extends Address {
-    shippingMethod: string
+  interface BillingFields extends Address {
+    cardNumber: string
+    expiryMonth: string
+    expiryYear: string
+    cvv: string
   }
 
-  interface SelectOption {
-    label: string
-    value: string
+  interface Cart {
+    items: CartEntry[]
   }
 
-  interface OptionSelectorOption {
-    label: React.ReactNode
-    value: string
+  interface CartEntry extends Product {
+    quantity: number
   }
 
   interface CheckoutFields {
@@ -64,21 +40,13 @@ declare namespace Core {
     shipping?: Address
   }
 
-  interface PaymentFields {
-    orderId: string
+  interface Customer {
+    id: string
+    hasAccount: boolean
     firstName: string
     lastName: string
-    cardNumber: string
-    expiryMonth: string
-    expiryYear: string
-    cvv: string
-  }
-
-  interface BillingFields extends Address {
-    cardNumber: string
-    expiryMonth: string
-    expiryYear: string
-    cvv: string
+    email: string
+    dateCreated: string
   }
 
   interface CustomerFields {
@@ -87,24 +55,11 @@ declare namespace Core {
     email: string
   }
 
-  interface ShippingMethod {
-    id: string
-    name: string
-    price: number
-  }
+  type Errors<F> = Record<keyof F, string[]>
 
-  interface PaymentCard {
-    id: string
-    brand: string
-    last4: string
-    expiryMonth: string
-    expiryYear: string
-    address: Address
-    name: string
-  }
-
-  interface Refund {
-
+  interface OptionSelectorOption {
+    label: React.ReactNode
+    value: string
   }
 
   interface Order {
@@ -123,19 +78,63 @@ declare namespace Core {
     totals: Totals
   }
 
+  interface PaymentCard {
+    id: string
+    brand: string
+    last4: string
+    expiryMonth: string
+    expiryYear: string
+    address: Address
+    name: string
+  }
+
+  interface PaymentFields {
+    orderId: string
+    firstName: string
+    lastName: string
+    cardNumber: string
+    expiryMonth: string
+    expiryYear: string
+    cvv: string
+  }
+
+  interface Person {
+    name: string
+    description: string
+    avatar: string
+  }
+
+  interface Product {
+    price: number
+    images: string[]
+    id: string
+    title: string
+    description: string
+  }
+
+  interface Refund { }
+
+  interface SelectOption {
+    label: string
+    value: string
+  }
+
+  type SetFields<F> = (opts: Partial<Record<keyof F, any>>) => any
+
+  interface ShippingFields extends Address {
+    shippingMethod: string
+  }
+
+  interface ShippingMethod {
+    id: string
+    name: string
+    price: number
+  }
+
   interface Totals {
     subTotal: number
     total: number
     shipping: number
     quantity: number
-  }
-
-  interface Customer {
-    id: string
-    hasAccount: boolean
-    firstName: string
-    lastName: string
-    email: string
-    dateCreated: string
   }
 }
