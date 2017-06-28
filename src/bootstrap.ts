@@ -1,3 +1,4 @@
+import http from './apis/http'
 import shop from './apis/shop'
 import { Shop } from './apis/types'
 
@@ -7,6 +8,6 @@ export interface Apis {
 
 export default function (setLoading) {
   return {
-    shop: shop(setLoading),
+    shop: shop(http(setLoading)),
   }
 }
