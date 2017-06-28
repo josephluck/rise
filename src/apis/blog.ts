@@ -1,5 +1,5 @@
 import * as desanitize from './desanitize'
-import config from '../../config'
+import config from '../config'
 
 export default function api(http) {
   return {

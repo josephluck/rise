@@ -2,7 +2,7 @@ import * as desanitize from './desanitize'
 import * as qs from 'qs'
 import * as Fingerprint from 'fingerprintjs2'
 import cleanObj from '../utils/clean-object'
-import config from '../../config'
+import config from '../config'
 
 function getHeaders(token: string) {
   return {
