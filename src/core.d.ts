@@ -1,5 +1,4 @@
 declare namespace Core {
-
   interface Address {
     firstName: string
     lastName: string
@@ -102,6 +101,15 @@ declare namespace Core {
     name: string
     description: string
     avatar: string
+  }
+
+  interface Post {
+    author: Person
+    content: string
+    excerpt: string
+    id: string
+    title: string
+    thumbnail: string | null
   }
 
   interface Product {

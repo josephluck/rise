@@ -1,10 +1,15 @@
-export function product(product: any): Core.Product {
+export function addressFromOrder(resp: any): Core.Address {
   return {
-    description: product.description,
-    id: product.id,
-    images: product.images.map(img => img.url.http),
-    price: product.price.data.raw.with_tax,
-    title: product.title,
+    // id: resp.id,
+    firstName: resp.first_name,
+    lastName: resp.last_name,
+    line1: resp.address_1,
+    line2: resp.address_2,
+    city: resp.city,
+    county: resp.county,
+    country: resp.country.value,
+    postcode: resp.postcode,
+    phone: resp.phone,
   }
 }
 
@@ -14,112 +19,118 @@ export function cart(resp: any): Core.Cart {
       .reduce((prev, key) => {
         return prev.concat(resp.cart.contents[key])
       }, [])
-      .map(product => {
+      .map(p => {
         return {
-          quantity: product.quantity,
-          description: product.description,
-          id: product.id,
-          images: product.images.map(img => img.url.http),
-          price: product.pricing.post_discount.raw.with_tax,
-          title: product.name,
+          quantity: p.quantity,
+          description: p.description,
+          id: p.id,
+          images: p.images.map(img => img.url.http),
+          price: p.pricing.post_discount.raw.with_tax,
+          title: p.name,
         }
       }),
   }
 }
 
-export function shippingMethods(resp: any): Core.ShippingMethod[] {
-  return resp.shipping.methods.map(method => {
-    return {
-      id: method.id,
-      name: method.title,
-      price: method.price.data.raw.with_tax,
-    }
-  })
-}
-
-export function customerFromOrder(order: any): Core.Customer {
-  const customer = order.customer.data
+export function customerFromOrder(resp: any): Core.Customer {
   return {
-    id: customer.id,
-    hasAccount: !!customer.password,
-    firstName: customer.first_name,
-    lastName: customer.last_name,
-    email: customer.email,
-    dateCreated: customer.created_at,
-  }
-}
-
-export function addressFromOrder(address: any): Core.Address {
-  return {
-    // id: address.id,
-    firstName: address.first_name,
-    lastName: address.last_name,
-    line1: address.address_1,
-    line2: address.address_2,
-    city: address.city,
-    county: address.county,
-    country: address.country.value,
-    postcode: address.postcode,
-    phone: address.phone,
-  }
-}
-
-export function shippingMethodFromOrder(order: any): Core.ShippingMethod {
-  const method = order.shipping.data
-  return {
-    id: method.id,
-    name: method.title,
-    price: method.price.data.raw.with_tax,
-  }
-}
-
-export function paymentCardFromPayment(payment: any): Core.PaymentCard {
-  return {
-    id: payment.id,
-    brand: payment.source.brand,
-    last4: payment.source.last4,
-    expiryMonth: payment.source.exp_month,
-    expiryYear: payment.source.exp_year,
-    address: {
-      firstName: payment.source.name.split(' ')[0],
-      lastName: payment.source.name.split(' ')[1],
-      line1: payment.source.address_line1,
-      line2: payment.source.address_line2,
-      city: payment.source.address_city,
-      county: payment.source.address_state,
-      country: payment.source.address_country,
-      postcode: payment.source.address_zip,
-      phone: '',
-    },
-    name: payment.source.name,
-  }
-}
-
-export function totalsFromOrder(order): Core.Totals {
-  return {
-    subTotal: order.total - order.shipping_price,
-    total: order.total,
-    shipping: order.shipping_price,
-    quantity: 0, // TODO: use the orders/id/items endpoint
+    id: resp.customer.data.id,
+    hasAccount: !!resp.customer.data.password,
+    firstName: resp.customer.data.first_name,
+    lastName: resp.customer.data.last_name,
+    email: resp.customer.data.email,
+    dateCreated: resp.customer.data.created_at,
   }
 }
 
 export function order(resp: any): Core.Order {
-  const order = resp.order
-  const payment = resp.data
   return {
-    id: order.id,
-    status: order.status.value === 'Paid' ? 'paid' : 'pending',
+    id: resp.order.id,
+    status: resp.order.status.value === 'Paid' ? 'paid' : 'pending',
     items: [], // TODO: use the orders/id/items endpoint
-    customer: customerFromOrder(order),
-    shippingAddress: addressFromOrder(order.ship_to.data),
-    shippingMethod: shippingMethodFromOrder(order),
-    billingAddress: addressFromOrder(order.bill_to.data),
-    paymentCard: paymentCardFromPayment(payment),
-    dateCreated: order.created_at,
-    datePaid: payment.created.toString(),
+    customer: customerFromOrder(resp.order),
+    shippingAddress: addressFromOrder(resp.order.ship_to.data),
+    shippingMethod: shippingMethodFromOrder(resp.order),
+    billingAddress: addressFromOrder(resp.order.bill_to.data),
+    paymentCard: paymentCardFromPayment(resp.payment),
+    dateCreated: resp.order.created_at,
+    datePaid: resp.payment.created.toString(),
     refunds: [], // TODO: create the type for this when refunds have been tested
     refunded: 0, // TODO: see above
-    totals: totalsFromOrder(order),
+    totals: totalsFromOrder(resp.order),
+  }
+}
+
+export function paymentCardFromPayment(resp: any): Core.PaymentCard {
+  return {
+    id: resp.id,
+    brand: resp.source.brand,
+    last4: resp.source.last4,
+    expiryMonth: resp.source.exp_month,
+    expiryYear: resp.source.exp_year,
+    address: {
+      firstName: resp.source.name.split(' ')[0],
+      lastName: resp.source.name.split(' ')[1],
+      line1: resp.source.address_line1,
+      line2: resp.source.address_line2,
+      city: resp.source.address_city,
+      county: resp.source.address_state,
+      country: resp.source.address_country,
+      postcode: resp.source.address_zip,
+      phone: '',
+    },
+    name: resp.payment.source.name,
+  }
+}
+
+export function post(resp: any): Core.Post {
+  return {
+    author: {
+      name: resp.author.name,
+      description: '',
+      avatar: resp.author.avatar,
+    },
+    content: resp.content,
+    excerpt: resp.excerpt,
+    id: resp.ID,
+    title: resp.title,
+    thumbnail: resp.post_thumbnail.URL || null,
+  }
+}
+
+export function product(resp: any): Core.Product {
+  return {
+    description: resp.description,
+    id: resp.id,
+    images: resp.images.map(i => i.url.http),
+    price: resp.price.data.raw.with_tax,
+    title: resp.title,
+  }
+}
+
+export function shippingMethods(resp: any): Core.ShippingMethod[] {
+  return resp.shipping.methods.map(m => {
+    return {
+      id: m.id,
+      name: m.title,
+      price: m.price.data.raw.with_tax,
+    }
+  })
+}
+
+export function shippingMethodFromOrder(resp: any): Core.ShippingMethod {
+  return {
+    id: resp.shipping.data.id,
+    name: resp.shipping.data.title,
+    price: resp.shipping.data.price.data.raw.with_tax,
+  }
+}
+
+export function totalsFromOrder(resp): Core.Totals {
+  return {
+    subTotal: resp.total - resp.shipping_price,
+    total: resp.total,
+    shipping: resp.shipping_price,
+    quantity: 0, // TODO: use the orders/id/items endpoint
   }
 }

@@ -23,7 +23,7 @@ export default function (apis) {
     reducers: {},
     effects: {},
     models: {
-      [Blog.namespace]: Blog.model(),
+      [Blog.namespace]: Blog.model(apis),
       [Cart.namespace]: Cart.model(apis),
       [Products.namespace]: Products.model(apis),
       [Checkout.namespace]: Checkout.model(apis),

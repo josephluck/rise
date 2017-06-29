@@ -3,15 +3,18 @@ import { Models } from '../model'
 import PostItem from '../components/post-item'
 
 const page: Helix.Page<Models> = {
+  onEnter(state, prev, actions) {
+    actions.blog.getPosts()
+  },
   view(state, prev, actions) {
     return (
       <div className='pv-4'>
-        {state.blog.items.map((item, index) => {
+        {state.blog.posts.map((post, index) => {
           return (
             <PostItem
               key={index}
-              className='pb-4 mb-4 bb bc-grey-100'
-              {...item}
+              className='mb-4 bb bc-grey-100'
+              {...post}
             />
           )
         })}

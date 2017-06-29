@@ -1,9 +1,8 @@
 import * as desanitize from './desanitize'
-import axios from 'axios'
 import * as qs from 'qs'
 import * as Fingerprint from 'fingerprintjs2'
 import cleanObj from '../utils/clean-object'
-import config from '../../config'
+import config from '../config'
 
 function getHeaders(token: string) {
   return {
@@ -22,34 +21,7 @@ getFingerprint.get(resp => {
   window.localStorage.setItem('moltin-fingerprint', resp)
 })
 
-export default function api(loading) {
-  const hooks = {
-    onRequest: (conf) => loading.setLoading(conf.url || ''),
-    onResponse: (response) => loading.unsetLoading(response.config.url || ''),
-    onError: (err) => loading.unsetLoading(err.config.url || ''),
-  }
-
-  const http = axios.create()
-
-  http.interceptors.request.use(conf => {
-    if (hooks.onRequest) {
-      hooks.onRequest(conf)
-    }
-    return conf
-  })
-
-  http.interceptors.response.use(response => {
-    if (hooks.onResponse) {
-      hooks.onResponse(response)
-    }
-    return response
-  }, (err) => {
-    if (hooks.onError) {
-      hooks.onError(err)
-    }
-    return Promise.reject(err)
-  })
-
+export default function api(http) {
   return {
     authentication: {
       guest(): Promise<string> {
