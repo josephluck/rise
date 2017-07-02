@@ -95,6 +95,18 @@ const page: Helix.Page<Models> = {
       )
     }
   },
+  sidebar(state, prev, actions) {
+    const product = state.products.product
+    if (product) {
+      return (
+        <div className='bg-grey-50'>
+          {product.title}
+        </div>
+      )
+    } else {
+      return null
+    }
+  },
 }
 
 export default page

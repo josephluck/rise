@@ -12,7 +12,7 @@ const page: Helix.Page<Models> = {
         {state.products.products.map((product, index) => {
           return (
             <a
-              className='d-b w-50 w-33-l pb-4 f-l'
+              className='d-b w-50 w-33-m w-25-l pb-4 f-l'
               style={{
                 border: 'solid 0.5rem transparent',
               }}

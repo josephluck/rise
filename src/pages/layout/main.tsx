@@ -20,14 +20,14 @@ function getActiveTab(pathname) {
 }
 
 interface Opts {
-  showBackArrow?: boolean
+  backTo?: boolean
   showTabs?: boolean
   showCartIcon?: boolean
   showAlert?: boolean
 }
 
 const defaultOpts: Opts = {
-  showBackArrow: false,
+  backTo: false,
   showTabs: true,
   showCartIcon: true,
   showAlert: true,
@@ -56,53 +56,61 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
       }
       const activeTab = getActiveTab(state.location.pathname)
       return (
-        <div className='pb-5'>
-          <div className='d-flex align-items-center w-100 ph-3 pt-3'>
-            <div className='flex-1'>
-              <Show showing={!!opts.showBackArrow}>
-                <a onClick={goBack}>
-                  <Icon icon='arrow-left' />
-                </a>
-              </Show>
-            </div>
-            <a
-              className='d-b fw-700'
-              href='/'
-            >
-              <img
-                src='/assets/rise.png'
-                style={{
-                  height: 'auto',
-                  width: '50px',
-                }}
-              />
-            </a>
-            <div className='d-flex flex-1 align-items-center'>
-              <div className='flex-1' />
-              <Show showing={opts.showCartIcon}>
-                <CartIcon active={!!state.cart.items.length} />
-              </Show>
-            </div>
+        <div className='d-flex'>
+          <div className={`h-100vh w-0 w-50-l of-auto transition bg-grey-50 ${page.sidebar ? 'ml-0-l o-100-l' : 'ml--50-l'} o-0`}>
+            {page.sidebar
+              ? page.sidebar(state, prev, actions)
+              : null
+            }
           </div>
-          <Collapse
-            hasNestedCollapse
-            isOpened={opts.showTabs}
-            className='ta-c'
-          >
-            <div className='ph-3'>
-              <Tabs
-                tabs={[
-                  { label: 'Shop', name: 'shop', href: '/shop' },
-                  { label: 'About', name: 'about', href: '/about' },
-                  { label: 'Blog', name: 'blog', href: '/blog' },
-                  { label: 'Contact', name: 'contact', href: '/contact' },
-                ]}
-                activeTab={activeTab}
-              />
+          <div className={`h-100vh of-auto transition ${page.sidebar ? 'w-50-l' : 'w-100'}`}>
+            <div className='d-flex align-items-center w-100 ph-3 pt-3'>
+              <div className='flex-1'>
+                <Show showing={!!opts.backTo}>
+                  <a onClick={goBack}>
+                    <Icon icon='arrow-left' />
+                  </a>
+                </Show>
+              </div>
+              <a
+                className='d-b fw-700'
+                href='/'
+              >
+                <img
+                  src='/assets/rise.png'
+                  style={{
+                    height: 'auto',
+                    width: '50px',
+                  }}
+                />
+              </a>
+              <div className='d-flex flex-1 align-items-center'>
+                <div className='flex-1' />
+                <Show showing={opts.showCartIcon}>
+                  <CartIcon active={!!state.cart.items.length} />
+                </Show>
+              </div>
             </div>
-          </Collapse>
-          <div className={!opts.showTabs ? 'mt-3' : ''}>
-            {page.view(state, prev, actions)}
+            <Collapse
+              hasNestedCollapse
+              isOpened={opts.showTabs}
+              className='ta-c'
+            >
+              <div className='ph-3'>
+                <Tabs
+                  tabs={[
+                    { label: 'Shop', name: 'shop', href: '/shop' },
+                    { label: 'About', name: 'about', href: '/about' },
+                    { label: 'Blog', name: 'blog', href: '/blog' },
+                    { label: 'Contact', name: 'contact', href: '/contact' },
+                  ]}
+                  activeTab={activeTab}
+                />
+              </div>
+            </Collapse>
+            <div className={!opts.showTabs ? 'mt-3' : ''}>
+              {page.view(state, prev, actions)}
+            </div>
           </div>
           <CartAlert
             items={!opts.showAlert ? 0 : state.checkout.totals.quantity}
