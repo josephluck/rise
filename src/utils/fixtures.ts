@@ -46,6 +46,20 @@ export function billing(): Core.BillingFields {
     }
 }
 
+export function customer(): Core.CustomerFields {
+  return test
+    ? {
+      firstName: 'Bob',
+      lastName: 'Marley',
+      email: 'joseph.luck@sky.com',
+    }
+    : {
+      firstName: '',
+      lastName: '',
+      email: '',
+    }
+}
+
 export function shipping(): Core.ShippingFields {
   return test
     ? {
@@ -55,19 +69,5 @@ export function shipping(): Core.ShippingFields {
     : {
       ...address(),
       shippingMethod: '',
-    }
-}
-
-export function customer(): Core.CustomerFields {
-  return test
-    ? {
-      firstName: 'Bob',
-      lastName: 'Marley',
-      email: 'get-up@stand.up',
-    }
-    : {
-      firstName: '',
-      lastName: '',
-      email: '',
     }
 }
