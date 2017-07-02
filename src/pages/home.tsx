@@ -10,7 +10,7 @@ const page: Helix.Page<Models> = {
   },
   view(state, prev, actions) {
     return (
-      <div>
+      <div className='ph-3'>
         <Carousel
           autoPlay
           key='home-products-carousel'

@@ -432,12 +432,6 @@ html {
   padding: 0px;
 }
 
-body,
-html,
-.max-width {
-  max-width: 500px;
-}
-
 ul, li {
   list-style-type: none;
   margin: 0px;
@@ -456,7 +450,6 @@ textarea,
 select,
 button {
   font-family: 'Work Sans', sans-serif;
-  font-size: 16px;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

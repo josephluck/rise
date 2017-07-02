@@ -18,7 +18,7 @@ const page: Helix.Page<Models> = {
     const order = state.orders.order
     if (order) {
       return (
-        <div>
+        <div className='ph-3'>
           <div className='mb-3'>
             <CollapsableSection
               label='Summary'

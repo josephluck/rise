@@ -9,7 +9,7 @@ const page: Helix.Page<Models> = {
   },
   view(state, prev, actions) {
     return (
-      <div>
+      <div className='ph-3'>
         <div className='mb-6'>
           <img
             src='/assets/images/thank-you.jpg'

@@ -16,7 +16,7 @@ const page: Helix.Page<Models> = {
     const product = state.products.product
     if (product) {
       return (
-        <div className='pb-5'>
+        <div className='pb-5 ph-3'>
           {product.images.length > 1
             ? (
               <div className='mb-3'>

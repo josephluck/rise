@@ -29,7 +29,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
   },
   view(state, prev, actions) {
     return (
-      <div className='pb-4'>
+      <div className='pb-4 ph-3'>
         <CartItemsList
           items={state.cart.items}
           className='mb-3 ba bc-grey-100 '

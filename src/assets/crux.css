@@ -354,6 +354,8 @@
 .fc-white { color: rgba(255, 255, 255, 1); }
 .fc-red { color: rgb(237, 64, 71); }
 .ff-link { font-family: 'PT Sans', sans-serif; }
+.fs-16 { font-size: 16px; }
+.fs-20 { font-size: 20px; }
 .fs-tiny { font-size: 0.7rem; }
 .fs-small { font-size: 0.8rem; }
 .fs-regular { font-size: 1rem; }
@@ -376,9 +378,9 @@
 .h-9 { height: 12rem; }
 .h-10 { height: 18rem; }
 .h-11 { height: 24rem; }
-.h-33 { height: 33%; }
+.h-33 { height: 33.333333%; }
 .h-50 { height: 50%; }
-.h-66 { height: 66%; }
+.h-66 { height: 66.666666%; }
 .h-100 { height: 100%; }
 .h-auto { height: auto; }
 .ls-1 { letter-spacing: 0.5px; }
@@ -746,9 +748,9 @@
 .w-9 { width: 12rem; }
 .w-10 { width: 18rem; }
 .w-11 { width: 24rem; }
-.w-33 { width: 33%; }
+.w-33 { width: 33.333333%; }
 .w-50 { width: 50%; }
-.w-66 { width: 66%; }
+.w-66 { width: 66.666666%; }
 .w-100 { width: 100%; }
 .w-auto { width: auto; }
 .ws-1 { word-spacing: 0.5px; }
@@ -1113,6 +1115,8 @@
 .fc-white-f:focus { color: rgba(255, 255, 255, 1); }
 .fc-red-f:focus { color: rgb(237, 64, 71); }
 .ff-link-f:focus { font-family: 'PT Sans', sans-serif; }
+.fs-16-f:focus { font-size: 16px; }
+.fs-20-f:focus { font-size: 20px; }
 .fs-tiny-f:focus { font-size: 0.7rem; }
 .fs-small-f:focus { font-size: 0.8rem; }
 .fs-regular-f:focus { font-size: 1rem; }
@@ -1135,9 +1139,9 @@
 .h-9-f:focus { height: 12rem; }
 .h-10-f:focus { height: 18rem; }
 .h-11-f:focus { height: 24rem; }
-.h-33-f:focus { height: 33%; }
+.h-33-f:focus { height: 33.333333%; }
 .h-50-f:focus { height: 50%; }
-.h-66-f:focus { height: 66%; }
+.h-66-f:focus { height: 66.666666%; }
 .h-100-f:focus { height: 100%; }
 .h-auto-f:focus { height: auto; }
 .ls-1-f:focus { letter-spacing: 0.5px; }
@@ -1505,9 +1509,9 @@
 .w-9-f:focus { width: 12rem; }
 .w-10-f:focus { width: 18rem; }
 .w-11-f:focus { width: 24rem; }
-.w-33-f:focus { width: 33%; }
+.w-33-f:focus { width: 33.333333%; }
 .w-50-f:focus { width: 50%; }
-.w-66-f:focus { width: 66%; }
+.w-66-f:focus { width: 66.666666%; }
 .w-100-f:focus { width: 100%; }
 .w-auto-f:focus { width: auto; }
 .ws-1-f:focus { word-spacing: 0.5px; }
@@ -1873,6 +1877,8 @@
   .fc-white-ns { color: rgba(255, 255, 255, 1); }
   .fc-red-ns { color: rgb(237, 64, 71); }
   .ff-link-ns { font-family: 'PT Sans', sans-serif; }
+  .fs-16-ns { font-size: 16px; }
+  .fs-20-ns { font-size: 20px; }
   .fs-tiny-ns { font-size: 0.7rem; }
   .fs-small-ns { font-size: 0.8rem; }
   .fs-regular-ns { font-size: 1rem; }
@@ -1895,9 +1901,9 @@
   .h-9-ns { height: 12rem; }
   .h-10-ns { height: 18rem; }
   .h-11-ns { height: 24rem; }
-  .h-33-ns { height: 33%; }
+  .h-33-ns { height: 33.333333%; }
   .h-50-ns { height: 50%; }
-  .h-66-ns { height: 66%; }
+  .h-66-ns { height: 66.666666%; }
   .h-100-ns { height: 100%; }
   .h-auto-ns { height: auto; }
   .ls-1-ns { letter-spacing: 0.5px; }
@@ -2265,9 +2271,9 @@
   .w-9-ns { width: 12rem; }
   .w-10-ns { width: 18rem; }
   .w-11-ns { width: 24rem; }
-  .w-33-ns { width: 33%; }
+  .w-33-ns { width: 33.333333%; }
   .w-50-ns { width: 50%; }
-  .w-66-ns { width: 66%; }
+  .w-66-ns { width: 66.666666%; }
   .w-100-ns { width: 100%; }
   .w-auto-ns { width: auto; }
   .ws-1-ns { word-spacing: 0.5px; }
@@ -2634,6 +2640,8 @@
   .fc-white-m { color: rgba(255, 255, 255, 1); }
   .fc-red-m { color: rgb(237, 64, 71); }
   .ff-link-m { font-family: 'PT Sans', sans-serif; }
+  .fs-16-m { font-size: 16px; }
+  .fs-20-m { font-size: 20px; }
   .fs-tiny-m { font-size: 0.7rem; }
   .fs-small-m { font-size: 0.8rem; }
   .fs-regular-m { font-size: 1rem; }
@@ -2656,9 +2664,9 @@
   .h-9-m { height: 12rem; }
   .h-10-m { height: 18rem; }
   .h-11-m { height: 24rem; }
-  .h-33-m { height: 33%; }
+  .h-33-m { height: 33.333333%; }
   .h-50-m { height: 50%; }
-  .h-66-m { height: 66%; }
+  .h-66-m { height: 66.666666%; }
   .h-100-m { height: 100%; }
   .h-auto-m { height: auto; }
   .ls-1-m { letter-spacing: 0.5px; }
@@ -3026,9 +3034,9 @@
   .w-9-m { width: 12rem; }
   .w-10-m { width: 18rem; }
   .w-11-m { width: 24rem; }
-  .w-33-m { width: 33%; }
+  .w-33-m { width: 33.333333%; }
   .w-50-m { width: 50%; }
-  .w-66-m { width: 66%; }
+  .w-66-m { width: 66.666666%; }
   .w-100-m { width: 100%; }
   .w-auto-m { width: auto; }
   .ws-1-m { word-spacing: 0.5px; }
@@ -3395,6 +3403,8 @@
   .fc-white-l { color: rgba(255, 255, 255, 1); }
   .fc-red-l { color: rgb(237, 64, 71); }
   .ff-link-l { font-family: 'PT Sans', sans-serif; }
+  .fs-16-l { font-size: 16px; }
+  .fs-20-l { font-size: 20px; }
   .fs-tiny-l { font-size: 0.7rem; }
   .fs-small-l { font-size: 0.8rem; }
   .fs-regular-l { font-size: 1rem; }
@@ -3417,9 +3427,9 @@
   .h-9-l { height: 12rem; }
   .h-10-l { height: 18rem; }
   .h-11-l { height: 24rem; }
-  .h-33-l { height: 33%; }
+  .h-33-l { height: 33.333333%; }
   .h-50-l { height: 50%; }
-  .h-66-l { height: 66%; }
+  .h-66-l { height: 66.666666%; }
   .h-100-l { height: 100%; }
   .h-auto-l { height: auto; }
   .ls-1-l { letter-spacing: 0.5px; }
@@ -3787,9 +3797,9 @@
   .w-9-l { width: 12rem; }
   .w-10-l { width: 18rem; }
   .w-11-l { width: 24rem; }
-  .w-33-l { width: 33%; }
+  .w-33-l { width: 33.333333%; }
   .w-50-l { width: 50%; }
-  .w-66-l { width: 66%; }
+  .w-66-l { width: 66.666666%; }
   .w-100-l { width: 100%; }
   .w-auto-l { width: auto; }
   .ws-1-l { word-spacing: 0.5px; }

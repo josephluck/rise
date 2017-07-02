@@ -8,7 +8,7 @@ const page: Helix.Page<Models> = {
   },
   view(state, prev, actions) {
     return (
-      <div className='pv-4'>
+      <div className='pv-4 ph-3'>
         {state.blog.posts.map((post, index) => {
           return (
             <PostItem
