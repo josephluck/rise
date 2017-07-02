@@ -52,9 +52,9 @@ export function order(resp: any): Core.Order {
     shippingAddress: addressFromOrder(resp.order.ship_to.data),
     shippingMethod: shippingMethodFromOrder(resp.order),
     billingAddress: addressFromOrder(resp.order.bill_to.data),
-    paymentCard: paymentCardFromPayment(resp.payment),
+    paymentCard: paymentCardFromPayment(resp.data),
     dateCreated: resp.order.created_at,
-    datePaid: resp.payment.created.toString(),
+    datePaid: resp.data.created.toString(),
     refunds: [], // TODO: create the type for this when refunds have been tested
     refunded: 0, // TODO: see above
     totals: totalsFromOrder(resp.order),
@@ -79,7 +79,7 @@ export function paymentCardFromPayment(resp: any): Core.PaymentCard {
       postcode: resp.source.address_zip,
       phone: '',
     },
-    name: resp.payment.source.name,
+    name: resp.source.name,
   }
 }
 
