@@ -9,7 +9,7 @@ interface Props {
   className?: string
 }
 
-export default function ProductList({
+export default function CartItemsList({
   items,
   showControls = false,
   updateQuantity = () => null,
@@ -17,7 +17,7 @@ export default function ProductList({
   className = '',
 }: Props) {
   return (
-    <div className={`ba bc-grey-100 ${className}`}>
+    <div className={className}>
       {items.map((item, index) => {
         return (
           <CartItem

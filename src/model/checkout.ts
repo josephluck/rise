@@ -14,11 +14,12 @@ export interface Reducers {
   calculateTotals: Helix.Reducer<Models, State, Core.Cart>
   setKey: Helix.Reducer<Models, State, Record<string, any>>
   setShippingMethods: Helix.Reducer<Models, State, Core.ShippingMethod[]>
+  openSectionWithError: Helix.Reducer0<Models, State>
 }
 
 export interface Effects {
   getShippingMethods: Helix.Effect0<Models>
-  validateSections: Helix.Effect0<Models>
+  setSectionShowing: Helix.Effect<Models, number>
   submit: Helix.Effect0<Models>
 }
 
@@ -92,16 +93,41 @@ export function model({
       setShippingMethods(state, shippingMethods) {
         return { shippingMethods }
       },
+      openSectionWithError(state) {
+        function sectionShowing() {
+          if (!state.customer.valid) {
+            return 1
+          } else if (!state.shipping.valid) {
+            return 2
+          } else {
+            return 3
+          }
+        }
+        return {
+          sectionShowing: sectionShowing(),
+        }
+      },
     },
     effects: {
-      validateSections(state, actions) {
+      setSectionShowing(state, actions, newSection) {
+        const currentSection = state.checkout.sectionShowing
+        if (currentSection === 1) {
+          actions.checkout.customer.validateOnSubmit()
+        } else if (currentSection === 2) {
+          actions.checkout.shipping.validateOnSubmit()
+        } else if (currentSection === 3) {
+          actions.checkout.billing.validateOnSubmit()
+        }
         actions.checkout.customer.setValidity()
         actions.checkout.billing.setValidity()
         actions.checkout.shipping.setValidity()
+        actions.checkout.setKey({
+          sectionShowing: newSection,
+        })
         return Promise.resolve(state)
       },
       getShippingMethods(state, actions) {
-        return shop.getShippingMethods()
+        return shop.getShippingMethods(state.user.token)
           .then(actions.checkout.setShippingMethods)
       },
       submit(state, actions) {
@@ -118,7 +144,7 @@ export function model({
             const customer = state.checkout.customer.fields
             const billing = state.checkout.billing.fields
             const shipping = state.checkout.shipping.fields
-            return shop.cart.checkout({
+            return shop.cart.checkout(state.user.token, {
               customer: {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
@@ -143,10 +169,10 @@ export function model({
               },
             })
           })
-          .then(order => {
+          .then(orderId => {
             const billing = state.checkout.billing.fields
-            return shop.cart.pay({
-              orderId: order.id,
+            return shop.cart.pay(state.user.token, {
+              orderId,
               firstName: billing.firstName,
               lastName: billing.lastName,
               cardNumber: billing.cardNumber,
@@ -161,6 +187,7 @@ export function model({
             return newState
           })
           .catch(err => {
+            actions.checkout.openSectionWithError()
             console.info('Handle error')
             console.error(err)
           })

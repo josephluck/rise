@@ -16,7 +16,7 @@ export default {
   '/blog': lMain(blog),
   '/about': lMain(about),
   '/contact': lMain(contact),
-  '/blog/:blogId': lMain(post, {
+  '/blog/:postId': lMain(post, {
     showBackArrow: true,
     showTabs: false,
     showCartIcon: false,

@@ -1,27 +1,16 @@
-import shop, { Shop } from './apis/shop'
-
-const moltin = (window as any).Moltin
+import http from './apis/http'
+import shop from './apis/shop'
+import blog from './apis/blog'
+import { Shop, Blog } from './apis/types'
 
 export interface Apis {
   shop: Shop
+  blog: Blog
 }
 
-function setupMoltin() {
-  const api = new moltin({
-    publicId: 'RVrw4jYbl9XvTM4hRBbJ2cGRcRJlW7evenovhYtLde',
-  })
-  return new Promise((resolve) => {
-    api.Authenticate(_ => {
-      resolve(api)
-    })
-  })
-}
-
-export default function () {
-  return Promise.all([setupMoltin()])
-    .then((apis) => {
-      return {
-        shop: shop(apis[0]),
-      }
-    })
+export default function (setLoading) {
+  return {
+    shop: shop(http(setLoading)),
+    blog: blog(http(setLoading)),
+  }
 }

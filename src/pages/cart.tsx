@@ -23,14 +23,16 @@ const page = (mode: Mode): Helix.Page<Models> => ({
     if (!state.cart.items.length) {
       actions.location.set('/shop')
     }
-    actions.checkout.getShippingMethods()
+    if (!state.checkout.shippingMethods.length) {
+      actions.checkout.getShippingMethods()
+    }
   },
   view(state, prev, actions) {
     return (
       <div className='pb-4'>
         <CartItemsList
           items={state.cart.items}
-          className='mb-3'
+          className='mb-3 ba bc-grey-100 '
           showControls={mode === 'cart'}
           updateQuantity={(item, quantity, index) => actions.cart.update({
             index,
@@ -48,8 +50,8 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           <div>
             <div className='pb-3'>
               <Section
-                id={1}
-                complete={state.checkout.customer.valid}
+                isComplete={state.checkout.customer.valid}
+                hasErrors={!state.checkout.customer.valid && state.checkout.customer.submitted}
                 formShowing={state.checkout.sectionShowing === 1}
                 label='Your Details'
                 description={stringify(state.checkout.customer.fields)}
@@ -65,15 +67,14 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   />
                 )}
                 toggleFormShowing={() => {
-                  actions.checkout.setKey({ sectionShowing: 1 })
-                  actions.checkout.validateSections()
+                  actions.checkout.setSectionShowing(1)
                 }}
               />
             </div>
             <div className='pb-3'>
               <Section
-                id={2}
-                complete={state.checkout.shipping.valid}
+                isComplete={state.checkout.shipping.valid}
+                hasErrors={!state.checkout.shipping.valid && state.checkout.shipping.submitted}
                 formShowing={state.checkout.sectionShowing === 2}
                 label='Shipping'
                 description={stringify(state.checkout.shipping.fields)}
@@ -92,15 +93,14 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   />
                 )}
                 toggleFormShowing={() => {
-                  actions.checkout.setKey({ sectionShowing: 2 })
-                  actions.checkout.validateSections()
+                  actions.checkout.setSectionShowing(2)
                 }}
               />
             </div>
             <div>
               <Section
-                id={3}
-                complete={state.checkout.billing.valid}
+                isComplete={state.checkout.billing.valid}
+                hasErrors={!state.checkout.billing.valid && state.checkout.billing.submitted}
                 formShowing={state.checkout.sectionShowing === 3}
                 label='Billing'
                 description={stringify(state.checkout.billing.fields)}
@@ -123,8 +123,7 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                   />
                 )}
                 toggleFormShowing={() => {
-                  actions.checkout.setKey({ sectionShowing: 3 })
-                  actions.checkout.validateSections()
+                  actions.checkout.setSectionShowing(3)
                 }}
               />
             </div>
