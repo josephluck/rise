@@ -1,6 +1,6 @@
 import { expiryMonths, expiryYears } from '../utils/date-select-options'
 
-const test = false
+const test = true
 
 export function address(): Core.Address {
   return test
