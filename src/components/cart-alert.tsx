@@ -12,12 +12,11 @@ export default function ({
   return (
     <div
       className={`
-        pos-fixed posb-0 posl-0 w-100 bt bc-grey-100 bg-grey-50
-        transition
+        pos-fixed posb-0 posl-0 w-100 bt bc-grey-100 bg-grey-50 transition
         ${items ? 'transition-slide-in' : 'transition-slide-out'}
       `}
     >
-      <div className='max-width ml-auto mr-auto flex-1 d-flex pa-3 tt-uppercase fs-small'>
+      <div className='maxw-50 ml-auto mr-auto flex-1 d-flex pa-3 ph-4-l tt-uppercase fs-small'>
         <span className='flex-1 d-flex align-items-center'>
           <span className='d-ib w-1 h-1 bra-pill bg-primary mr-2'></span>
           {`${items} ${pluralize('item', items)} in your basket`}

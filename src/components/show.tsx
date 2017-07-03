@@ -14,9 +14,9 @@ export default function ({
   return (
     <div
       className={`
-        transition
+        transition of-hidden
         ${className}
-        ${showing ? 'transition-slide-in' : 'transition-slide-out'}
+        ${showing ? 'transition-slide-in w-auto' : 'w-0 transition-slide-out'}
       `}
     >
       {children}

@@ -55,16 +55,32 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
         }
       }
       const activeTab = getActiveTab(state.location.pathname)
-      return (
-        <div className='d-flex'>
-          <div className={`h-100vh w-0 w-50-l of-auto transition bg-grey-50 ${page.sidebar ? 'ml-0-l o-100-l' : 'ml--50-l'} o-0`}>
-            {page.sidebar
-              ? page.sidebar(state, prev, actions)
-              : null
-            }
-          </div>
-          <div className={`h-100vh of-auto transition ${page.sidebar ? 'w-50-l' : 'w-100'}`}>
-            <div className='d-flex align-items-center w-100 ph-3 pt-3'>
+      const PageTabs = ({ className = '' }) => {
+        return (
+          <Collapse
+            hasNestedCollapse
+            isOpened={opts.showTabs}
+            className={className}
+          >
+            <div className='ph-3'>
+              <Tabs
+                tabs={[
+                  { label: 'Shop', name: 'shop', href: '/shop' },
+                  { label: 'About', name: 'about', href: '/about' },
+                  { label: 'Blog', name: 'blog', href: '/blog' },
+                  { label: 'Contact', name: 'contact', href: '/contact' },
+                ]}
+                activeTab={activeTab}
+              />
+            </div>
+          </Collapse>
+        )
+      }
+
+      const MobileNav = () => {
+        return (
+          <div className='d-n-l d-b'>
+            <div className='d-flex align-items-center w-100 pa-3'>
               <div className='flex-1'>
                 <Show showing={!!opts.backTo}>
                   <a onClick={goBack}>
@@ -91,26 +107,63 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
                 </Show>
               </div>
             </div>
-            <Collapse
-              hasNestedCollapse
-              isOpened={opts.showTabs}
+            <PageTabs
               className='ta-c'
-            >
-              <div className='ph-3'>
-                <Tabs
-                  tabs={[
-                    { label: 'Shop', name: 'shop', href: '/shop' },
-                    { label: 'About', name: 'about', href: '/about' },
-                    { label: 'Blog', name: 'blog', href: '/blog' },
-                    { label: 'Contact', name: 'contact', href: '/contact' },
-                  ]}
-                  activeTab={activeTab}
-                />
+            />
+          </div>
+        )
+      }
+
+      const DesktopNav = () => {
+        return (
+          <div className='d-n d-b-l'>
+            <div className='d-flex align-items-center w-100 pa-4'>
+              <div className='flex-1 d-flex align-items-center'>
+                <Show showing={!!opts.backTo}>
+                  <a
+                    onClick={goBack}
+                    className='mr-4'
+                  >
+                    <Icon icon='arrow-left' />
+                  </a>
+                </Show>
+                <a
+                  className='d-b fw-700'
+                  href='/'
+                >
+                  <img
+                    src='/assets/rise.png'
+                    style={{
+                      height: 'auto',
+                      width: '50px',
+                    }}
+                  />
+                </a>
               </div>
-            </Collapse>
-            <div className={!opts.showTabs ? 'mt-3' : ''}>
-              {page.view(state, prev, actions)}
+              <PageTabs />
+              <div className='d-flex flex-1 align-items-center'>
+                <div className='flex-1' />
+                <Show showing={opts.showCartIcon}>
+                  <CartIcon active={!!state.cart.items.length} />
+                </Show>
+              </div>
             </div>
+          </div>
+        )
+      }
+
+      return (
+        <div className='d-flex maxw-50 ml-auto mr-auto'>
+          <div className={`h-100vh w-0 w-50-l of-auto transition ${page.sidebar ? 'ml-0-l o-100-l' : 'ml--50-l'} o-0`}>
+            {page.sidebar
+              ? page.sidebar(state, prev, actions)
+              : null
+            }
+          </div>
+          <div className={`h-100vh of-auto transition w-100 ${page.sidebar ? 'w-50-l' : ''}`}>
+            <DesktopNav />
+            <MobileNav />
+            {page.view(state, prev, actions)}
           </div>
           <CartAlert
             items={!opts.showAlert ? 0 : state.checkout.totals.quantity}

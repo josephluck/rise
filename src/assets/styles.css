@@ -574,6 +574,6 @@ select {
   padding-left: 1rem;
   padding-right: 1rem;
   overflow: hidden;
-  background: #eee;
-  border-left: solid 5px #ddd;
+  font-size: 1.2rem;
+  font-style: italic;
 }

@@ -8,29 +8,33 @@ const page: Helix.Page<Models> = {
   },
   view(state, prev, actions) {
     return (
-      <div className='of-hidden d-flex flex-wrap-wrap pb-3 ph-2'>
-        {state.products.products.map((product, index) => {
-          return (
-            <a
-              className='d-b w-50 w-33-m w-25-l pb-4 f-l'
-              style={{
-                border: 'solid 0.5rem transparent',
-              }}
-              href={`/shop/${product.id}`}
-              key={index}
-            >
-              <Product
-                {...product}
-                onAddToCart={(quantity) => {
-                  actions.cart.add({
-                    ...product,
-                    quantity,
-                  })
+      <div className='of-hidden d-flex flex-wrap-wrap pb-3 ph-2 ph-3-l'>
+        {state.products.products
+          .concat(state.products.products)
+          .map((product, index) => {
+            return (
+              <a
+                className='d-b w-50 w-33-m w-25-l pb-4 f-l'
+                style={{
+                  borderLeft: 'solid 0.5rem transparent',
+                  borderRight: 'solid 0.5rem transparent',
+                  borderBottom: 'solid 1rem transparent',
                 }}
-              />
-            </a>
-          )
-        })}
+                href={`/shop/${product.id}`}
+                key={index}
+              >
+                <Product
+                  {...product}
+                  onAddToCart={(quantity) => {
+                    actions.cart.add({
+                      ...product,
+                      quantity,
+                    })
+                  }}
+                />
+              </a>
+            )
+          })}
       </div>
     )
   },
