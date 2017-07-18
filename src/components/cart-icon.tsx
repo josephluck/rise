@@ -9,7 +9,16 @@ export default function ({ active }: { active: boolean }) {
         pos-relative d-flex align-items-center
       `}
     >
-      <a href={active ? '/cart' : '/shop'}>
+      <a
+        href={active ? '/cart' : '/shop'}
+        className='d-n-l'
+      >
+        <Icon icon='cart' />
+      </a>
+      <a
+        href={active ? '/checkout' : '/shop'}
+        className='d-n d-b-l'
+      >
         <Icon icon='cart' />
       </a>
       {active

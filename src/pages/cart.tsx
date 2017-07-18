@@ -12,7 +12,7 @@ import * as fixtures from '../utils/fixtures'
 
 type Mode = 'cart' | 'checkout'
 
-const stringify = (strings: any): string => {
+const stringify = (strings: Record<string, string>): string => {
   return Object.keys(strings).reduce((prev, key) => prev.concat(strings[key]), [])
     .filter(str => str.length)
     .join(', ')
@@ -28,11 +28,11 @@ const page = (mode: Mode): Helix.Page<Models> => ({
     }
   },
   view(state, prev, actions) {
-    const CartItems = ({ className = '' }) => {
-      return (
+    return (
+      <div className='pb-4 ph-3'>
         <CartItemsList
           items={state.cart.items}
-          className={`mb-3 ba bc-grey-100 ${className}`}
+          className={`mb-3 ba bc-grey-100 ${mode === 'checkout' ? 'd-b d-n-l' : ''}`}
           showControls={mode === 'cart'}
           updateQuantity={(item, quantity, index) => actions.cart.update({
             index,
@@ -43,11 +43,6 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           })}
           removeItem={(index) => actions.cart.remove(index)}
         />
-      )
-    }
-    return (
-      <div className='pb-4 ph-3'>
-        <CartItems className={mode === 'checkout' ? 'd-b d-n-l' : ''} />
         <div className='d-flex'>
           <div className='flex-2'>
             <Collapse
@@ -61,7 +56,10 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     hasErrors={!state.checkout.customer.valid && state.checkout.customer.submitted}
                     formShowing={state.checkout.sectionShowing === 1}
                     label='Your Details'
-                    description={stringify(state.checkout.customer.fields)}
+                    description={stringify({
+                      firstName: state.checkout.customer.fields.firstName,
+                      lastName: state.checkout.customer.fields.lastName,
+                    })}
                     form={(
                       <CustomerForm
                         fields={state.checkout.customer.fields}
@@ -84,7 +82,13 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     hasErrors={!state.checkout.shipping.valid && state.checkout.shipping.submitted}
                     formShowing={state.checkout.sectionShowing === 2}
                     label='Shipping'
-                    description={stringify(state.checkout.shipping.fields)}
+                    description={stringify({
+                      line1: state.checkout.shipping.fields.line1,
+                      line2: state.checkout.shipping.fields.line2,
+                      city: state.checkout.shipping.fields.city,
+                      county: state.checkout.shipping.fields.county,
+                      postcode: state.checkout.shipping.fields.postcode,
+                    })}
                     form={(
                       <ShippingForm
                         fields={state.checkout.shipping.fields}
@@ -110,7 +114,6 @@ const page = (mode: Mode): Helix.Page<Models> => ({
                     hasErrors={!state.checkout.billing.valid && state.checkout.billing.submitted}
                     formShowing={state.checkout.sectionShowing === 3}
                     label='Billing'
-                    description={stringify(state.checkout.billing.fields)}
                     form={(
                       <BillingForm
                         fields={state.checkout.billing.fields}
@@ -162,7 +165,19 @@ const page = (mode: Mode): Helix.Page<Models> => ({
           {mode === 'checkout'
             ? (
               <div className='flex-1 d-n d-b-l ml-3'>
-                <CartItems />
+                <CartItemsList
+                  items={state.cart.items}
+                  className={`mb-3 ba bc-grey-100`}
+                  showControls={true}
+                  updateQuantity={(item, quantity, index) => actions.cart.update({
+                    index,
+                    item: {
+                      ...item,
+                      quantity,
+                    },
+                  })}
+                  removeItem={(index) => actions.cart.remove(index)}
+                />
                 <Totals
                   totals={state.checkout.totals}
                 />
