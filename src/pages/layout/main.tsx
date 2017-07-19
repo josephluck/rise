@@ -1,11 +1,7 @@
 import h from 'helix-react/lib/html'
-import * as Collapse from 'react-collapse'
 import { Models } from '../../model'
-import Tabs from '../../components/tabs'
-import CartIcon from '../../components/cart-icon'
 import CartAlert from '../../components/cart-alert'
-import Show from '../../components/show'
-import Icon from '../../components/icon'
+import Navigation from '../../components/navigation'
 
 function getActiveTab(pathname) {
   if (pathname.includes('shop') || pathname.includes('cart')) {
@@ -59,50 +55,14 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
       return (
         <div className='d-flex maxw-50 ml-auto mr-auto'>
           <div className={`h-100vh of-auto transition w-100`}>
-            <div className='d-flex align-items-center w-100 pt-3 ph-3'>
-              <div className='flex-1'>
-                <Show showing={!!opts.backTo}>
-                  <a onClick={goBack}>
-                    <Icon icon='arrow-left' />
-                  </a>
-                </Show>
-              </div>
-              <a
-                className='d-b fw-700'
-                href='/'
-              >
-                <img
-                  src='/assets/rise.png'
-                  style={{
-                    height: 'auto',
-                    width: '50px',
-                  }}
-                />
-              </a>
-              <div className='d-flex flex-1 align-items-center'>
-                <div className='flex-1' />
-                <Show showing={opts.showCartIcon}>
-                  <CartIcon active={!!state.cart.items.length} />
-                </Show>
-              </div>
-            </div>
-            <Collapse
-              hasNestedCollapse
-              isOpened={opts.showTabs}
-              className='ta-c'
-            >
-              <div className='ph-3'>
-                <Tabs
-                  tabs={[
-                    { label: 'Shop', name: 'shop', href: '/shop' },
-                    { label: 'About', name: 'about', href: '/about' },
-                    { label: 'Blog', name: 'blog', href: '/blog' },
-                    { label: 'Contact', name: 'contact', href: '/contact' },
-                  ]}
-                  activeTab={activeTab}
-                />
-              </div>
-            </Collapse>
+            <Navigation
+              backTo={opts.backTo}
+              goBack={goBack}
+              showCartIcon={opts.showCartIcon}
+              cartIconActive={!!state.cart.items.length}
+              showTabs={opts.showTabs}
+              activeTab={activeTab}
+            />
             {page.view(state, prev, actions)}
           </div>
           <CartAlert
