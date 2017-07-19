@@ -6,6 +6,8 @@ export interface Props {
   items: number
 }
 
+const buttonClasses = 'tt-uppercase ba c-pointer ph-2 pv-2 fw-300 bw-small fs-tiny bc-grey-600 bg-transparent'
+
 export default function ({
   items,
 }: Props) {
@@ -22,13 +24,13 @@ export default function ({
           {`${items} ${pluralize('item', items)} in your basket`}
         </span>
         <a
-          className='tt-uppercase ba c-pointer ph-2 pv-2 fw-300 bw-small fs-tiny bc-grey-600 bg-transparent d-n-l'
+          className={`${buttonClasses} d-n-l`}
           href='/cart'
         >
           Checkout
         </a>
         <a
-          className='tt-uppercase ba c-pointer ph-2 pv-2 fw-300 bw-small fs-tiny bc-grey-600 bg-transparent d-n d-b-l'
+          className={`${buttonClasses} d-n d-b-l`}
           href='/checkout'
         >
           Checkout
