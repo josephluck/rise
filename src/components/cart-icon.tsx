@@ -6,24 +6,28 @@ export default function ({ active }: { active: boolean }) {
   return (
     <div
       className={`
-        pos-relative
-        ${active ? 'mr-2' : ''}
+        pos-relative d-flex align-items-center
       `}
     >
+      <a
+        href={active ? '/cart' : '/shop'}
+        className='d-n-l'
+      >
+        <Icon icon='cart' />
+      </a>
+      <a
+        href={active ? '/checkout' : '/shop'}
+        className='d-n d-b-l'
+      >
+        <Icon icon='cart' />
+      </a>
       {active
         ? (
           <div
-            className='pos-absolute w-1 h-1 bra-pill bg-primary'
-            style={{
-              top: '-0.5rem',
-              right: '-0.5rem',
-            }}
+            className='w-1 h-1 bra-pill bg-primary'
           ></div>
         ) : null
       }
-      <a href={active ? '/cart' : '/shop'}>
-        <Icon icon='cart' />
-      </a>
     </div>
   )
 }

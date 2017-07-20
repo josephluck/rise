@@ -8,7 +8,7 @@ interface SectionProps {
   hasErrors: boolean
   formShowing: boolean
   label: React.ReactNode
-  description: React.ReactNode
+  description?: React.ReactNode
   form: React.ReactNode
   toggleFormShowing: () => any
 }
@@ -35,7 +35,7 @@ export default function Section({
           <div className='w-100'>
             <Collapse
               hasNestedCollapse
-              isOpened={!formShowing && isComplete}
+              isOpened={!formShowing && isComplete && !!description}
             >
               <div
                 className='fs-tiny pt-2 fc-grey-500 of-hidden'

@@ -12,12 +12,12 @@ import complete from './complete'
 import contact from './contact'
 
 export default {
-  '/': lMain(home),
+  '/': home,
   '/blog': lMain(blog),
   '/about': lMain(about),
   '/contact': lMain(contact),
   '/blog/:postId': lMain(post, {
-    showBackArrow: true,
+    backTo: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,
@@ -28,26 +28,26 @@ export default {
     showAlert: false,
   }),
   '/checkout': lMain(cart('checkout'), {
-    showBackArrow: true,
+    backTo: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,
   }),
   '/checkout/complete': lMain(complete, {
-    showBackArrow: true,
+    backTo: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,
   }),
   '/shop': lMain(shop),
   '/shop/:productId': lMain(product, {
-    showBackArrow: true,
+    backTo: true,
     showTabs: false,
     showCartIcon: true,
     showAlert: true,
   }),
   '/orders/:orderId': lMain(order, {
-    showBackArrow: true,
+    backTo: true,
     showTabs: false,
     showCartIcon: false,
     showAlert: false,

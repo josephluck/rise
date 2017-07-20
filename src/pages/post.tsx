@@ -15,7 +15,7 @@ const page: Helix.Page<Models> = {
     if (post) {
       const posts = state.blog.posts.filter(post => post.id !== post.id)
       return (
-        <div className='pv-3'>
+        <div className='pa-3'>
           <div className='ta-c mb-4'>
             <div className='fw-500 mb-3 fs-large'>{post.title}</div>
             <div className='fc-grey-600 fs-small'>By {post.author.name}</div>
