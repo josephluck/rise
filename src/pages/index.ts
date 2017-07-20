@@ -12,7 +12,7 @@ import complete from './complete'
 import contact from './contact'
 
 export default {
-  '/': lMain(home),
+  '/': home,
   '/blog': lMain(blog),
   '/about': lMain(about),
   '/contact': lMain(contact),

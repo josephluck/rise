@@ -8,7 +8,20 @@ const page: Helix.Page<Models> = {
   view(state, prev, actions) {
     return (
       <div>
-        <div className='bg-black h-100vh w-100vw'>
+        <div className='h-100vh w-100vw'>
+          <div
+            className='w-100 h-100 bg-white'
+            style={{
+              backgroundImage: 'url(/assets/images/home.jpg)',
+              backgroundPosition: 'center center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+          </div>
+        </div>
+        <div className='h-100vh w-100vw bg-grey-100'>
+          the best brownies
         </div>
       </div>
     )

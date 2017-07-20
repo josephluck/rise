@@ -6,6 +6,15 @@ import CartIcon from './cart-icon'
 import Show from './show'
 import Icon from './icon'
 
+interface Props {
+  backTo: boolean
+  goBack: () => any
+  showCartIcon: boolean
+  cartIconActive: boolean
+  showTabs: boolean
+  activeTab: string
+}
+
 export default function ({
   backTo,
   goBack,
@@ -13,14 +22,7 @@ export default function ({
   cartIconActive,
   showTabs,
   activeTab,
-}: {
-    backTo: boolean,
-    goBack: () => any,
-    showCartIcon: boolean,
-    cartIconActive: boolean,
-    showTabs: boolean,
-    activeTab: string,
-  }) {
+}: Props) {
   return (
     <div>
       <div className='d-flex align-items-center w-100 pt-3 ph-3'>
