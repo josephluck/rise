@@ -188,8 +188,7 @@ export function model({
           })
           .catch(err => {
             actions.checkout.openSectionWithError()
-            console.info('Handle error')
-            console.error(err)
+            return err
           })
       },
     },
