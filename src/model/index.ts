@@ -5,6 +5,7 @@ import * as Checkout from './checkout'
 import * as User from './user'
 import * as Orders from './orders'
 import * as Contact from './contact'
+import * as Home from './home'
 
 export type Models = Helix.Models<
   Blog.Namespace &
@@ -14,6 +15,7 @@ export type Models = Helix.Models<
   User.Namespace &
   Orders.Namespace &
   Contact.Namespace &
+  Home.Namespace &
   { 'location': { state: Helix.LocationState, actions: Helix.LocationActions<Models> } }
   >
 
@@ -30,6 +32,7 @@ export default function (apis) {
       [User.namespace]: User.model(apis),
       [Orders.namespace]: Orders.model(apis),
       [Contact.namespace]: Contact.model(),
+      [Home.namespace]: Home.model(apis),
     },
   }
 }
