@@ -10,7 +10,7 @@ export interface Reducers {
 }
 
 export interface Effects {
-  scrollToSection: Helix.Effect<Models, string>
+  scrollToSection: Helix.Effect<Models, number>
   showNextSection: Helix.Effect0<Models>
 }
 
@@ -36,13 +36,13 @@ export function model({
     effects: {
       scrollToSection(state, actions, section) {
         const scroller = scroll('scroller')
-        scroller.toElement(section)
+        scroller.toElement(`section-${section}`)
+        actions.home.setCurrentSection(section)
         return Promise.resolve(state)
       },
       showNextSection(state, actions) {
         const nextSection = (state.home.currentSection + 1) % 3
-        actions.home.scrollToSection(`section-${nextSection}`)
-        actions.home.setCurrentSection(nextSection)
+        actions.home.scrollToSection(nextSection)
         return Promise.resolve(state)
       },
     },
