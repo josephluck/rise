@@ -94,7 +94,7 @@ export function post(resp: any): Core.Post {
     excerpt: resp.excerpt,
     id: resp.ID,
     title: resp.title,
-    thumbnail: resp.post_thumbnail.URL || null,
+    thumbnail: resp.post_thumbnail ? resp.post_thumbnail.URL : null,
   }
 }
 

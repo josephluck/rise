@@ -20,7 +20,7 @@ export default function ({
         ${width ? 'of-hidden' : ''}
         ${className}
         ${showing && !width ? 'transition-slide-in' : 'transition-slide-out'}
-        ${showing && width ? 'w-0' : 'w-100'}
+        ${showing && width ? 'w-100' : width ? 'w-0' : ''}
       `}
     >
       {children}
