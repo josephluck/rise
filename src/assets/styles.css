@@ -432,12 +432,6 @@ html {
   padding: 0px;
 }
 
-body,
-html,
-.max-width {
-  max-width: 500px;
-}
-
 ul, li {
   list-style-type: none;
   margin: 0px;

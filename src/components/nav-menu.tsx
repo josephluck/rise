@@ -1,6 +1,5 @@
 import h from 'helix-react/lib/html'
 import component, { StatefulComponent } from './stateful-component'
-import * as Collapse from 'react-collapse'
 import Icon from './icon'
 
 interface Props {
@@ -32,10 +31,10 @@ export default component<Props, State, Reducers, Effects>({
   },
   render(state, props, actions) {
     return (
-      <div>
+      <div className='pos-relative'>
         <div
           className={`
-            pos-fixed post-0 posr-0 w-100 h-100 bg-black transition
+            pos-fixed post-0 posr-0 w-100 h-100 bg-black transition z-1
             ${state.showing ? 'o-10' : 'o-0'}
           `}
           style={{
@@ -43,19 +42,28 @@ export default component<Props, State, Reducers, Effects>({
           }}
           onClick={actions.toggleShowing}
         />
-        <div onClick={actions.toggleShowing}>
-          <Icon icon={state.showing ? 'cancel' : 'menu'} />
-        </div>
         <div
           className={`
-            pos-fixed post-0 posr-0 h-100 w-33-l w-66 mw-11 bg-white transition pa-4
-            ${state.showing ? 'o-100' : 'o-0'}
+            z-2 pos-fixed post-0 posr-0 h-100 w-33-l w-66 mw-11 bg-white transition pa-5
           `}
           style={{
-            transform: `translateX(${state.showing ? '0%' : '-100%'})`,
+            transform: `translateX(${state.showing ? '0%' : '100%'})`,
           }}
         >
-          My Menu
+          <div className='pt-6 fs-heading'>
+            <a href='/about' className='d-b mb-4'>
+              About
+            </a>
+            <a href='/shop' className='d-b mb-4'>
+              Shop
+            </a>
+          </div>
+        </div>
+        <div
+          onClick={actions.toggleShowing}
+          className='pos-relative z-3'
+        >
+          <Icon icon={state.showing ? 'cancel' : 'menu'} />
         </div>
       </div>
     )

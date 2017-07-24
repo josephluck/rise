@@ -2,10 +2,11 @@ import h from 'helix-react/lib/html'
 import * as Collapse from 'react-collapse'
 import { Models } from '../../model'
 import Tabs from '../../components/tabs'
-import CartIcon from '../../components/cart-icon'
+// import CartIcon from '../../components/cart-icon'
 import CartAlert from '../../components/cart-alert'
 import Show from '../../components/show'
 import Icon from '../../components/icon'
+import NavMenu from '../../components/nav-menu'
 
 function getActiveTab(pathname) {
   if (pathname.includes('shop') || pathname.includes('cart')) {
@@ -80,9 +81,10 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
               </a>
               <div className='d-flex flex-1 align-items-center'>
                 <div className='flex-1' />
-                <Show showing={opts.showCartIcon}>
+                {/*<Show showing={opts.showCartIcon}>
                   <CartIcon active={!!state.cart.items.length} />
-                </Show>
+                </Show>*/}
+                <NavMenu />
               </div>
             </div>
             <Collapse
