@@ -1,7 +1,8 @@
 import h from 'helix-react/lib/html'
+import * as Waypoint from 'react-waypoint'
 import { Models } from '../model'
 import Icon from '../components/icon'
-import * as Waypoint from 'react-waypoint'
+import Product from '../components/product'
 
 interface PillProps {
   filled: boolean
@@ -41,7 +42,7 @@ const page: Helix.Page<Models> = {
           <Waypoint onEnter={() => actions.home.setCurrentSection(0)} bottomOffset={100}>
             <div
               id='section-0'
-              className='h-100 pa-4 d-flex align-items-center fs-huge fw-500 lh-5'
+              className='minh-100 pr-6 ph-4 pv-6 d-flex align-items-center fs-huge-l fs-large fw-500 lh-5'
             >
               <div>
                 <p>Catchy Strapline</p>
@@ -52,15 +53,42 @@ const page: Helix.Page<Models> = {
           <Waypoint onEnter={() => actions.home.setCurrentSection(1)} topOffset={100} bottomOffset={100}>
             <div
               id='section-1'
-              className='minh-100 pa-4 bg-grey-50'
+              className='minh-100 pr-6 ph-4 pv-6 bg-grey-50'
             >
             </div>
           </Waypoint>
           <Waypoint onEnter={() => actions.home.setCurrentSection(2)} topOffset={100}>
             <div
               id='section-2'
-              className='h-100 pa-4'
+              className='minh-100 pr-6 pt-6 pl-3 d-flex align-items-center'
             >
+              <div className='of-hidden d-flex flex-wrap-wrap justify-content-center pb-3'>
+                {state.products.products
+                  .map((product, index) => {
+                    return (
+                      <a
+                        className='d-b w-100 w-50-m w-33-l pb-4 f-l'
+                        style={{
+                          borderLeft: 'solid 0.5rem transparent',
+                          borderRight: 'solid 0.5rem transparent',
+                          borderBottom: 'solid 1rem transparent',
+                        }}
+                        href={`/shop/${product.id}`}
+                        key={index}
+                      >
+                        <Product
+                          {...product}
+                          onAddToCart={(quantity) => {
+                            actions.cart.add({
+                              ...product,
+                              quantity,
+                            })
+                          }}
+                        />
+                      </a>
+                    )
+                  })}
+              </div>
             </div>
           </Waypoint>
         </div>
