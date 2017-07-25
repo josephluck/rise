@@ -460,6 +460,8 @@ button {
 	outline: none;
 }
 
+body, #scroller { scroll-behavior: smooth }
+
 * {
   box-sizing: border-box;
 }

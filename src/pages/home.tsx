@@ -44,15 +44,15 @@ const page: Helix.Page<Models> = {
               className='h-100 pa-4 d-flex align-items-center fs-huge fw-500 lh-5'
             >
               <div>
-                <p>Solving Homelessness</p>
-                <p>One Brownie at a Time</p>
+                <p>Catchy Strapline</p>
+                <p>To Make $$$</p>
               </div>
             </div>
           </Waypoint>
           <Waypoint onEnter={() => actions.home.setCurrentSection(1)} topOffset={100} bottomOffset={100}>
             <div
               id='section-1'
-              className='h-100 pa-4 bg-grey-50'
+              className='minh-100 pa-4 bg-grey-50'
             >
             </div>
           </Waypoint>
@@ -89,7 +89,13 @@ const page: Helix.Page<Models> = {
             <div className='flex-1' />
           </div>
           <div onClick={actions.home.showNextSection}>
-            <Icon icon='arrow-down' />
+            <Icon
+              icon='arrow-down'
+              className='transition relative'
+              style={{
+                transform: state.home.currentSection === 2 ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+            />
           </div>
         </div>
       </div>

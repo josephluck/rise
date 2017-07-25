@@ -45,13 +45,13 @@ export default component<Props, State, Reducers, Effects>({
         />
         <div
           className={`
-            z-2 pos-fixed post-0 posr-0 h-100 w-33-l w-66 mw-11 bg-white transition pa-5 ta-c bl bc-grey-200
+            z-2 pos-fixed post-0 posr-0 h-100 w-33-l w-66 mw-11 bg-white transition pa-5 ta-c bl bc-grey-200 d-flex align-items-center
           `}
           style={{
             transform: `translateX(${state.showing ? '0%' : '100%'})`,
           }}
         >
-          <div className='pt-6 fs-heading'>
+          <div className='mh-auto fs-heading'>
             <a
               href='/about'
               className='d-b mb-4'

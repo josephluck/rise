@@ -35,9 +35,9 @@ export function model({
     },
     effects: {
       scrollToSection(state, actions, section) {
+        // No need to call the reducer since the waypoint does that
         const scroller = scroll('scroller')
         scroller.toElement(`section-${section}`)
-        actions.home.setCurrentSection(section)
         return Promise.resolve(state)
       },
       showNextSection(state, actions) {

@@ -35,6 +35,7 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
     onLeave: page.onLeave,
     view(state, prev, actions) {
       const goBack = () => {
+        actions.home.scrollToSection(0)
         if (window.history.length > 1) {
           window.history.go(-1)
         } else {
@@ -56,6 +57,9 @@ function layout(page: Helix.Page<Models>, opts: Opts = defaultOpts): Helix.Page<
               <a
                 className='d-b fw-700'
                 href='/'
+                onClick={() => {
+                  actions.home.scrollToSection(0)
+                }}
               >
                 <img
                   src='/assets/rise.png'

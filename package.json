@@ -42,7 +42,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "budo": "^9.4.7",
-    "crux-css": "4.0.3",
+    "crux-css": "4.0.4",
     "packman": "git@github.com:josephluck/packman.git",
     "surge": "^0.19.0",
     "tsify": "^3.0.1",
